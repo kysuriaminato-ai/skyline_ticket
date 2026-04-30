@@ -1,0 +1,104 @@
+/* public/css/style.css */
+:root {
+    --primary-color: #0056b3; /* Xanh dương đậm tin cậy */
+    --secondary-color: #fca311; /* Vàng cam nổi bật cho nút bấm */
+    --bg-light: #f4f7f6;
+    --text-dark: #333;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+/* Navbar */
+.navbar-custom {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.navbar-custom .navbar-brand {
+    color: #fff;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+.navbar-custom .nav-link {
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+    transition: 0.3s;
+}
+.navbar-custom .nav-link:hover {
+    color: var(--secondary-color);
+}
+
+/* Hero Banner (Trang chủ) */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #00a8ff 100%);
+    padding: 80px 0 120px 0;
+    color: white;
+    text-align: center;
+}
+
+/* Search Box (Khung tìm kiếm nổi) */
+.search-widget {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-top: -80px; /* Đẩy khung tìm kiếm đè lên banner */
+    position: relative;
+    z-index: 10;
+}
+
+/* Nút bấm chung */
+.btn-search, .btn-primary-custom {
+    background-color: var(--secondary-color);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+}
+.btn-search:hover, .btn-primary-custom:hover {
+    background-color: #e08e0b;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Flight Card (Thẻ hiển thị chuyến bay) */
+.flight-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #eaeaea;
+    transition: 0.3s;
+}
+.flight-card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+}
+.flight-time {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.flight-price {
+    font-size: 24px;
+    font-weight: 800;
+    color: #d9534f;
+}
+
+/* Tùy chỉnh thanh cuộn của bộ lọc */
+.airline-filter-container {
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f4f7f6;
+}
+.airline-filter-container::-webkit-scrollbar {
+    width: 6px;
+}
+.airline-filter-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}

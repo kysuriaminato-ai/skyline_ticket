@@ -1,0 +1,19 @@
+<?php
+// app/Core/Controller.php
+class Controller {
+    // Hàm nạp Model
+    public function model($model) {
+        require_once '../app/Models/' . $model . '.php';
+        return new $model();
+    }
+
+    // Hàm nạp View
+    public function view($view, $data = []) {
+        if(file_exists('../app/Views/' . $view . '.php')) {
+            require_once '../app/Views/' . $view . '.php';
+        } else {
+            die("Lỗi: View '$view' không tồn tại.");
+        }
+    }
+}
+?>

@@ -1,0 +1,66 @@
+<?php
+// app/Controllers/admin/ReportsController.php
+
+class ReportsController extends Controller {
+    private $userModel;
+    private $flightModel;
+    private $bookingModel;
+    private $paymentModel;
+
+    public function __construct() {
+        $this->userModel = $this->model('User');
+        $this->flightModel = $this->model('Flight');
+        $this->bookingModel = $this->model('Booking');
+        $this->paymentModel = $this->model('Payment');
+    }
+
+    // Trang báo cáo chính
+    public function index() {
+        $totalRevenue = $this->paymentModel->getTotalRevenue();
+        $totalBookings = $this->bookingModel->getTotalBookings();
+        $totalUsers = $this->userModel->getTotalUsers();
+        $totalFlights = $this->flightModel->getTotalFlights();
+
+        // Báo cáo theo tháng (giả sử có created_at)
+        $monthlyBookings = $this->getMonthlyBookings();
+        $monthlyRevenue = $this->getMonthlyRevenue();
+
+        $data = [
+            'title' => 'Báo cáo và Thống kê - Skyline Admin',
+            'totalRevenue' => $totalRevenue,
+            'totalBookings' => $totalBookings,
+            'totalUsers' => $totalUsers,
+            'totalFlights' => $totalFlights,
+            'monthlyBookings' => $monthlyBookings,
+            'monthlyRevenue' => $monthlyRevenue
+        ];
+
+        $this->view('admin/reports', $data);
+    }
+
+    // Báo cáo chi tiết
+    public function detailed() {
+        // Có thể thêm filters
+        $bookings = $this->bookingModel->getAllBookings();
+        $payments = $this->paymentModel->getAllPayments();
+
+        $data = [
+            'title' => 'Báo cáo Chi tiết',
+            'bookings' => $bookings,
+            'payments' => $payments
+        ];
+
+        $this->view('admin/reports_detailed', $data);
+    }
+
+    private function getMonthlyBookings() {
+        $this->bookingModel->db->query("SELECT MONTH(created_at) as month, COUNT(*) as count FROM bookings WHERE YEAR(created_at) = YEAR(CURDATE()) GROUP BY MONTH(created_at)");
+        return $this->bookingModel->db->resultSet();
+    }
+
+    private function getMonthlyRevenue() {
+        $this->paymentModel->db->query("SELECT MONTH(created_at) as month, SUM(amount) as revenue FROM payments WHERE status = 'completed' AND YEAR(created_at) = YEAR(CURDATE()) GROUP BY MONTH(created_at)");
+        return $this->paymentModel->db->resultSet();
+    }
+}
+?>
