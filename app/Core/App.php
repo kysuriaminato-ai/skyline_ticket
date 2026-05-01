@@ -1,8 +1,11 @@
 <?php
 // app/Core/App.php
 class App {
+    /** @var mixed */
     protected $controller = 'HomeController';
+    /** @var string */
     protected $method = 'index';
+    /** @var array */
     protected $params = [];
 
     public function __construct() {

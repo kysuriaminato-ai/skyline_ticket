@@ -39,6 +39,9 @@ class AuthController extends Controller {
                     $_SESSION['user_name'] = $loggedInUser['fullname'];
                     $_SESSION['role'] = $loggedInUser['role'] ?? 'user';
                     
+                    // DEBUG: In ra role (xóa sau khi test)
+                    // echo "Role: " . $_SESSION['role'] . "<br>";
+                    
                     header("Location: " . BASEURL . "/home");
                     exit();
                 } else {

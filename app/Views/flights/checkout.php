@@ -1,7 +1,9 @@
 <!-- app/Views/flights/checkout.php -->
-<?php require_once '../app/Views/layouts/header.php'; ?>
 <?php 
-// Trích xuất dữ liệu từ Controller truyền sang cho ngắn gọn
+/** @var array $data */
+require_once '../app/Views/layouts/header.php'; 
+?>
+<?php 
 $flight = $data['flight'];
 $cabin_class = $data['cabin_class'];
 $base_price = $data['base_price'];
@@ -22,16 +24,13 @@ $total_price = $data['total_price'];
 </div>
 
 <div class="container mb-5">
-    <!-- Action trỏ về hàm process trong CheckoutController -->
     <form action="<?= BASEURL ?>/checkout/process" method="POST">
         <input type="hidden" name="flight_id" value="<?= $flight['id'] ?>">
         <input type="hidden" name="cabin_class" value="<?= htmlspecialchars($cabin_class) ?>">
         <input type="hidden" name="total_price" value="<?= $total_price ?>">
 
         <div class="row g-4">
-            <!-- CỘT TRÁI: THÔNG TIN KHÁCH HÀNG & THANH TOÁN -->
             <div class="col-lg-8">
-                
                 <div class="card border-0 shadow-sm rounded-4 mb-4">
                     <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
                         <h5 class="fw-bold"><i class="fas fa-user-edit text-primary me-2"></i>1. Thông tin liên hệ</h5>
@@ -71,9 +70,9 @@ $total_price = $data['total_price'];
                         <div class="tab-content" id="paymentTabsContent">
                             <div class="tab-pane fade show active payment-box" id="card" role="tabpanel">
                                 <div class="mb-3 d-flex gap-2">
-                                    <img src="[https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg](https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg)" width="40" alt="Visa">
-                                    <img src="[https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg](https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg)" width="40" alt="Mastercard">
-                                    <img src="[https://upload.wikimedia.org/wikipedia/commons/b/b5/JCB_logo.svg](https://upload.wikimedia.org/wikipedia/commons/b/b5/JCB_logo.svg)" width="40" alt="JCB">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" width="40" alt="Visa">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" width="40" alt="Mastercard">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/JCB_logo.svg" width="40" alt="JCB">
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-12">
@@ -98,7 +97,7 @@ $total_price = $data['total_price'];
                             <div class="tab-pane fade payment-box text-center" id="qr" role="tabpanel">
                                 <h6 class="fw-bold mb-3">Mở ứng dụng ngân hàng hoặc Momo để quét mã</h6>
                                 <div class="bg-white p-3 d-inline-block border rounded-3 mb-3">
-                                    <img src="[https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SkylineTicket](https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SkylineTicket)_<?= $flight['id'] ?>" alt="QR Code">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SkylineTicket_<?= $flight['id'] ?>" alt="QR Code">
                                 </div>
                                 <p class="text-danger fw-bold fs-5 mb-1">Số tiền: <?= number_format($total_price, 0, ',', '.') ?> VND</p>
                                 <p class="small text-muted mb-0">Đơn hàng sẽ tự động xác nhận sau khi thanh toán thành công.</p>
@@ -108,7 +107,6 @@ $total_price = $data['total_price'];
                 </div>
             </div>
 
-            <!-- CỘT PHẢI: TÓM TẮT CHUYẾN BAY VÀ GIÁ -->
             <div class="col-lg-4">
                 <div class="card border-0 shadow-sm rounded-4 sticky-top" style="top: 100px;">
                     <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">

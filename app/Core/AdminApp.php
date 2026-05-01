@@ -1,22 +1,34 @@
 <?php
 // app/Core/AdminApp.php
 class AdminApp {
-    // Đặt Controller mặc định của Admin là Dashboard
+    /** @var mixed */
     protected $controller = 'DashboardController';
+    /** @var string */
     protected $method = 'index';
+    /** @var array */
     protected $params = [];
 
     public function __construct() {
+        // BẢO MẬT: Phân quyền admin
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/auth/login");
+            exit();
+        }
+
         $url = $this->parseUrl();
 
-        // 1. Tìm Controller trong thư mục app/Controllers/admin_panel/
-        if(isset($url[0]) && file_exists('../app/Controllers/admin_panel/' . ucfirst($url[0]) . 'Controller.php')) {
+        // Xóa phần tử 'admin' từ URL nếu có (do htaccess truyền vào)
+        if (isset($url[0]) && strtolower($url[0]) === 'admin') {
+            array_shift($url); 
+        }
+
+        // 1. Tìm Controller trong thư mục app/Controllers/admin/
+        if(isset($url[0]) && file_exists('../app/Controllers/admin/' . ucfirst($url[0]) . 'Controller.php')) {
             $this->controller = ucfirst($url[0]) . 'Controller';
             unset($url[0]);
         }
         
-        // Nạp file Controller
-        require_once '../app/Controllers/admin_panel/' . $this->controller . '.php';
+        require_once '../app/Controllers/admin/' . $this->controller . '.php';
         $this->controller = new $this->controller;
 
         // 2. Tìm Method (Hàm trong Controller)
@@ -34,10 +46,14 @@ class AdminApp {
         call_user_func_array([$this->controller, $this->method], $this->params);
     }
 
+    /**
+     * @return array|null
+     */
     public function parseUrl() {
         if(isset($_GET['url'])) {
             return explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
         }
+        return [];
     }
 }
 ?>

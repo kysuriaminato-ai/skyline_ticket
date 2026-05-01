@@ -1,11 +1,12 @@
 <?php
+/** @var array $data */
 // app/Views/admin/dashboard.php
 require_once '../app/Views/layouts/admin_header.php';
 ?>
 
 <div class="row">
     <div class="col-md-6 col-lg-3">
-        <a href="/admin/usermanager" class="stat-card-link">
+        <a href="<?= BASEURL ?>/admin/usermanager" class="stat-card-link">
             <div class="card stat-card bg-primary">
                 <div class="card-body">
                     <div class="stat-icon"><i class="fas fa-users"></i></div>
@@ -18,7 +19,7 @@ require_once '../app/Views/layouts/admin_header.php';
     </div>
     
     <div class="col-md-6 col-lg-3">
-        <a href="/admin/flightmanager" class="stat-card-link">
+        <a href="<?= BASEURL ?>/admin/flightmanager" class="stat-card-link">
             <div class="card stat-card bg-success">
                 <div class="card-body">
                     <div class="stat-icon"><i class="fas fa-plane"></i></div>
@@ -31,7 +32,7 @@ require_once '../app/Views/layouts/admin_header.php';
     </div>
     
     <div class="col-md-6 col-lg-3">
-        <a href="/admin/bookingmanager" class="stat-card-link">
+        <a href="<?= BASEURL ?>/admin/bookingmanager" class="stat-card-link">
             <div class="card stat-card bg-warning">
                 <div class="card-body">
                     <div class="stat-icon"><i class="fas fa-ticket-alt"></i></div>
@@ -44,7 +45,7 @@ require_once '../app/Views/layouts/admin_header.php';
     </div>
     
     <div class="col-md-6 col-lg-3">
-        <a href="/admin/reports" class="stat-card-link">
+        <a href="<?= BASEURL ?>/admin/reports" class="stat-card-link">
             <div class="card stat-card bg-info">
                 <div class="card-body">
                     <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
@@ -66,19 +67,19 @@ require_once '../app/Views/layouts/admin_header.php';
             <div class="card-body">
                 <p>Chọn chức năng quản trị:</p>
                 <div class="action-menu">
-                    <a href="/admin/flightmanager" class="btn action-btn btn-primary">
+                    <a href="<?= BASEURL ?>/admin/flightmanager" class="btn action-btn btn-primary">
                         <i class="fas fa-plane-departure"></i> Quản lý Chuyến bay
                     </a>
-                    <a href="/admin/usermanager" class="btn action-btn btn-secondary">
+                    <a href="<?= BASEURL ?>/admin/usermanager" class="btn action-btn btn-secondary">
                         <i class="fas fa-users"></i> Quản lý Người dùng
                     </a>
-                    <a href="/admin/bookingmanager" class="btn action-btn btn-info">
+                    <a href="<?= BASEURL ?>/admin/bookingmanager" class="btn action-btn btn-info">
                         <i class="fas fa-ticket-alt"></i> Quản lý Đặt chỗ
                     </a>
-                    <a href="/admin/reports" class="btn action-btn btn-success">
+                    <a href="<?= BASEURL ?>/admin/reports" class="btn action-btn btn-success">
                         <i class="fas fa-file-alt"></i> Báo cáo & Thống kê
                     </a>
-                    <a href="/admin/settings" class="btn action-btn btn-warning">
+                    <a href="<?= BASEURL ?>/admin/settings" class="btn action-btn btn-warning">
                         <i class="fas fa-cog"></i> Cài đặt Hệ thống
                     </a>
                 </div>

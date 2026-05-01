@@ -1,11 +1,12 @@
 <?php
 // app/Controllers/CheckoutController.php
 class CheckoutController extends Controller {
+    /** @var Flight */
     private $flightModel;
 
     public function __construct() {
         // Đảm bảo bạn có hàm getFlightById() trong FlightModel
-        $this->flightModel = $this->model('FlightModel');
+        $this->flightModel = $this->model('Flight');
     }
 
     public function index() {
@@ -14,7 +15,6 @@ class CheckoutController extends Controller {
         $cabin_class = isset($_GET['cabin_class']) ? $_GET['cabin_class'] : 'Phổ thông (Economy)';
 
         // 2. Lấy thông tin chuyến bay từ DB thông qua Model
-        // (Lưu ý: Bạn cần thêm hàm getFlightById($id) vào trong app/Models/FlightModel.php nhé)
         $flight = $this->flightModel->getFlightById($flight_id);
 
         if (!$flight) {
@@ -44,6 +44,25 @@ class CheckoutController extends Controller {
         ];
 
         $this->view('flights/checkout', $data);
+    }
+
+    public function process() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $flight_id = $_POST['flight_id'] ?? '';
+            $fullname = $_POST['fullname'] ?? '';
+            
+            // Cập nhật số lượng ghế sau khi đặt
+            $this->flightModel->bookSeat($flight_id);
+
+            echo "<div style='text-align: center; margin-top: 50px; font-family: sans-serif;'>";
+            echo "<h1 style='color: green;'>Đặt vé thành công!</h1>";
+            echo "<p>Cảm ơn hành khách <strong>" . htmlspecialchars($fullname) . "</strong> đã đặt vé.</p>";
+            echo "<a href='" . BASEURL . "/home' style='padding: 10px 20px; background: #0056b3; color: #fff; text-decoration: none; border-radius: 5px;'>Quay lại trang chủ</a>";
+            echo "</div>";
+        } else {
+            header("Location: " . BASEURL . "/home");
+            exit();
+        }
     }
 }
 ?>

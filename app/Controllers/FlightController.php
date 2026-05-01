@@ -1,10 +1,12 @@
 <?php
 // app/Controllers/FlightController.php
 class FlightController extends Controller {
+    /** @var Flight */
     private $flightModel;
 
     public function __construct() {
-        $this->flightModel = $this->model('FlightModel');
+        // Đã đổi thành 'Flight' cho khớp với tên class trong file app/Models/Flight.php
+        $this->flightModel = $this->model('Flight');
     }
 
     public function index() {

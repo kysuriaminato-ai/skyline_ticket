@@ -2,6 +2,7 @@
 // app/Controllers/admin/FlightManagerController.php
 
 class FlightManagerController extends Controller {
+    /** @var Flight */
     private $flightModel;
 
     public function __construct() {
@@ -11,19 +12,18 @@ class FlightManagerController extends Controller {
 
     // Trang danh sách chuyến bay của Admin
     public function index() {
-        // Lấy toàn bộ chuyến bay từ CSDL
         $flights = $this->flightModel->getAllFlights();
-
         $data = [
             'title' => 'Quản lý Chuyến bay - Skyline Admin',
             'flights' => $flights
         ];
-
-        // Gọi View hiển thị danh sách chuyến bay
         $this->view('admin/flights_list', $data);
     }
 
     // Cập nhật giá vé
+    /**
+     * @param int|string $id
+     */
     public function updatePrice($id) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $price = $_POST['price'];
@@ -43,6 +43,9 @@ class FlightManagerController extends Controller {
     }
 
     // Cập nhật ghế
+    /**
+     * @param int|string $id
+     */
     public function updateSeats($id) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $totalSeats = $_POST['total_seats'];
@@ -63,20 +66,17 @@ class FlightManagerController extends Controller {
     }
     
     // Gợi ý khung sườn các hàm quản lý trong tương lai (CRUD)
-    public function create() {
-        // TODO: Logic hiển thị form thêm chuyến bay mới
-    }
+    public function create() {}
+    public function store() {}
     
-    public function store() {
-        // TODO: Logic nhận dữ liệu POST và lưu chuyến bay mới vào CSDL
-    }
+    /**
+     * @param int|string $id
+     */
+    public function edit($id) {}
     
-    public function edit($id) {
-        // TODO: Logic hiển thị form sửa chuyến bay
-    }
-    
-    public function delete($id) {
-        // TODO: Logic xóa chuyến bay
-    }
+    /**
+     * @param int|string $id
+     */
+    public function delete($id) {}
 }
 ?>
