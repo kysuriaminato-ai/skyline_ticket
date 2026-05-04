@@ -5,14 +5,18 @@ class DashboardController extends Controller {
     private $userModel;
     private $flightModel;
     private $bookingModel;
-    // private $paymentModel;
 
     public function __construct() {
+        // CHẶN STAFF: Nếu không phải admin thì đẩy về trang bán vé
+        if ($_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/admin/bookingmanager");
+            exit();
+        }
+
         // Khởi tạo các model
         $this->userModel = $this->model('User');
         $this->flightModel = $this->model('Flight');
         $this->bookingModel = $this->model('Booking');
-        // $this->paymentModel = $this->model('Payment');
     }
 
     // Trang dashboard của Admin
@@ -21,7 +25,6 @@ class DashboardController extends Controller {
         $totalUsers = $this->userModel->getTotalUsers();
         $totalFlights = $this->flightModel->getTotalFlights();
         $totalBookings = $this->bookingModel->getTotalBookings();
-        // $totalRevenue = $this->paymentModel->getTotalRevenue();
         $totalRevenue = 0; // Tạm fix - sẽ tạo bảng payments sau
 
         $data = [

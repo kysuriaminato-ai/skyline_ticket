@@ -5,6 +5,12 @@ class UserManagerController extends Controller {
     private $userModel;
 
     public function __construct() {
+        // CHẶN STAFF: Nếu không phải admin thì đẩy về trang bán vé
+        if ($_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/admin/bookingmanager");
+            exit();
+        }
+
         $this->userModel = $this->model('User');
     }
 

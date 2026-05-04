@@ -20,40 +20,36 @@ class User {
         
         $row = $this->db->single();
 
-        // Nếu có dữ liệu trả về nghĩa là email đã tồn tại
-        if ($row) {
-            return true;
-        } else {
-            return false;
-        }
+        return $row ? true : false;
     }
 
-    // Đăng ký tài khoản người dùng mới
+    // Đăng ký tài khoản người dùng mới (ĐÃ CẬP NHẬT THÊM TRƯỜNG)
     /**
      * @param array $data
      * @return bool
      */
     public function register(array $data): bool {
-        $this->db->query("INSERT INTO users (fullname, email, password) VALUES (:fullname, :email, :password)");
+        $this->db->query("INSERT INTO users (title, gender, fullname, dob, nationality, email, phone, password) 
+                          VALUES (:title, :gender, :fullname, :dob, :nationality, :email, :phone, :password)");
         
-        // Gán các giá trị an toàn
+        // Gán các giá trị
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':gender', $data['gender']);
         $this->db->bind(':fullname', $data['fullname']);
+        $this->db->bind(':dob', $data['dob']);
+        $this->db->bind(':nationality', $data['nationality']);
         $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone', $data['phone']);
         $this->db->bind(':password', $data['password']);
 
-        // Thực thi câu lệnh
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->execute();
     }
 
     // Xử lý đăng nhập
     /**
      * @param string $email
      * @param string $password
-     * @return mixed Trả về mảng thông tin user nếu thành công, false nếu thất bại
+     * @return mixed
      */
     public function login(string $email, string $password) {
         $this->db->query("SELECT * FROM users WHERE email = :email");
@@ -61,23 +57,15 @@ class User {
 
         $row = $this->db->single();
 
-        // Nếu tìm thấy người dùng
         if ($row) {
-            $hashed_password = $row['password'];
-            // Kiểm tra mật khẩu mã hóa
-            if (password_verify($password, $hashed_password)) {
-                return $row; // Đăng nhập thành công, trả về mảng thông tin người dùng
+            if (password_verify($password, $row['password'])) {
+                return $row; 
             }
         }
-        
-        // Đăng nhập thất bại
         return false;
     }
 
     // Lấy tổng số người dùng
-    /**
-     * @return int
-     */
     public function getTotalUsers(): int {
         $this->db->query("SELECT COUNT(*) as total FROM users");
         $row = $this->db->single();
@@ -85,20 +73,12 @@ class User {
     }
 
     // Lấy tất cả người dùng
-    /**
-     * @return array
-     */
     public function getAllUsers(): array {
         $this->db->query("SELECT id, fullname, email, role, created_at FROM users ORDER BY created_at DESC");
         return $this->db->resultSet();
     }
 
     // Cập nhật role của user
-    /**
-     * @param int $userId
-     * @param string $role
-     * @return bool
-     */
     public function updateRole(int $userId, string $role): bool {
         $this->db->query("UPDATE users SET role = :role WHERE id = :id");
         $this->db->bind(':role', $role);
@@ -107,10 +87,6 @@ class User {
     }
 
     // Lấy user theo ID
-    /**
-     * @param int $id
-     * @return mixed Trả về mảng thông tin user hoặc false nếu không tìm thấy
-     */
     public function getUserById(int $id) {
         $this->db->query("SELECT * FROM users WHERE id = :id");
         $this->db->bind(':id', $id);

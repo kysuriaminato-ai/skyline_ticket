@@ -5,13 +5,11 @@ class AuthController extends Controller {
     private $userModel;
 
     public function __construct() {
-        // Khởi tạo model User (Sử dụng chung file app/Models/User.php)
         $this->userModel = $this->model('User');
     }
 
-    // Trang Đăng nhập
+    // ================= XỬ LÝ ĐĂNG NHẬP =================
     public function login() {
-        // Nếu đã đăng nhập, chuyển hướng về trang chủ
         if (isset($_SESSION['user_name'])) {
             header("Location: " . BASEURL . "/home");
             exit();
@@ -22,7 +20,11 @@ class AuthController extends Controller {
             'error' => ''
         ];
 
-        // Xử lý khi người dùng submit form đăng nhập
+        // Bắt thông báo từ trang đăng ký chuyển sang
+        if (isset($_GET['registered']) && $_GET['registered'] == 'success') {
+            $data['success'] = 'Đăng ký thành công! Vui lòng đăng nhập bằng tài khoản vừa tạo.';
+        }
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
@@ -30,33 +32,31 @@ class AuthController extends Controller {
             if (empty($email) || empty($password)) {
                 $data['error'] = 'Vui lòng nhập đầy đủ email và mật khẩu.';
             } else {
-                // Gọi model để kiểm tra đăng nhập
                 $loggedInUser = $this->userModel->login($email, $password);
 
                 if ($loggedInUser) {
-                    // Tạo session
                     $_SESSION['user_id'] = $loggedInUser['id'];
                     $_SESSION['user_name'] = $loggedInUser['fullname'];
                     $_SESSION['role'] = $loggedInUser['role'] ?? 'user';
                     
-                    // DEBUG: In ra role (xóa sau khi test)
-                    // echo "Role: " . $_SESSION['role'] . "<br>";
-                    
-                    header("Location: " . BASEURL . "/home");
+                    if ($_SESSION['role'] === 'admin') {
+                        header("Location: " . BASEURL . "/admin/dashboard"); 
+                    } elseif ($_SESSION['role'] === 'staff') {
+                        header("Location: " . BASEURL . "/admin/bookingmanager"); 
+                    } else {
+                        header("Location: " . BASEURL . "/home"); 
+                    }
                     exit();
                 } else {
                     $data['error'] = 'Email hoặc mật khẩu không chính xác.';
                 }
             }
         }
-
-        // Gọi view hiển thị form đăng nhập
         $this->view('auth/login', $data);
     }
 
-    // Trang Đăng ký
+    // ================= XỬ LÝ ĐĂNG KÝ =================
     public function register() {
-        // Nếu đã đăng nhập, chuyển hướng về trang chủ
         if (isset($_SESSION['user_name'])) {
             header("Location: " . BASEURL . "/home");
             exit();
@@ -70,62 +70,67 @@ class AuthController extends Controller {
             'email' => ''
         ];
 
-        // Xử lý khi người dùng submit form đăng ký
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Lấy dữ liệu và làm sạch
-            $data['fullname'] = trim($_POST['fullname'] ?? '');
-            $data['email'] = trim($_POST['email'] ?? '');
+            // Hứng toàn bộ dữ liệu mới từ Form
+            $title_user = trim($_POST['title'] ?? '');
+            $gender = trim($_POST['gender'] ?? '');
+            $last_name = trim($_POST['last_name'] ?? '');
+            $first_name = trim($_POST['fullname'] ?? '');
+            $fullname = $last_name . ' ' . $first_name; // Gộp Họ và Đệm Tên
+            $dob = trim($_POST['dob'] ?? '');
+            $nationality = trim($_POST['nationality'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            
+            // Gộp mã vùng và số điện thoại
+            $phone_code = trim($_POST['phone_code'] ?? '');
+            $phone_number = trim($_POST['phone_number'] ?? '');
+            $phone = $phone_code . ' ' . $phone_number;
+
             $password = trim($_POST['password'] ?? '');
             $confirm_password = trim($_POST['confirm_password'] ?? '');
 
-            // Validate
-            if (empty($data['fullname']) || empty($data['email']) || empty($password) || empty($confirm_password)) {
-                $data['error'] = 'Vui lòng điền đầy đủ thông tin.';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            // Kiểm tra rỗng
+            if (empty($last_name) || empty($first_name) || empty($email) || empty($password) || empty($dob) || empty($phone_number)) {
+                $data['error'] = 'Vui lòng điền đầy đủ các trường thông tin bắt buộc (*).';
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $data['error'] = 'Định dạng email không hợp lệ.';
             } elseif ($password !== $confirm_password) {
                 $data['error'] = 'Mật khẩu xác nhận không khớp.';
-            } elseif (strlen($password) < 6) {
-                 $data['error'] = 'Mật khẩu phải có ít nhất 6 ký tự.';
             } else {
-                // Kiểm tra email đã tồn tại chưa
-                if ($this->userModel->findUserByEmail($data['email'])) {
+                if ($this->userModel->findUserByEmail($email)) {
                     $data['error'] = 'Email này đã được sử dụng. Vui lòng chọn email khác.';
                 } else {
-                    // Mã hóa mật khẩu và tạo tài khoản
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                     
+                    // Gói gọn vào mảng để truyền sang Model (Chính là mảng mà User.php đang báo thiếu)
                     $userData = [
-                        'fullname' => $data['fullname'],
-                        'email' => $data['email'],
+                        'title' => $title_user,
+                        'gender' => $gender,
+                        'fullname' => trim($fullname),
+                        'dob' => $dob,
+                        'nationality' => $nationality,
+                        'email' => $email,
+                        'phone' => $phone,
                         'password' => $hashed_password
                     ];
 
                     if ($this->userModel->register($userData)) {
-                        $data['success'] = 'Đăng ký thành công! Bạn có thể chuyển đến <a href="' . BASEURL . '/auth/login" class="fw-bold">trang đăng nhập</a>.';
-                        // Reset form
-                        $data['fullname'] = '';
-                        $data['email'] = '';
+                        // Thành công -> Chuyển về trang đăng nhập
+                        header('Location: ' . BASEURL . '/auth/login?registered=success');
+                        exit();
                     } else {
                         $data['error'] = 'Đã có lỗi xảy ra trong quá trình đăng ký. Vui lòng thử lại sau.';
                     }
                 }
             }
         }
-
-        // Gọi view hiển thị form đăng ký
         $this->view('auth/register', $data);
     }
 
-    // Xử lý Đăng xuất
+    // ================= XỬ LÝ ĐĂNG XUẤT =================
     public function logout() {
-        // Hủy bỏ tất cả các biến session
         $_SESSION = array();
-
-        // Phá hủy session
         session_destroy();
-
-        // Chuyển hướng về trang chủ
         header("Location: " . BASEURL . "/home");
         exit();
     }

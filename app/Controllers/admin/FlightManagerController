@@ -1,13 +1,15 @@
 <?php
-// app/Controllers/admin_panel/FlightManagerController.php
+// app/Controllers/admin/FlightManagerController.php
 
 class FlightManagerController extends Controller {
     private $flightModel;
 
     public function __construct() {
+        // Cả Admin và Staff đều được vào đây để quản lý chuyến bay
         $this->flightModel = $this->model('Flight');
     }
 
+    // Trang danh sách chuyến bay của Admin
     public function index() {
         $flights = $this->flightModel->getAllFlights();
         $data = [
@@ -17,6 +19,7 @@ class FlightManagerController extends Controller {
         $this->view('admin/flights_list', $data);
     }
 
+    // Cập nhật giá vé
     public function updatePrice($id) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $price = $_POST['price'];
@@ -27,11 +30,15 @@ class FlightManagerController extends Controller {
             }
         } else {
             $flight = $this->flightModel->getFlightById($id);
-            $data = ['title' => 'Cập nhật Giá Vé', 'flight' => $flight];
+            $data = [
+                'title' => 'Cập nhật Giá Vé',
+                'flight' => $flight
+            ];
             $this->view('admin/flight_price', $data);
         }
     }
 
+    // Cập nhật ghế
     public function updateSeats($id) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $totalSeats = $_POST['total_seats'];
@@ -43,11 +50,15 @@ class FlightManagerController extends Controller {
             }
         } else {
             $flight = $this->flightModel->getFlightById($id);
-            $data = ['title' => 'Cập nhật Ghế', 'flight' => $flight];
+            $data = [
+                'title' => 'Cập nhật Ghế',
+                'flight' => $flight
+            ];
             $this->view('admin/flight_seats', $data);
         }
     }
     
+    // Các hàm CRUD khác
     public function create() {}
     public function store() {}
     public function edit($id) {}

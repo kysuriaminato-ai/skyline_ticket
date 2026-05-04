@@ -4,7 +4,11 @@
 class SettingsController extends Controller {
 
     public function __construct() {
-        // Có thể khởi tạo model settings nếu có
+        // CHẶN STAFF: Nếu không phải admin thì đẩy về trang bán vé
+        if ($_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/admin/bookingmanager");
+            exit();
+        }
     }
 
     // Trang cài đặt hệ thống

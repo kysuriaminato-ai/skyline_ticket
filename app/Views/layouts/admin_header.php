@@ -54,13 +54,24 @@
             <div class="sidebar-brand">
                 <a href="<?= BASEURL ?>/home" class="text-white text-decoration-none"><i class="fas fa-plane"></i> Skyline</a>
             </div>
+            
             <ul class="sidebar-menu">
-                <li><a href="<?= BASEURL ?>/admin"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a></li>
-                <li><a href="<?= BASEURL ?>/admin/flightmanager"><i class="fas fa-plane-departure"></i> <span>Chuyến bay</span></a></li>
-                <li><a href="<?= BASEURL ?>/admin/usermanager"><i class="fas fa-users"></i> <span>Người dùng</span></a></li>
-                <li><a href="<?= BASEURL ?>/admin/bookingmanager"><i class="fas fa-ticket-alt"></i> <span>Đặt chỗ</span></a></li>
-                <li><a href="<?= BASEURL ?>/admin/reports"><i class="fas fa-file-alt"></i> <span>Báo cáo</span></a></li>
-                <li><a href="<?= BASEURL ?>/admin/settings"><i class="fas fa-cog"></i> <span>Cài đặt</span></a></li>
+                <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <!-- Chỉ Admin thấy Dashboard tổng quan -->
+                    <li><a href="<?= BASEURL ?>/admin/dashboard"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a></li>
+                <?php endif; ?>
+
+                <!-- Cả Admin và Staff đều thấy quản lý vé và chuyến bay -->
+                <li><a href="<?= BASEURL ?>/admin/bookingmanager"><i class="fas fa-ticket-alt"></i> <span>Quản lý Bán vé</span></a></li>
+                <li><a href="<?= BASEURL ?>/admin/flightmanager"><i class="fas fa-plane-departure"></i> <span>Lịch trình Bay</span></a></li>
+                
+                <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <!-- Chỉ Admin thấy các cấu hình hệ thống -->
+                    <li><a href="<?= BASEURL ?>/admin/usermanager"><i class="fas fa-users"></i> <span>Người dùng</span></a></li>
+                    <li><a href="<?= BASEURL ?>/admin/reports"><i class="fas fa-file-alt"></i> <span>Báo cáo</span></a></li>
+                    <li><a href="<?= BASEURL ?>/admin/settings"><i class="fas fa-cog"></i> <span>Cài đặt</span></a></li>
+                <?php endif; ?>
+                
                 <li style="margin-top: 20px;"><a href="<?= BASEURL ?>/auth/logout" style="background: #e74c3c;"><i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span></a></li>
             </ul>
         </div>

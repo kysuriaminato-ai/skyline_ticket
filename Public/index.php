@@ -1,15 +1,17 @@
 <?php
 // public/index.php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
-// Mọi request tới /admin/* đã được file .htaccess điều hướng thẳng sang admin.php rồi.
-// Do đó file index.php này CHỈ dùng cho client/người dùng bình thường.
-
+// NẠP CÁC FILE CẤU HÌNH VÀ LÕI
 require_once '../app/config/config.php';
-require_once '../app/Core/App.php';
-require_once '../app/Core/Controller.php';
 require_once '../app/Core/Database.php';
+require_once '../app/Core/Controller.php';
+require_once '../app/Core/App.php';
 
-// Khởi tạo ứng dụng (Kích hoạt Router Frontend)
+// Khởi chạy ứng dụng Frontend
 $app = new App();
 ?>

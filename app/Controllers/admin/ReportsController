@@ -8,6 +8,12 @@ class ReportsController extends Controller {
     private $paymentModel;
 
     public function __construct() {
+        // CHẶN STAFF: Nếu không phải admin thì đẩy về trang bán vé
+        if ($_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/admin/bookingmanager");
+            exit();
+        }
+
         $this->userModel = $this->model('User');
         $this->flightModel = $this->model('Flight');
         $this->bookingModel = $this->model('Booking');
@@ -21,7 +27,6 @@ class ReportsController extends Controller {
         $totalUsers = $this->userModel->getTotalUsers();
         $totalFlights = $this->flightModel->getTotalFlights();
 
-        // Báo cáo theo tháng (giả sử có created_at)
         $monthlyBookings = $this->getMonthlyBookings();
         $monthlyRevenue = $this->getMonthlyRevenue();
 
@@ -40,7 +45,6 @@ class ReportsController extends Controller {
 
     // Báo cáo chi tiết
     public function detailed() {
-        // Có thể thêm filters
         $bookings = $this->bookingModel->getAllBookings();
         $payments = $this->paymentModel->getAllPayments();
 

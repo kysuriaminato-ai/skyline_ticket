@@ -2,8 +2,11 @@
 -- Import file này vào phpMyAdmin
 
 -- Tạo Database
-CREATE DATABASE IF NOT EXISTS flight_db;
-USE flight_db;
+CREATE DATABASE IF NOT EXISTS skyline_ticket;
+USE skyline_ticket;
+
+-- ==================== USERS TABLE ====================
+-- ... existing code ...
 
 -- ==================== USERS TABLE ====================
 CREATE TABLE IF NOT EXISTS users (
