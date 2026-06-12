@@ -54,7 +54,7 @@
             <i class="fas fa-user-circle"></i>
         </div>
         <h3 class="text-center fw-bold mb-1">Đăng nhập</h3>
-        <p class="text-center text-muted mb-4">Chào mừng bạn quay trở lại Skyline</p>
+        <p class="text-center text-muted mb-4">Chào mừng bạn đến với Skyline</p>
 
         <!-- Hiển thị lỗi nếu đăng nhập sai -->
         <?php if (!empty($data['error'])): ?>

@@ -33,7 +33,7 @@
         .main-tab.active { color: #005e6a; }
         .main-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: #005e6a; border-radius: 3px 3px 0 0; }
 
-        /* TABS PANES (Chứa nội dung của từng tab) */
+        /* TABS PANES */
         .tab-pane { display: none; animation: fadeIn 0.4s ease forwards; }
         .tab-pane.active { display: block; }
         @keyframes fadeIn {
@@ -41,7 +41,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ====== AIRPORT TRIGGER (GIỐNG VN AIRLINES) ====== */
+        /* ====== AIRPORT TRIGGER ====== */
         .airport-trigger {
             padding: 15px 20px;
             border: 1px solid #ced4da;
@@ -66,17 +66,9 @@
 
         /* ====== MEGA DROPDOWN CHỌN SÂN BAY ====== */
         .mega-dropdown {
-            position: absolute;
-            top: calc(100% + 10px);
-            left: 0;
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: none;
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
+            position: absolute; top: calc(100% + 10px); left: 0; width: 100%; background: white;
+            border-radius: 12px; box-shadow: 0 15px 50px rgba(0,0,0,0.2); z-index: 1000;
+            display: none; overflow: hidden; border: 1px solid #e0e0e0;
         }
         .region-tabs { width: 200px; background: #f8f9fa; border-right: 1px solid #e0e0e0; }
         .region-tab { padding: 15px 20px; cursor: pointer; font-weight: 600; font-size: 14px; color: #555; border-bottom: 1px solid #eee; transition: 0.2s;}
@@ -106,15 +98,8 @@
         .btn-search { background-color: #005e6a; color: white; font-weight: bold; border-radius: 25px; transition: 0.3s; }
         .btn-search:hover { background-color: #00454e; transform: translateY(-2px); color: white;}
 
-        /* ====== GIAO DIỆN QUẢN LÝ ĐẶT CHỖ (GIỐNG VNA) ====== */
-        .manage-input-box {
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #e0e0e0;
-            padding: 10px 5px;
-            margin-bottom: 20px;
-            transition: 0.3s;
-        }
+        /* ====== GIAO DIỆN QUẢN LÝ ĐẶT CHỖ ====== */
+        .manage-input-box { display: flex; align-items: center; border-bottom: 2px solid #e0e0e0; padding: 10px 5px; margin-bottom: 20px; transition: 0.3s; }
         .manage-input-box:focus-within { border-color: #005e6a; }
         .manage-input-box i { font-size: 22px; color: #005e6a; margin-right: 15px; width: 30px; text-align: center; }
         .manage-input-content { flex: 1; }
@@ -127,6 +112,33 @@
         .quick-link-item:hover { color: #005e6a; transform: translateY(-2px); }
         .quick-link-item i { margin-right: 8px; font-size: 18px; }
 
+        /* ================= DESTINATION SECTION ================= */
+        .dest-card { border-radius: 12px; overflow: hidden; transition: 0.3s; background: transparent; }
+        .dest-card:hover { transform: translateY(-5px); }
+        .dest-img { height: 160px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; margin-bottom: 10px;}
+        .dest-card:hover .dest-img { box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        
+        /* Style riêng cho khu vực Quốc tế giống hình mẫu */
+        .dest-img-intl {
+            height: 200px; 
+            object-fit: cover; 
+            border-radius: 20px 20px 0 0; /* Bo tròn lớn ở trên, vuông ở dưới */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            transition: 0.3s; 
+        }
+        .dest-card:hover .dest-img-intl { box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+        /* ================= FLOATING PROMO APP ================= */
+        .promo-popup { position: fixed; bottom: 30px; right: 30px; background: white; border-radius: 16px; padding: 25px 20px 15px; width: 260px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1050; border: 1px solid #e0e0e0; animation: slideUp 0.5s ease; }
+        .btn-close-promo { position: absolute; top: -12px; right: -12px; background: #0d6efd; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; font-size: 14px;}
+        .btn-close-promo:hover { background: #0b5ed7; transform: scale(1.1); }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* ================= FOOTER TÙY CHỈNH ================= */
+        .site-footer { background-color: #f6f8fb; }
+        .footer-link { color: #555; text-decoration: none; transition: 0.3s; display: inline-block; font-size: 14px; cursor: pointer; }
+        .footer-link:hover { color: #005e6a; transform: translateX(3px); }
+
         @media (max-width: 768px) {
             .mega-dropdown { flex-direction: column; width: 100vw; position: fixed; top: auto; bottom: 0; height: 70vh; border-radius: 20px 20px 0 0; z-index: 1050; }
             .region-tabs { width: 100%; display: flex; overflow-x: auto; border-right: none; border-bottom: 1px solid #e0e0e0; }
@@ -135,18 +147,27 @@
             .btn-swap:hover { transform: translate(-50%, -50%) rotate(270deg); }
             .quick-links { justify-content: flex-start; }
             .quick-link-item { width: calc(50% - 15px); margin-bottom: 10px;}
+            .promo-popup { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR (ĐÃ THÊM NÚT TRANG QUẢN TRỊ) -->
     <nav class="navbar navbar-expand-lg py-3">
         <div class="container">
             <a class="brand-logo" href="<?= BASEURL ?>/home">SKYLINE<span>TICKET</span></a>
             <div class="d-flex align-items-center ms-auto">
                 <?php if (isset($_SESSION['user_name'])): ?>
-                    <span class="me-3 fw-bold"><i class="fas fa-user-circle"></i> Xin chào, <?= $_SESSION['user_name'] ?></span>
+                    <span class="me-3 fw-bold"><i class="fas fa-user-circle"></i> Xin chào, <?= htmlspecialchars($_SESSION['user_name']) ?></span>
+                    
+                    <!-- NÚT TRANG QUẢN TRỊ HIỂN THỊ NẾU LÀ ADMIN HOẶC STAFF -->
+                    <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
+                        <a href="<?= BASEURL ?>/admin/dashboard" class="btn btn-warning fw-bold me-2" style="background-color: #f6c23e; border: none; color: #fff;">
+                            <i class="fas fa-cogs"></i> Trang Quản trị
+                        </a>
+                    <?php endif; ?>
+
                     <a href="<?= BASEURL ?>/auth/logout" class="btn btn-outline-danger">Đăng xuất</a>
                 <?php else: ?>
                     <a href="<?= BASEURL ?>/auth/login" class="btn btn-outline-primary me-2 fw-bold px-4">Đăng nhập</a>
@@ -164,11 +185,10 @@
         </div>
     </section>
 
-    <!-- FORM TÌM KIẾM MỚI -->
+    <!-- FORM TÌM KIẾM -->
     <div class="container search-container">
         <div class="search-box">
             
-            <!-- THAY ĐỔI: THÊM DATA-TAB CHO CÁC MAIN-TAB -->
             <div class="main-tabs">
                 <div class="main-tab active" data-tab="tab-muave"><i class="fas fa-ticket-alt me-2"></i> Mua vé</div>
                 <div class="main-tab" data-tab="tab-quanly"><i class="fas fa-suitcase me-2"></i> Quản lý đặt chỗ</div>
@@ -178,7 +198,7 @@
             <!-- CONTAINER CHỨA CÁC TAB PANE -->
             <div class="tab-content-wrapper">
                 
-                <!-- ==================== TAB 1: MUA VÉ (HIỆN MẶC ĐỊNH) ==================== -->
+                <!-- ==================== TAB 1: MUA VÉ ==================== -->
                 <div id="tab-muave" class="tab-pane active">
                     <form action="<?= BASEURL ?>/flight/search" method="GET" id="searchForm">
                         
@@ -198,7 +218,7 @@
                             </div>
                         </div>
 
-                        <!-- ĐIỂM ĐI & ĐIỂM ĐẾN (MEGA DROPDOWN) -->
+                        <!-- ĐIỂM ĐI & ĐIỂM ĐẾN -->
                         <div class="row g-0 align-items-center position-relative mb-4">
                             
                             <!-- Từ -->
@@ -211,7 +231,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Nút Đảo chiều -->
                             <div class="col-md-2 position-relative" style="height: 0;">
                                 <button type="button" class="btn-swap" id="btnSwap"><i class="fas fa-exchange-alt"></i></button>
                             </div>
@@ -229,8 +248,6 @@
                             <!-- MEGA DROPDOWN SẼ HIỂN THỊ Ở ĐÂY KHI CLICK -->
                             <div class="mega-dropdown" id="megaAirportDropdown">
                                 <div class="d-flex flex-column flex-md-row h-100">
-                                    
-                                    <!-- Cột Trái: Khu vực -->
                                     <div class="region-tabs">
                                         <div class="region-tab active" data-target="vn">VIỆT NAM</div>
                                         <div class="region-tab" data-target="sea">ĐÔNG NAM Á</div>
@@ -239,8 +256,6 @@
                                         <div class="region-tab" data-target="au">CHÂU ĐẠI DƯƠNG</div>
                                         <div class="region-tab" data-target="us">BẮC MỸ</div>
                                     </div>
-                                    
-                                    <!-- Cột Phải: Danh sách Sân bay -->
                                     <div class="airport-content">
                                         <!-- Việt Nam -->
                                         <div class="airport-group active" id="region-vn">
@@ -385,7 +400,6 @@
                         
                         <!-- KHU VỰC NÚT TÌM KIẾM VÀ MÃ KHUYẾN MẠI -->
                         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mt-4 pt-3 border-top">
-                            <!-- Nút hiển thị Mã khuyến mại -->
                             <div class="promo-section mb-3 mb-md-0">
                                 <a href="javascript:void(0)" id="btnTogglePromo" class="text-decoration-none fw-bold" style="color: #005e6a; font-size: 15px;">
                                     <i class="fas fa-ticket-alt me-2"></i>Thêm mã khuyến mại
@@ -395,7 +409,6 @@
                                 </div>
                             </div>
 
-                            <!-- Nút Tìm kiếm -->
                             <div>
                                 <button type="submit" class="btn btn-search px-5 py-3 fs-5">
                                     TÌM CHUYẾN BAY <i class="fas fa-arrow-right ms-2"></i>
@@ -404,7 +417,6 @@
                         </div>
                     </form>
                 </div>
-
 
                 <!-- ==================== TAB 2: QUẢN LÝ ĐẶT CHỖ ==================== -->
                 <div id="tab-quanly" class="tab-pane">
@@ -425,7 +437,6 @@
                                     <i class="far fa-user text-muted"></i>
                                     <div class="manage-input-content">
                                         <label>Họ</label>
-                                        <!-- TỰ ĐỘNG ĐIỀN HỌ NẾU ĐÃ ĐĂNG NHẬP -->
                                         <input type="text" name="last_name" placeholder="Nhập họ" value="<?= isset($_SESSION['user_name']) ? htmlspecialchars(explode(' ', trim($_SESSION['user_name']))[0]) : '' ?>" required>
                                     </div>
                                 </div>
@@ -436,27 +447,15 @@
                             </div>
                         </div>
 
-                        <!-- Đường dẫn nhanh (Quick Links) giống VNA -->
                         <div class="quick-links">
-                            <a href="#" class="quick-link-item">
-                                <i class="fas fa-hand-holding-usd text-warning" style="color: #f39c12 !important;"></i> Giữ giá tốt
-                            </a>
-                            <a href="#" class="quick-link-item">
-                                <i class="fas fa-chair" style="color: #f1c40f !important;"></i> Chọn chỗ ngồi
-                            </a>
-                            <a href="#" class="quick-link-item">
-                                <i class="fas fa-shapes" style="color: #3498db !important;"></i> Thêm dịch vụ bổ trợ
-                            </a>
-                            <a href="#" class="quick-link-item">
-                                <i class="fas fa-suitcase-rolling" style="color: #1abc9c !important;"></i> Thông tin hành lý
-                            </a>
-                            <a href="#" class="quick-link-item">
-                                <i class="fas fa-exchange-alt" style="color: #95a5a6 !important;"></i> Thay đổi chuyến bay
-                            </a>
+                            <a href="#" class="quick-link-item"><i class="fas fa-hand-holding-usd text-warning" style="color: #f39c12 !important;"></i> Giữ giá tốt</a>
+                            <a href="#" class="quick-link-item"><i class="fas fa-chair" style="color: #f1c40f !important;"></i> Chọn chỗ ngồi</a>
+                            <a href="#" class="quick-link-item"><i class="fas fa-shapes" style="color: #3498db !important;"></i> Thêm dịch vụ bổ trợ</a>
+                            <a href="#" class="quick-link-item"><i class="fas fa-suitcase-rolling" style="color: #1abc9c !important;"></i> Thông tin hành lý</a>
+                            <a href="#" class="quick-link-item"><i class="fas fa-exchange-alt" style="color: #95a5a6 !important;"></i> Thay đổi chuyến bay</a>
                         </div>
                     </form>
                 </div>
-
 
                 <!-- ==================== TAB 3: LÀM THỦ TỤC ==================== -->
                 <div id="tab-thutuc" class="tab-pane">
@@ -477,7 +476,6 @@
                                     <i class="far fa-id-card text-muted"></i>
                                     <div class="manage-input-content">
                                         <label>Họ hành khách</label>
-                                        <!-- TỰ ĐỘNG ĐIỀN HỌ NẾU ĐÃ ĐĂNG NHẬP -->
                                         <input type="text" name="last_name" placeholder="Nhập họ" value="<?= isset($_SESSION['user_name']) ? htmlspecialchars(explode(' ', trim($_SESSION['user_name']))[0]) : '' ?>" required>
                                     </div>
                                 </div>
@@ -498,28 +496,290 @@
         </div>
     </div>
 
-    <footer class="site-footer bg-white border-top py-4 mt-5">
-        <div class="container text-center text-muted">
-            <p class="mb-0">© 2026 Skyline Ticket. All rights reserved.</p>
+    <!-- ================= DESTINATIONS SECTION ================= -->
+    <?php 
+        $tomorrow = date('Y-m-d', strtotime('+1 day'));
+        $defaultParams = "&departure_date=$tomorrow&adults=2&children=0";
+    ?>
+    <div class="container my-5 pt-5">
+        <h3 class="fw-bold mb-4" style="color: #333;">Các điểm đến thu hút nhất Việt Nam</h3>
+        <div class="row g-3">
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=TP Hồ Chí Minh (SGN)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1559508551-44bff1de756b?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Vũng Tàu">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Vũng Tàu</h6>
+                            <small class="text-muted">6.329 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=TP Hồ Chí Minh (SGN)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Hồ Chí Minh">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Hồ Chí Minh</h6>
+                            <small class="text-muted">15.546 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Đà Nẵng (DAD)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Đà Nẵng">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Đà Nẵng</h6>
+                            <small class="text-muted">5.534 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Hà Nội (HAN)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1599708153386-62bf3f034eb8?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Hà Nội">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Hà Nội</h6>
+                            <small class="text-muted">10.744 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+             <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Phú Quốc (PQC)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Phú Quốc">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Phú Quốc</h6>
+                            <small class="text-muted">8.124 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Nha Trang (CXR)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1581337204873-ef36aa186caa?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Nha Trang">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Nha Trang</h6>
+                            <small class="text-muted">4.320 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= INTERNATIONAL DESTINATIONS SECTION (MỚI THÊM) ================= -->
+    <div class="container my-5 pt-3">
+        <h3 class="fw-bold mb-4" style="color: #333;">Các điểm đến phổ biến ngoài Việt Nam</h3>
+        <div class="row g-3">
+            <!-- Kuala Lumpur -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Kuala Lumpur (KUL)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1596422846543-74c6fc0e2811?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Kuala Lumpur">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Kuala Lumpur</h6>
+                            <small class="text-muted">19.902 chỗ ở</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Manila -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Manila (MNL)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Manila">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Manila</h6>
+                            <small class="text-muted">13.223 chỗ ở</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Jakarta -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Jakarta (CGK)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1555899434-94d1368aa7af?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Jakarta">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Jakarta</h6>
+                            <small class="text-muted">14.249 chỗ ở</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Dubai -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Dubai (DXB)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Dubai">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Dubai</h6>
+                            <small class="text-muted">19.464 chỗ ở</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Bangkok -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Bangkok (BKK)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1508009603885-247a52f41baa?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Bangkok">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Bangkok</h6>
+                            <small class="text-muted">12.048 chỗ ở</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Tokyo (Bổ sung cho đủ 6 cột hiển thị đẹp trên màn hình lớn) -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Tokyo (NRT)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Tokyo">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Tokyo</h6>
+                            <small class="text-muted">12.486 chỗ ở</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FLOATING PROMO APP ================= -->
+    <div id="appPromoPopup" class="promo-popup shadow-lg">
+        <button class="btn-close-promo" onclick="document.getElementById('appPromoPopup').style.display='none'"><i class="fas fa-times"></i></button>
+        <div class="text-center">
+            <h6 class="fw-bold text-dark mb-1" style="font-size: 15px;">Giảm 10% khi đặt qua App!</h6>
+            <p class="text-muted small mb-3">Quét mã QR để nhận ưu đãi tức thì</p>
+            <div class="qr-container bg-light p-2 rounded-3 d-inline-block border mb-2">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=DownloadSkylineApp" alt="QR Code" class="img-fluid" style="width: 100px; height: 100px;">
+            </div>
+            <a href="javascript:void(0);" class="d-block text-primary fw-bold small text-decoration-none mt-1 info-link">Xem tất cả <i class="fas fa-chevron-right ms-1" style="font-size:10px;"></i></a>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer border-top pt-5 pb-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3">Trợ giúp</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link">Trung tâm trợ giúp</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Câu hỏi thường gặp</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Chính sách bảo mật</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Chính sách về cookie</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3">Công ty TNHH TH</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link">Về chúng tôi</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Tuyển dụng</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Báo chí</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Nhật ký mạng</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Tuyên bố về Đạo luật Nô lệ Hiện đại</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3">Điểm du lịch</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link">Quốc gia</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Mọi chặng bay</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Thành phố</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3">Đối tác của chúng tôi</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link">Cổng thông tin đối tác YCS</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Partner Hub</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Quảng cáo trên Skyline</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Đối tác liên kết</a></li>
+                        <li class="mb-2"><a class="footer-link info-link">Tư liệu API Hệ thống</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-12 mb-4">
+                    <h6 class="fw-bold text-dark mb-3">Tải ứng dụng</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><a class="footer-link info-link"><i class="fab fa-apple me-2 fs-5 align-middle text-dark"></i> Ứng dụng iOS</a></li>
+                        <li class="mb-3"><a class="footer-link info-link"><i class="fab fa-android me-2 fs-5 align-middle text-success"></i> Ứng dụng Android</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-2 mb-4" style="border-color: #ddd;">
+            <div class="text-center text-muted" style="font-size: 13px;">
+                <p class="mb-0">Mọi tài liệu trên trang web này đều được bảo hộ bản quyền.</p>
+                <p class="mt-1">© 2026 Skyline Ticket - Thuộc Công ty TNHH TH. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- SCRIPT TỔNG HỢP -->
+    <!-- ================= MODAL HIỂN THỊ DỮ LIỆU ĐỘNG (POPUP) ================= -->
+    <div class="modal fade" id="infoDataModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" style="color: #005e6a;"><i class="fas fa-info-circle me-2"></i>Thông tin chi tiết</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <h4 class="fw-bold mb-3" id="modalDataTitle" style="color: #333;">Tiêu đề</h4>
+                    <p class="text-muted" style="line-height: 1.6;">Chào mừng bạn đến với chuyên trang <strong><span id="modalDataKeyword"></span></strong> của chúng tôi.</p>
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <p class="mb-2"><i class="fas fa-building text-primary me-2"></i> <strong>Đơn vị chủ quản:</strong> Công ty TNHH TH</p>
+                        <p class="mb-2"><i class="fas fa-database text-success me-2"></i> <strong>Trạng thái dữ liệu:</strong> Đang được cập nhật liên tục</p>
+                        <p class="mb-0"><i class="fas fa-headset text-warning me-2"></i> <strong>Hỗ trợ đối tác:</strong> contact@th-company.vn</p>
+                    </div>
+                    <p class="text-muted mb-0" style="font-size: 14px;">Hệ thống đang tải và tổng hợp các dữ liệu thực tế liên quan đến chuyên mục này. Vui lòng quay lại sau hoặc liên hệ bộ phận hỗ trợ để biết thêm chi tiết. Xin cảm ơn!</p>
+                </div>
+                <div class="modal-footer border-0 pt-0 justify-content-center">
+                    <button type="button" class="btn btn-secondary px-5 rounded-pill" data-bs-dismiss="modal">Đóng cửa sổ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ================= LOGIC CHUYỂN TAB (MỚI) =================
+        // ================= LOGIC HIỂN THỊ MODAL KHI CLICK VÀO LINK FOOTER =================
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoModal = new bootstrap.Modal(document.getElementById('infoDataModal'));
+            const titleEl = document.getElementById('modalDataTitle');
+            const keywordEl = document.getElementById('modalDataKeyword');
+
+            document.querySelectorAll('.info-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const linkText = this.innerText.trim();
+                    titleEl.innerText = linkText;
+                    keywordEl.innerText = linkText;
+                    infoModal.show();
+                });
+            });
+        });
+
+        // ================= LOGIC CHUYỂN TAB =================
         const mainTabs = document.querySelectorAll('.main-tab');
         const tabPanes = document.querySelectorAll('.tab-pane');
 
         mainTabs.forEach(tab => {
             tab.addEventListener('click', function() {
-                // Xóa active khỏi tất cả các tab và pane
                 mainTabs.forEach(t => t.classList.remove('active'));
                 tabPanes.forEach(p => p.classList.remove('active'));
-
-                // Thêm active cho tab được click
                 this.classList.add('active');
-                
-                // Hiển thị nội dung pane tương ứng
                 const targetId = this.getAttribute('data-tab');
                 document.getElementById(targetId).classList.add('active');
             });
@@ -535,29 +795,23 @@
             megaDropdown.style.display = 'block';
         }
 
-        // Đóng dropdown khi click ra ngoài
         document.addEventListener('click', function(e) {
             if (!megaDropdown.contains(e.target) && !e.target.closest('.airport-trigger')) {
                 megaDropdown.style.display = 'none';
             }
         });
 
-        // Chuyển Tab khu vực
         document.querySelectorAll('.region-tab').forEach(tab => {
             tab.addEventListener('click', function(e) {
                 e.stopPropagation();
-                // Bỏ active tất cả tab
                 document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.airport-group').forEach(g => g.classList.remove('active'));
-                
-                // Kích hoạt tab được chọn
                 this.classList.add('active');
                 const targetId = 'region-' + this.getAttribute('data-target');
                 document.getElementById(targetId).classList.add('active');
             });
         });
 
-        // Chọn Sân bay
         document.querySelectorAll('.airport-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -567,23 +821,18 @@
                 const name = this.getAttribute('data-name');
                 const val = this.getAttribute('data-val');
                 
-                // Cập nhật UI và Input ẩn
                 document.getElementById(currentTarget + 'Code').innerText = code;
                 document.getElementById(currentTarget + 'Name').innerText = name;
                 document.getElementById(currentTarget + 'Input').value = val;
                 
                 megaDropdown.style.display = 'none';
 
-                // Tự động mở dropdown "Đến" nếu vừa chọn xong "Từ"
                 if (currentTarget === 'dept') {
-                    setTimeout(() => {
-                        document.getElementById('destTrigger').click();
-                    }, 100);
+                    setTimeout(() => { document.getElementById('destTrigger').click(); }, 100);
                 }
             });
         });
 
-        // Nút đảo chiều (Swap)
         document.getElementById('btnSwap').addEventListener('click', function() {
             const deptCode = document.getElementById('deptCode').innerText;
             const deptName = document.getElementById('deptName').innerText;
@@ -621,7 +870,7 @@
         oneWayRadio.addEventListener('change', updateDateInputs);
         document.getElementById('multiCity').addEventListener('change', updateDateInputs);
 
-        // LOGIC MÃ KHUYẾN MẠI (ẨN/HIỆN)
+        // LOGIC MÃ KHUYẾN MẠI
         const btnTogglePromo = document.getElementById('btnTogglePromo');
         const promoInputWrapper = document.getElementById('promoInputWrapper');
         const promoInput = document.querySelector('input[name="promo_code"]');
@@ -640,7 +889,7 @@
             }
         });
 
-        // LOGIC BẢNG CHỌN HÀNH KHÁCH (Dropdown Panel)
+        // LOGIC BẢNG CHỌN HÀNH KHÁCH
         const passengerTrigger = document.getElementById('passengerTrigger');
         const passengerPanel = document.getElementById('passengerPanel');
         const passengerDisplayText = document.getElementById('passengerDisplayText');
@@ -650,13 +899,8 @@
             passengerPanel.style.display = passengerPanel.style.display === 'block' ? 'none' : 'block';
         });
 
-        passengerPanel.addEventListener('click', function(e) {
-            e.stopPropagation(); // Ngăn không cho đóng panel khi click bên trong
-        });
-
-        document.addEventListener('click', function() {
-            passengerPanel.style.display = 'none';
-        });
+        passengerPanel.addEventListener('click', function(e) { e.stopPropagation(); });
+        document.addEventListener('click', function() { passengerPanel.style.display = 'none'; });
 
         let adults = 2;
         let children = 0;

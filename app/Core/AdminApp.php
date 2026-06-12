@@ -30,12 +30,18 @@ class AdminApp {
         }
 
         // Tìm Controller trong thư mục app/Controllers/admin/
-        if(isset($url[0]) && file_exists('../app/Controllers/admin/' . ucfirst($url[0]) . 'Controller.php')) {
-            $this->controller = ucfirst($url[0]) . 'Controller';
-            unset($url[0]);
-        }
+if(isset($url[0]) && file_exists('../app/Controllers/admin/' . ucfirst($url[0]) . 'Controller.php')) {
+    $this->controller = ucfirst($url[0]) . 'Controller';
+    
+    // THÊM DÒNG NÀY ĐỂ NẠP FILE CONTROLLER VÀO BỘ NHỚ
+    require_once '../app/Controllers/admin/' . $this->controller . '.php'; 
+    
+    unset($url[0]);
+}
+
+// Dòng 38 của bạn giữ nguyên:
+$this->controller = new $this->controller;
         
-        require_once '../app/Controllers/admin/' . $this->controller . '.php';
         $this->controller = new $this->controller;
 
         // Tìm Method (Hàm trong Controller)

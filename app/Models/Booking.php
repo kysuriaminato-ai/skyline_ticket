@@ -8,45 +8,107 @@ class Booking {
         $this->db = new Database();
     }
 
-    // Gợi ý: Hàm tạo đơn đặt vé mới sau khi khách hàng thanh toán
+    // ==============================================================
+    // 1. TẠO ĐƠN HÀNG MỚI
+    // ==============================================================
     public function createBooking($data) {
-        // TODO: Logic thêm dữ liệu vào bảng bookings
-        /*
-        $this->db->query("INSERT INTO bookings (user_id, flight_id, fullname, phone, email, cabin_class, total_price, status) 
-                          VALUES (:user_id, :flight_id, :fullname, :phone, :email, :cabin_class, :total_price, :status)");
-        ... bind data ...
-        return $this->db->execute();
-        */
+        $this->db->query("INSERT INTO bookings 
+                          (user_id, flight_id, booking_code, passengers_count, total_price, status, contact_name, contact_phone, contact_email, addons_info) 
+                          VALUES 
+                          (:user_id, :flight_id, :booking_code, :passengers_count, :total_price, :status, :contact_name, :contact_phone, :contact_email, :addons_info)");
+        
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':flight_id', $data['flight_id']);
+        $this->db->bind(':booking_code', $data['booking_code']);
+        $this->db->bind(':passengers_count', $data['passengers_count']);
+        $this->db->bind(':total_price', $data['total_price']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':contact_name', $data['contact_name'] ?? null);
+        $this->db->bind(':contact_phone', $data['contact_phone'] ?? null);
+        $this->db->bind(':contact_email', $data['contact_email'] ?? null);
+        $this->db->bind(':addons_info', $data['addons_info'] ?? null);
+        
+        if($this->db->execute()) {
+            $this->db->query("SELECT LAST_INSERT_ID() as id");
+            $row = $this->db->single();
+            return is_object($row) ? $row->id : $row['id'];
+        }
+        return false;
     }
 
-    // Gợi ý: Lấy danh sách vé đã đặt của một người dùng (dùng cho trang Hồ sơ)
+    // ==============================================================
+    // 2. LẤY ĐƠN HÀNG BẰNG MÃ CODE
+    // ==============================================================
+    public function getBookingByCode($code) {
+        $this->db->query("SELECT b.*, u.fullname, u.email, f.flight_code, f.departure, f.destination, f.departure_time 
+                          FROM bookings b
+                          LEFT JOIN users u ON b.user_id = u.id
+                          LEFT JOIN flights f ON b.flight_id = f.id
+                          WHERE b.booking_code = :code");
+        $this->db->bind(':code', $code);
+        $result = $this->db->single();
+        return $result ? (array)$result : false; 
+    }
+
+    // ==============================================================
+    // 3. CẬP NHẬT TRẠNG THÁI
+    // ==============================================================
+    public function updateBookingStatus($code, $status) {
+        $this->db->query("UPDATE bookings SET status = :status WHERE booking_code = :code");
+        $this->db->bind(':status', $status);
+        $this->db->bind(':code', $code);
+        return $this->db->execute();
+    }
+
+    // ==============================================================
+    // 4. LẤY DANH SÁCH VÉ CỦA USER (Profile)
+    // ==============================================================
     public function getBookingsByUser($userId) {
-        // TODO: Logic lấy vé theo user_id
-        /*
-        $this->db->query("SELECT * FROM bookings WHERE user_id = :user_id ORDER BY created_at DESC");
+        $this->db->query("SELECT b.*, f.flight_code, f.departure, f.destination, f.departure_time 
+                          FROM bookings b 
+                          JOIN flights f ON b.flight_id = f.id 
+                          WHERE b.user_id = :user_id 
+                          ORDER BY b.created_at DESC");
         $this->db->bind(':user_id', $userId);
         return $this->db->resultSet();
-        */
     }
 
-    // Lấy tổng số đặt chỗ
+    // ==============================================================
+    // 5. CÁC HÀM CHO ADMIN (Thống kê và Quản lý)
+    // ==============================================================
     public function getTotalBookings() {
         $this->db->query("SELECT COUNT(*) as total FROM bookings");
         $row = $this->db->single();
-        return $row['total'];
+        return is_object($row) ? $row->total : $row['total'];
     }
 
-    // Lấy tất cả đặt chỗ
     public function getAllBookings() {
-        $this->db->query("SELECT * FROM bookings ORDER BY created_at DESC");
+        $this->db->query("SELECT b.*, u.fullname, u.email, f.flight_code 
+                          FROM bookings b 
+                          LEFT JOIN users u ON b.user_id = u.id 
+                          LEFT JOIN flights f ON b.flight_id = f.id
+                          ORDER BY b.created_at DESC");
         return $this->db->resultSet();
     }
 
-    // Lấy booking theo ID
     public function getBookingById($id) {
-        $this->db->query("SELECT * FROM bookings WHERE id = :id");
+        $this->db->query("SELECT b.*, u.fullname, u.email, f.flight_code, f.departure, f.destination, f.departure_time 
+                          FROM bookings b
+                          LEFT JOIN users u ON b.user_id = u.id
+                          LEFT JOIN flights f ON b.flight_id = f.id
+                          WHERE b.id = :id");
         $this->db->bind(':id', $id);
-        return $this->db->single();
+        $result = $this->db->single();
+        return $result ? (array)$result : false;
+    }
+
+    // --- HÀM MỚI BỔ SUNG CHO TRANG BÁO CÁO (Tránh lỗi Undefined Method) ---
+    public function getMonthlyBookingsReport() {
+        $this->db->query("SELECT MONTH(created_at) as month, COUNT(*) as count 
+                          FROM bookings 
+                          WHERE YEAR(created_at) = YEAR(CURDATE()) 
+                          GROUP BY MONTH(created_at)");
+        return $this->db->resultSet();
     }
 }
 ?>

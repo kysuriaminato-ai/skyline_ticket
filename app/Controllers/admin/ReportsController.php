@@ -58,13 +58,13 @@ class ReportsController extends Controller {
     }
 
     private function getMonthlyBookings() {
-        $this->bookingModel->db->query("SELECT MONTH(created_at) as month, COUNT(*) as count FROM bookings WHERE YEAR(created_at) = YEAR(CURDATE()) GROUP BY MONTH(created_at)");
-        return $this->bookingModel->db->resultSet();
+        // ĐÃ SỬA: Gọi hàm getMonthlyBookingsReport() từ BookingModel
+        return $this->bookingModel->getMonthlyBookingsReport();
     }
 
     private function getMonthlyRevenue() {
-        $this->paymentModel->db->query("SELECT MONTH(created_at) as month, SUM(amount) as revenue FROM payments WHERE status = 'completed' AND YEAR(created_at) = YEAR(CURDATE()) GROUP BY MONTH(created_at)");
-        return $this->paymentModel->db->resultSet();
+        // ĐÃ SỬA: Gọi hàm getMonthlyRevenueReport() từ PaymentModel
+        return $this->paymentModel->getMonthlyRevenueReport();
     }
 }
 ?>

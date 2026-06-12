@@ -2,102 +2,181 @@
 // app/Controllers/BookingController.php
 
 class BookingController extends Controller {
-    private $flightModel;
-
+    
     public function __construct() {
-        // Đảm bảo người dùng đã đăng nhập mới được vào trang đặt vé
         if (!isset($_SESSION['user_id'])) {
             header("Location: " . BASEURL . "/auth/login");
             exit();
         }
-        $this->flightModel = $this->model('Flight');
     }
 
-    // Trang hiển thị form nhập thông tin hành khách và thanh toán
+    // 1. Thêm hàm index() để tránh lỗi khi user chỉ gõ /booking
+    public function index() {
+        header("Location: " . BASEURL . "/home");
+        exit();
+    }
+
+    // 2. Thêm hàm checkin() để xử lý luồng từ URL /booking/checkin
+    public function checkin() {
+        $pnr = $_GET['pnr'] ?? '';
+        $lastName = $_GET['last_name'] ?? '';
+
+        // Tạm in ra màn hình để xác nhận hệ thống đã bắt đúng hàm
+        echo "<div style='font-family: sans-serif; margin: 50px;'>";
+        echo "<h2>Trang Check-in trực tuyến</h2>";
+        echo "<p>Đang kiểm tra vé cho mã PNR: <strong>" . htmlspecialchars($pnr) . "</strong></p>";
+        echo "<p>Họ khách hàng: <strong>" . htmlspecialchars($lastName) . "</strong></p>";
+        echo "</div>";
+        
+        // Sau này bạn có thể viết thêm logic DB và gọi View ở đây:
+        // $this->view('booking/checkin', ['pnr' => $pnr]);
+    }
+
     public function checkout() {
-        // Nhận dữ liệu từ URL (chuyển từ trang tìm kiếm sang)
         $flightId = $_GET['flight_id'] ?? null;
-        $class = $_GET['class'] ?? 'eco'; // eco, preeco, biz
-        $fareIndex = $_GET['fare_index'] ?? 0;
-        
-        // Hứng tên Sân bay từ trang tìm kiếm đẩy qua
-        $dept = $_GET['dept'] ?? 'Hà Nội (HAN)';
-        $dest = $_GET['dest'] ?? 'Melbourne (MEL)';
-        
-        $adults = 1;
-        $children = 0;
+        $class = $_GET['class'] ?? 'eco';
+        $adults = (int)($_GET['adults'] ?? 1);
+        $children = (int)($_GET['children'] ?? 0);
 
         if (!$flightId) {
             header("Location: " . BASEURL . "/home");
             exit();
         }
 
-        // Tự động điều chỉnh mức giá tùy theo bay Nội địa hay Quốc tế
-        $isDomestic = (stripos($dest, 'Phú Quốc') !== false || stripos($dest, 'Hồ Chí Minh') !== false || stripos($dest, 'Đà Nẵng') !== false || stripos($dest, 'Nha Trang') !== false || stripos($dest, 'Đà Lạt') !== false);
-        $basePrice1 = $isDomestic ? 1500000 : 16053000;
-        $basePrice2 = $isDomestic ? 1200000 : 14500000;
-        $basePrice3 = $isDomestic ? 900000 : 12200000;
-
-        // MẢNG DỮ LIỆU DEMO THÔNG MINH
-        $demoFlights = [
-            991 => ['id' => 991, 'flight_code' => 'VN 273', 'departure' => $dept, 'destination' => $dest, 'departure_time' => date('Y-m-d 16:00:00', strtotime('+1 days')), 'arrival_time' => date('Y-m-d 18:25:00', strtotime('+1 days')), 'price' => $basePrice1, 'airlines' => 'Vietnam Airlines'],
-            992 => ['id' => 992, 'flight_code' => 'VN 249', 'departure' => $dept, 'destination' => $dest, 'departure_time' => date('Y-m-d 15:30:00', strtotime('+1 days')), 'arrival_time' => date('Y-m-d 17:45:00', strtotime('+1 days')), 'price' => $basePrice1, 'airlines' => 'Vietnam Airlines'],
-            993 => ['id' => 993, 'flight_code' => 'QH 215', 'departure' => $dept, 'destination' => $dest, 'departure_time' => date('Y-m-d 10:00:00', strtotime('+1 days')), 'arrival_time' => date('Y-m-d 12:25:00', strtotime('+1 days')), 'price' => $basePrice2, 'airlines' => 'Bamboo Airways'],
-            994 => ['id' => 994, 'flight_code' => 'VJ 189', 'departure' => $dept, 'destination' => $dest, 'departure_time' => date('Y-m-d 05:30:00', strtotime('+1 days')), 'arrival_time' => date('Y-m-d 07:45:00', strtotime('+1 days')), 'price' => $basePrice3, 'airlines' => 'Vietjet Air']
-        ];
-
-        // Lấy thông tin chuyến bay từ DB thật
-        $flight = $this->flightModel->getFlightById($flightId);
-
-        // NẾU ID >= 991 tức là người dùng đang thao tác trên các chuyến bay giả lập
-        if ($flightId >= 991 && isset($demoFlights[$flightId])) {
-            $flight = $demoFlights[$flightId];
-        }
-
-        if (!$flight) {
-            die("Không tìm thấy chuyến bay.");
-        }
-
-        // Tính toán lại giá vé dựa trên hạng ghế
-        $basePrice = $flight['price'];
-        $finalPrice = $basePrice;
-        $className = 'Phổ thông';
-
-        if ($class === 'preeco') {
-            $finalPrice = $basePrice + ($isDomestic ? 1500000 : 8622000);
-            $className = 'Phổ thông Đặc biệt';
-        } elseif ($class === 'biz') {
-            $finalPrice = $basePrice + ($isDomestic ? 3500000 : 39103000);
-            $className = 'Thương gia';
-        }
-
-        // Thêm phí loại vé (Tiêu chuẩn/Linh hoạt)
-        if ($fareIndex == 1) {
-            $finalPrice += ($isDomestic ? 500000 : 5000000); 
-            $className .= ' Linh hoạt';
-        } else {
-            $className .= ' Tiêu chuẩn';
-        }
+        $price_per_pax = ($class === 'biz') ? 60156000 : 13200000;
+        $total_price = $price_per_pax * ($adults + $children);
 
         $data = [
             'title' => 'Thanh toán & Đặt vé - Skyline Ticket',
-            'flight' => $flight,
-            'booking_info' => [
+            'flight' => [
+                'id' => $flightId,
+                'flight_code' => 'VN 273',
+                'departure' => $_GET['dept'] ?? 'Hà Nội (HAN)',
+                'destination' => $_GET['dest'] ?? 'Melbourne (MEL)',
+                'departure_time' => '2026-05-05 16:00:00',
+                'arrival_time' => '2026-05-06 04:25:00'
+            ],
+            'info' => [
                 'class' => $class,
-                'class_name' => $className,
-                'price_per_pax' => $finalPrice,
                 'adults' => $adults,
                 'children' => $children,
-                'total_price' => $finalPrice * $adults 
+                'price_per_pax' => $price_per_pax,
+                'total_price' => $total_price
             ]
         ];
 
-        // GỌI GIAO DIỆN THANH TOÁN
         $this->view('booking/checkout', $data);
     }
 
     public function process() {
-        // ... logic lưu database sẽ viết ở đây ...
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $flightId = $_POST['flight_id'];
+            $totalPrice = $_POST['total_price']; // Giá đã bao gồm Tiện ích
+            $adults = (int)$_POST['adults'];
+            $children = (int)$_POST['children'];
+            $totalPassengers = $adults + $children;
+            
+            // Lấy thông tin khách hàng từ Form
+            $contactName = $_POST['contact_name'] ?? '';
+            $contactPhone = $_POST['contact_phone'] ?? '';
+            $contactEmail = $_POST['contact_email'] ?? '';
+            
+            // Đóng gói thông tin Tiện ích (Gói hỗ trợ + Bảo hiểm)
+            $addons = [
+                'support_tier' => $_POST['support_tier'] ?? 0,
+                'baggage_protection' => isset($_POST['baggage_protection']) ? 150000 : 0
+            ];
+            $addonsJson = json_encode($addons);
+            
+            $db = new Database();
+
+            // Khắc phục lỗi Duplicate Flight & Rút gọn chuỗi để không bị tràn VARCHAR
+            $db->query("SELECT id FROM flights WHERE id = :id");
+            $db->bind(':id', $flightId);
+            if (!$db->single()) {
+                // Rút ngắn mã xuống dạng FLT-XXXXX để tránh lỗi SQL Data Too Long
+                $unique_flight_code = 'FLT-' . substr(time(), -5) . $flightId; 
+                $db->query("INSERT INTO flights (id, flight_code, departure, destination, departure_time, arrival_time, price, airlines, status, total_seats, available_seats) 
+                            VALUES (:id, :flight_code, 'HAN', 'MEL', '2026-05-05 16:00:00', '2026-05-06 04:25:00', :price, 'Skyline Airlines', 1, 180, 180)");
+                $db->bind(':id', $flightId);
+                $db->bind(':flight_code', $unique_flight_code);
+                $db->bind(':price', $totalPrice / $totalPassengers);
+                $db->execute();
+            }
+
+            $bookingCode = 'BK-' . strtoupper(substr(md5(uniqid()), 0, 4));
+
+            // Đưa thêm thông tin khách hàng vào mảng
+            $bookingModel = $this->model('Booking');
+            $bookingData = [
+                'user_id' => $_SESSION['user_id'],
+                'flight_id' => $flightId,
+                'booking_code' => $bookingCode,
+                'passengers_count' => $totalPassengers,
+                'total_price' => $totalPrice,
+                'status' => 'pending',
+                'contact_name' => $contactName,
+                'contact_phone' => $contactPhone,
+                'contact_email' => $contactEmail,
+                'addons_info' => $addonsJson
+            ];
+
+            $bookingId = $bookingModel->createBooking($bookingData);
+
+            if ($bookingId) {
+                $_SESSION['last_booking_time'] = time();
+                header("Location: " . BASEURL . "/booking/payment?code=" . $bookingCode);
+                exit();
+            } else {
+                die("Lỗi: Không thể khởi tạo đơn hàng.");
+            }
+        }
+    }
+
+    // SỬ DỤNG MODEL THAY VÌ GỌI DATABASE TRỰC TIẾP (Khắc phục lỗi màn hình trắng)
+    public function payment() {
+        $bookingCode = $_GET['code'] ?? null;
+        if (!$bookingCode) {
+            header("Location: " . BASEURL . "/home");
+            exit();
+        }
+
+        $bookingModel = $this->model('Booking');
+        $booking = $bookingModel->getBookingByCode($bookingCode);
+
+        if (!$booking) die("Đơn hàng không tồn tại.");
+
+        $startTime = $_SESSION['last_booking_time'] ?? time();
+        $elapsed = time() - $startTime;
+        $remaining = 600 - $elapsed;
+
+        $data = [
+            'booking' => $booking,
+            'remaining_time' => ($remaining > 0) ? $remaining : 0
+        ];
+
+        $this->view('booking/payment', $data);
+    }
+
+    public function confirmPayment() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $code = $_POST['booking_code'];
+            
+            $bookingModel = $this->model('Booking');
+            if ($bookingModel->updateBookingStatus($code, 'confirmed')) {
+                echo "<script>
+                    alert('Thanh toán thành công! Vé điện tử đã được gửi về email của bạn.');
+                    window.location.href = '" . BASEURL . "/profile';
+                </script>";
+            }
+        }
+    }
+
+    public function cancelBooking() {
+        $code = $_GET['code'] ?? '';
+        $bookingModel = $this->model('Booking');
+        $bookingModel->updateBookingStatus($code, 'cancelled');
+        header("Location: " . BASEURL . "/home");
     }
 }
 ?>

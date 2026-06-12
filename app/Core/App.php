@@ -36,8 +36,12 @@ class App {
 
     public function parseUrl() {
         if(isset($_GET['url'])) {
+            // SỬA Ở ĐÂY: Tách bỏ phần Query String (các tham số phía sau dấu ?)
+            // Điều này giúp ngăn lỗi không tìm thấy tên hàm (method)
+            $url = explode('?', $_GET['url'])[0];
+            
             // Xóa dấu / ở cuối, lọc ký tự an toàn và cắt mảng
-            return explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
+            return explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
         }
     }
 }
