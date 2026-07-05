@@ -24,7 +24,8 @@ class FlightManagerController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $price = $_POST['price'];
             if ($this->flightModel->updatePrice($id, $price)) {
-                header('Location: /admin/flightmanager');
+                header('Location: ' . BASEURL . '/admin/flightmanager');
+                exit();
             } else {
                 die('Lỗi cập nhật giá');
             }
@@ -44,7 +45,8 @@ class FlightManagerController extends Controller {
             $totalSeats = $_POST['total_seats'];
             $availableSeats = $_POST['available_seats'];
             if ($this->flightModel->updateSeats($id, $totalSeats, $availableSeats)) {
-                header('Location: /admin/flightmanager');
+                header('Location: ' . BASEURL . '/admin/flightmanager');
+                exit();
             } else {
                 die('Lỗi cập nhật ghế');
             }
@@ -58,9 +60,42 @@ class FlightManagerController extends Controller {
         }
     }
     
-    // Các hàm CRUD khác
-    public function create() {}
-    public function store() {}
+    // ==========================================
+    // CÁC HÀM CRUD (Thêm, Sửa, Xóa chuyến bay)
+    // ==========================================
+
+    // Hiển thị Form thêm chuyến bay mới
+    public function create() {
+        $data = [
+            'title' => 'Thêm Chuyến bay mới - Skyline Admin'
+        ];
+        $this->view('admin/flight_create', $data);
+    }
+
+    // Xử lý lưu chuyến bay mới vào CSDL
+    public function store() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'flight_code' => trim($_POST['flight_code']),
+                'departure' => trim($_POST['departure']),
+                'destination' => trim($_POST['destination']),
+                'departure_time' => trim($_POST['departure_time']),
+                'arrival_time' => trim($_POST['arrival_time']),
+                'price' => trim($_POST['price']),
+                'airlines' => trim($_POST['airlines']),
+                'total_seats' => trim($_POST['total_seats'])
+            ];
+
+            if ($this->flightModel->addFlight($data)) {
+                // Thêm thành công thì quay về trang danh sách
+                header('Location: ' . BASEURL . '/admin/flightmanager');
+                exit();
+            } else {
+                die('Có lỗi xảy ra khi thêm chuyến bay.');
+            }
+        }
+    }
+
     public function edit($id) {}
     public function delete($id) {}
 }

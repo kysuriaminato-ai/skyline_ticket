@@ -25,22 +25,22 @@ class Payment {
     // Lấy toàn bộ danh sách thanh toán (cho Báo cáo chi tiết)
     // ==============================================================
     public function getAllPayments() {
-        $this->db->query("SELECT * FROM payments ORDER BY created_at DESC");
+        // ĐÃ SỬA: Thay created_at thành payment_date
+        $this->db->query("SELECT * FROM payments ORDER BY payment_date DESC");
         return $this->db->resultSet();
     }
 
-    // --- HÀM MỚI BỔ SUNG CHO TRANG BÁO CÁO (Tránh lỗi Undefined Method) ---
+    // --- HÀM MỚI BỔ SUNG CHO TRANG BÁO CÁO ---
     // ==============================================================
     // Lấy doanh thu theo từng tháng của năm hiện tại
     // ==============================================================
     public function getMonthlyRevenueReport() {
-        $this->db->query("SELECT MONTH(created_at) as month, SUM(amount) as revenue 
+        // ĐÃ SỬA: Thay created_at thành payment_date
+        $this->db->query("SELECT MONTH(payment_date) as month, SUM(amount) as revenue 
                           FROM payments 
-                          WHERE status = 'completed' AND YEAR(created_at) = YEAR(CURDATE()) 
-                          GROUP BY MONTH(created_at)");
+                          WHERE status = 'completed' AND YEAR(payment_date) = YEAR(CURDATE()) 
+                          GROUP BY MONTH(payment_date)");
         return $this->db->resultSet();
     }
-    
-    // (Lưu ý: Nếu bạn có sẵn các hàm tạo thanh toán (createPayment) thì cứ giữ nguyên nhé)
 }
 ?>
