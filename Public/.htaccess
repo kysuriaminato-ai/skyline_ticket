@@ -1,14 +1,11 @@
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /skyline_ticket/public/
-
-# Không rewrite nếu là file hoặc thư mục thực sẽ
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Route /admin/* đến admin.php
-RewriteRule ^admin(/.*)?$ admin.php?url=admin$1 [QSA,L]
-
-# Route các request khác đến index.php
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    Options -Multiviews
+    RewriteEngine On
+    
+    # Nếu file hoặc thư mục tồn tại thật (như css, img), thì cứ để nó load
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    
+    # Nếu không, đẩy toàn bộ URL vào tham số 'url' cho index.php
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>

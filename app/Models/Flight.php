@@ -5,14 +5,10 @@ class Flight {
     public function __construct() {
         $this->db = new Database(); // Class bọc PDO
     }
-
-    // Lấy tất cả chuyến bay
     public function getAllFlights() { 
         $this->db->query("SELECT * FROM flights WHERE status = 1 ORDER BY departure_time ASC");
         return $this->db->resultSet();
     }
-
-    // Tìm kiếm chuyến bay an toàn bằng Prepared Statements
     public function searchFlights($from, $to, $date, $airlines, $maxPrice) {
         $query = "SELECT * FROM flights WHERE status = 1";
         

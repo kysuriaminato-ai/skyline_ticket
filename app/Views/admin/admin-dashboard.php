@@ -18,14 +18,18 @@ require_once '../app/Models/User.php';
 require_once '../app/Models/Flight.php';
 require_once '../app/Models/Booking.php';
 
+// Khởi tạo models
 $userModel = new User();
 $flightModel = new Flight();
 $bookingModel = new Booking();
 
+// Lấy dữ liệu thống kê
 $totalUsers = $userModel->getTotalUsers();
 $totalFlights = $flightModel->getTotalFlights();
 $totalBookings = $bookingModel->getTotalBookings();
 $totalRevenue = 0;
+
+// Dữ liệu để truyền vào view
 $data = [
     'title' => 'Dashboard - Quản trị hệ thống Skyline',
     'totalUsers' => $totalUsers,
@@ -34,7 +38,7 @@ $data = [
     'totalRevenue' => $totalRevenue
 ];
 
-// header
+// Tải header
 require_once '../app/Views/layouts/admin_header.php';
 ?>
 

@@ -102,7 +102,6 @@ class Booking {
         return $result ? (array)$result : false;
     }
 
-    // --- HÀM MỚI BỔ SUNG CHO TRANG BÁO CÁO (Tránh lỗi Undefined Method) ---
     public function getMonthlyBookingsReport() {
         $this->db->query("SELECT MONTH(created_at) as month, COUNT(*) as count 
                           FROM bookings 

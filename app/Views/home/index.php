@@ -9,22 +9,27 @@
     
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; }
-        .navbar { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .brand-logo { font-weight: 800; font-size: 24px; color: #000; text-decoration: none; }
-        .brand-logo span { color: #005e6a; }
+        .navbar { background: transparent; box-shadow: none; position: absolute; top: 0; left: 0; width: 100%; z-index: 100; }
+        .brand-logo { font-weight: 800; font-size: 24px; color: #fff; text-decoration: none; }
+        .brand-logo span { color: #81d4fa; }
 
         /* HERO SECTION */
         .hero-section {
             background: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop') no-repeat center center/cover;
-            padding: 80px 0 120px;
+            padding: 180px 0 250px;
             position: relative;
+            min-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .hero-section::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3);
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.3) 100%);
         }
         
         /* TABS CONTROLS */
-        .search-container { position: relative; z-index: 10; margin-top: -60px; }
+        .search-container { position: relative; z-index: 10; margin-top: 40px; }
         .search-box { background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); padding: 30px; position: relative; }
         
         .main-tabs { display: flex; border-bottom: 1px solid #e0e0e0; margin-bottom: 25px; }
@@ -149,17 +154,23 @@
             .quick-link-item { width: calc(50% - 15px); margin-bottom: 10px;}
             .promo-popup { display: none; }
         }
+
+        /* EXTRA SERVICES ICONS */
+        .extra-services { margin-top: 30px; border-top: 1px solid #e0e0e0; padding-top: 25px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;}
+        .service-item { text-align: center; text-decoration: none; color: #555; font-size: 12px; font-weight: bold; flex: 1; min-width: 80px; display: flex; flex-direction: column; align-items: center; transition: 0.3s; text-transform: uppercase; }
+        .service-item:hover { color: #005e6a; transform: translateY(-3px); }
+        .service-item i { font-size: 26px; margin-bottom: 10px; color: #333; transition: 0.3s; }
+        .service-item:hover i { color: #005e6a; }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR (ĐÃ THÊM NÚT TRANG QUẢN TRỊ) -->
-    <nav class="navbar navbar-expand-lg py-3">
+    <nav class="navbar navbar-expand-lg py-4">
         <div class="container">
             <a class="brand-logo" href="<?= BASEURL ?>/home">SKYLINE<span>TICKET</span></a>
             <div class="d-flex align-items-center ms-auto">
                 <?php if (isset($_SESSION['user_name'])): ?>
-                    <span class="me-3 fw-bold"><i class="fas fa-user-circle"></i> Xin chào, <?= htmlspecialchars($_SESSION['user_name']) ?></span>
+                    <span class="me-3 fw-bold text-white"><i class="fas fa-user-circle"></i> Xin chào, <?= htmlspecialchars($_SESSION['user_name']) ?></span>
                     
                     <!-- NÚT TRANG QUẢN TRỊ HIỂN THỊ NẾU LÀ ADMIN HOẶC STAFF -->
                     <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
@@ -168,10 +179,10 @@
                         </a>
                     <?php endif; ?>
 
-                    <a href="<?= BASEURL ?>/auth/logout" class="btn btn-outline-danger">Đăng xuất</a>
+                    <a href="<?= BASEURL ?>/auth/logout" class="btn btn-outline-light">Đăng xuất</a>
                 <?php else: ?>
-                    <a href="<?= BASEURL ?>/auth/login" class="btn btn-outline-primary me-2 fw-bold px-4">Đăng nhập</a>
-                    <a href="<?= BASEURL ?>/auth/register" class="btn btn-primary fw-bold px-4" style="background:#005e6a; border:none;">Đăng ký</a>
+                    <a href="<?= BASEURL ?>/auth/login" class="btn btn-outline-light me-2 fw-bold px-4">Đăng nhập</a>
+                    <a href="<?= BASEURL ?>/auth/register" class="btn btn-light fw-bold px-4 text-dark" style="border:none;">Đăng ký</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -183,10 +194,8 @@
             <h1 class="display-4 fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">KHÁM PHÁ THẾ GIỚI CÙNG SKYLINE</h1>
             <p class="lead mb-5" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Trải nghiệm dịch vụ bay đẳng cấp với hàng ngàn điểm đến</p>
         </div>
-    </section>
-
     <!-- FORM TÌM KIẾM -->
-    <div class="container search-container">
+    <div class="container search-container text-start text-dark">
         <div class="search-box">
             
             <div class="main-tabs">
@@ -211,10 +220,6 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="trip_type" id="oneWay" value="one_way" style="accent-color: #005e6a;">
                                 <label class="form-check-label fw-bold" for="oneWay">Một chiều</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="trip_type" id="multiCity" value="multi" style="accent-color: #005e6a;">
-                                <label class="form-check-label fw-bold" for="multiCity">Nhiều chặng</label>
                             </div>
                         </div>
 
@@ -493,8 +498,37 @@
                 </div>
 
             </div> <!-- END TAB CONTENT WRAPPER -->
+
+            <!-- VNA STYLE EXTRA SERVICES -->
+            <div class="extra-services">
+                <a href="#" class="service-item">
+                    <i class="fas fa-shopping-bag"></i>
+                    Hành lý trả trước
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-chair"></i>
+                    Nâng hạng ghế
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    Mua sắm
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-building"></i>
+                    Khách sạn & Tour
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-heartbeat"></i>
+                    Bảo hiểm
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-ellipsis-h"></i>
+                    Các dịch vụ khác
+                </a>
+            </div>
         </div>
     </div>
+    </section>
 
     <!-- ================= DESTINATIONS SECTION ================= -->
     <?php 

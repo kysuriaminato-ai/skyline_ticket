@@ -39,13 +39,8 @@ class AuthController extends Controller {
                     $_SESSION['user_name'] = $loggedInUser['fullname'];
                     $_SESSION['role'] = $loggedInUser['role'] ?? 'user';
                     
-                    if ($_SESSION['role'] === 'admin') {
-                        header("Location: " . BASEURL . "/admin/dashboard"); 
-                    } elseif ($_SESSION['role'] === 'staff') {
-                        header("Location: " . BASEURL . "/admin/bookingmanager"); 
-                    } else {
-                        header("Location: " . BASEURL . "/home"); 
-                    }
+                    // Redirect to welcome splash screen (3 seconds) before going to destination
+                    header("Location: " . BASEURL . "/auth/welcome");
                     exit();
                 } else {
                     $data['error'] = 'Email hoặc mật khẩu không chính xác.';
@@ -125,6 +120,17 @@ class AuthController extends Controller {
             }
         }
         $this->view('auth/register', $data);
+    }
+
+    // ================= TRANG CHÀO MỪNG (SPLASH SCREEN) =================
+    public function welcome() {
+        // Chỉ hiển thị nếu đã đăng nhập
+        if (!isset($_SESSION['user_name'])) {
+            header("Location: " . BASEURL . "/auth/login");
+            exit();
+        }
+        $data = ['title' => 'Chào mừng - Skyline Ticket'];
+        $this->view('auth/welcome', $data);
     }
 
     // ================= XỬ LÝ ĐĂNG XUẤT =================

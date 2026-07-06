@@ -178,5 +178,9 @@ class BookingController extends Controller {
         $bookingModel->updateBookingStatus($code, 'cancelled');
         header("Location: " . BASEURL . "/home");
     }
+    public function getMonthlyBookingsReport() {
+        $this->db->query("SELECT MONTH(created_at) as month, COUNT(*) as count FROM bookings WHERE YEAR(created_at) = YEAR(CURDATE()) GROUP BY MONTH(created_at)");
+        return $this->db->resultSet();
+    }
 }
 ?>
