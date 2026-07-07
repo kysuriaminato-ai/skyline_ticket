@@ -1,0 +1,55 @@
+    <div class="container search-container text-start text-dark">
+        <div class="search-box">
+
+            <div class="main-tabs">
+                <div class="main-tab active" data-tab="tab-muave"><i class="fas fa-ticket-alt me-2"></i> <?= __('home.buy_ticket') ?></div>
+                <div class="main-tab" data-tab="tab-quanly"><i class="fas fa-suitcase me-2"></i> <?= __('home.manage_booking') ?></div>
+                <div class="main-tab" data-tab="tab-thutuc"><i class="fas fa-check-circle me-2"></i> <?= __('home.checkin') ?></div>
+            </div>
+
+            <!-- CONTAINER CHỨA CÁC TAB PANE -->
+            <div class="tab-content-wrapper">
+
+                <!-- ==================== TAB 1: MUA VÉ ==================== -->
+                <div id="tab-muave" class="tab-pane active">
+                    <form action="<?= BASEURL ?>/flight/search" method="GET" id="searchForm">
+
+                        <!-- Loại vé -->
+                        <div class="d-flex gap-4 mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="trip_type" id="roundTrip" value="round" checked style="accent-color: #e07a5f;">
+                                <label class="form-check-label fw-bold" for="roundTrip"><?= __('home.round_trip') ?></label>
+                            </div>
+                            <di
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3 border-0" style="background-color: #f0f8ff; border-radius: 8px;">
+                            <i class="fas fa-info-circle me-2 text-primary"></i> Hành khách có thể làm thủ tục trực tuyến từ <strong>24 giờ đến 1 giờ</strong> trước thời gian khởi hành dự kiến.
+                        </div>
+                    </form>
+                </div>
+
+            </div> <!-- END TAB CONTENT WRAPPER -->
+
+            <!-- VNA STYLE EXTRA SERVICES -->
+            <div class="extra-services">
+                <a href="javascript:void(0)" class="service-item" id="baggageServiceItem">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span><?= __('service_nav.baggage') ?></span>
+                </a>
+                <a href="javascript:void(0)" class="service-item" id="upgradeServiceItem">
+                    <i class="fas fa-chair"></i>
+                    <span><?= __('service_nav.upgrade') ?></span>
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span><?= __('service_nav.shopping') ?></span>
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-building"></i>
+                    <span><?= __('service_nav.hotel_tour') ?></span>
+                </a>
+                <a href="#" class="service-item">
+                    <i class="fas fa-heartbeat"></i>
+                    <span><?= __('service_nav.insurance'

@@ -84,7 +84,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h4 class="fw-bold mb-1"><?= $data['flight']['departure'] ?> <i class="fas fa-arrow-right mx-2 text-muted fs-5"></i> <?= $data['flight']['destination'] ?></h4>
-                        <p class="text-muted mb-0"><i class="far fa-calendar-alt me-2"></i><?= date('d/m/Y', strtotime($data['flight']['departure_time'])) ?> | <?= $data['info']['class'] == 'biz' ? 'Thương gia' : 'Phổ thông' ?></p>
+                        <p class="text-muted mb-0"><i class="far fa-calendar-alt me-2"></i><?= date('d/m/Y', strtotime($data['flight']['departure_time'])) ?> | Hạng vé: <strong class="text-primary"><?= htmlspecialchars($data['info']['class']) ?></strong></p>
                     </div>
                     <div class="text-end">
                         <span class="badge bg-light text-primary border p-2 fs-6"><?= $data['flight']['flight_code'] ?? 'VN 273' ?></span>
@@ -94,8 +94,8 @@
 
             <form id="checkoutForm" action="<?= BASEURL ?>/booking/process" method="POST">
                 <input type="hidden" name="flight_id" value="<?= $data['flight']['id'] ?>">
-                <input type="hidden" name="base_price" id="basePriceInput" value="<?= $data['info']['total_price'] ?>">
-                <input type="hidden" name="total_price" id="finalPriceInput" value="<?= $data['info']['total_price'] ?>">
+                <input type="hidden" name="base_price" id="basePriceInput" value="<?= $data['info']['final_price'] ?? $data['info']['total_price'] ?>">
+                <input type="hidden" name="total_price" id="finalPriceInput" value="<?= $data['info']['final_price'] ?? $data['info']['total_price'] ?>">
                 <input type="hidden" name="adults" value="<?= $data['info']['adults'] ?>">
                 <input type="hidden" name="children" value="<?= $data['info']['children'] ?>">
 
@@ -157,9 +157,10 @@
                                     <input type="radio" class="tier-radio" name="support_tier" value="0" data-name="Cơ bản" checked onchange="updateTier(this)">
                                     <div class="upgrade-title">Cơ bản</div>
                                     <div class="upgrade-price">0 đ</div>
-                                    <div class="upgrade-feature"><i class="fas fa-check"></i> Hỗ trợ chuẩn</div>
-                                    <div class="upgrade-feature"><i class="fas fa-times"></i> Tặng mã giảm giá</div>
-                                    <div class="upgrade-feature"><i class="fas fa-times"></i> Hỗ trợ ưu tiên</div>
+                                    <div class="badge-speed" style="visibility: hidden;">Tiêu chuẩn</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Hỗ trợ chuẩn</div>
+                                    <div class="upgrade-feature text-muted"><i class="fas fa-times text-secondary"></i> Không có mã giảm giá</div>
+                                    <div class="upgrade-feature text-muted"><i class="fas fa-times text-secondary"></i> Không hỗ trợ ưu tiên</div>
                                     <div class="btn-select-tier mt-4">Đã chọn</div>
                                 </label>
                             </div>
@@ -217,9 +218,22 @@
                 <h5 class="fw-bold mb-4" style="color: #0071c2;">Chi tiết giá</h5>
                 
                 <div class="summary-row">
-                    <span>Hành khách (<?= $data['info']['adults'] ?> Người lớn)</span>
-                    <span class="fw-bold" id="displayBasePrice"><?= number_format($data['info']['total_price']) ?> đ</span>
+                    <span>Hành khách (<?= $data['info']['adults'] ?> Người lớn<?= (isset($data['info']['children']) && $data['info']['children'] > 0) ? ', ' . $data['info']['children'] . ' Trẻ em' : '' ?>)</span>
+                    <span class="fw-bold"><?= number_format($data['info']['total_price']) ?> đ</span>
                 </div>
+                
+                <?php if (isset($data['info']['discount_amount']) && $data['info']['discount_amount'] > 0): ?>
+                <div class="summary-row text-success border-bottom pb-2 mb-3">
+                    <span><i class="fas fa-tag me-1"></i> <?= $data['info']['promo_name'] ?></span>
+                    <span class="fw-bold">-<?= number_format($data['info']['discount_amount']) ?> đ</span>
+                </div>
+                <div class="summary-row">
+                    <span>Thành tiền sau giảm</span>
+                    <span class="fw-bold" id="displayBasePrice"><?= number_format($data['info']['final_price']) ?> đ</span>
+                </div>
+                <?php else: ?>
+                    <div style="display:none;" id="displayBasePrice"></div>
+                <?php endif; ?>
                 
                 <!-- Hiển thị tự động khi chọn Tiện ích -->
                 <div class="summary-row text-primary" id="rowSupportTier" style="display: none;">
@@ -239,7 +253,7 @@
                 
                 <div class="total-row">
                     <h5 class="fw-bold mb-0 text-dark">Tổng cộng</h5>
-                    <h3 class="fw-bold text-danger mb-0" id="displayTotalPrice"><?= number_format($data['info']['total_price']) ?> đ</h3>
+                    <h3 class="fw-bold text-danger mb-0" id="displayTotalPrice"><?= number_format($data['info']['final_price'] ?? $data['info']['total_price']) ?> đ</h3>
                 </div>
                 
                 <div class="mt-4">
@@ -253,7 +267,7 @@
 
 <script>
     // Xử lý Giao diện chọn Gói Hỗ Trợ và Tính Tiền
-    const basePrice = <?= $data['info']['total_price'] ?>;
+    const basePrice = <?= $data['info']['final_price'] ?? $data['info']['total_price'] ?>;
     
     function updateTier(radioElement) {
         // Reset CSS của tất cả các thẻ

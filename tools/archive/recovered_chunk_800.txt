@@ -1,0 +1,475 @@
+    <div class="container my-5 pt-5">
+        <h3 class="fw-bold mb-4" style="color: #333;"><?= __('home.destinations_vn') ?></h3>
+        <div class="row g-3">
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=TP Hồ Chí Minh (SGN)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1559508551-44bff1de756b?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Vũng Tàu">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Vũng Tàu</h6>
+                            <small class="text-muted">6.329 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=TP Hồ Chí Minh (SGN)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Hồ Chí Minh">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Hồ Chí Minh</h6>
+                            <small class="text-muted">15.546 chuyến bay</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Đà Nẵng (DAD)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Đà Nẵng">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Đà Nẵng</h6>
+                            <small class="text-muted">5.534 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Hà Nội (HAN)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1509060464153-44667396260f?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Hà Nội">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Hà Nội</h6>
+                            <small class="text-muted">10.744 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Phú Quốc (PQC)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Phú Quốc">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Phú Quốc</h6>
+                            <small class="text-muted">8.124 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Nha Trang (CXR)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1581337204873-ef36aa186caa?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img" alt="Nha Trang">
+                        <div class="card-body p-0 pt-2 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Nha Trang</h6>
+                            <small class="text-muted">4.320 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= INTERNATIONAL DESTINATIONS SECTION (MỚI THÊM) ================= -->
+    <div class="container my-5 pt-3">
+        <h3 class="fw-bold mb-4" style="color: #333;"><?= __('home.destinations_intl') ?></h3>
+        <div class="row g-3">
+            <!-- Kuala Lumpur -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Kuala Lumpur (KUL)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1508062878650-88b52897f298?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Kuala Lumpur">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Kuala Lumpur</h6>
+                            <small class="text-muted">19.902 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Manila -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Manila (MNL)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Manila">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Manila</h6>
+                            <small class="text-muted">13.223 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Jakarta -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Jakarta (CGK)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1555899434-94d1368aa7af?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Jakarta">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Jakarta</h6>
+                            <small class="text-muted">14.249 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Dubai -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Dubai (DXB)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Dubai">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Dubai</h6>
+                            <small class="text-muted">19.464 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Bangkok -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Bangkok (BKK)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Bangkok">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Bangkok</h6>
+                            <small class="text-muted">12.048 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Tokyo -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Tokyo (NRT)<?= $defaultParams ?>" class="text-decoration-none">
+                    <div class="card border-0 dest-card">
+                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80" class="card-img-top dest-img-intl" alt="Tokyo">
+                        <div class="card-body p-0 pt-3 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Tokyo</h6>
+                            <small class="text-muted">12.486 <?= __('home.flights') ?></small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CLIENT REVIEW SECTION ================= -->
+    <div class="container my-5 py-5">
+        <h3 class="fw-bold mb-2" style="color: #333;"><?= __('home.client_review_title') ?></h3>
+        <p class="text-muted mb-5"><?= __('home.client_review_desc') ?></p>
+
+        <div class="row align-items-center">
+            <div class="col-md-5 position-relative text-center mb-4 mb-md-0">
+                <div class="review-bg-circle"></div>
+                <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=600&q=80" alt="Client Review" class="client-review-img">
+            </div>
+            <div class="col-md-7 ps-md-5">
+                <i class="fas fa-quote-left review-quote-icon"></i>
+                <p class="fs-4 fst-italic text-muted mb-4" style="line-height: 1.8;">
+                    <?= __('home.client_review_quote') ?>
+                </p>
+                <h5 class="fw-bold mb-1" style="color: #0c3547;">Jane Cooper</h5>
+                <div class="text-warning">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FLOATING PROMO APP ================= -->
+    <div id="appPromoPopup" class="promo-popup shadow-lg">
+        <button class="btn-close-promo" onclick="document.getElementById('appPromoPopup').style.display='none'"><i class="fas fa-times"></i></button>
+        <div class="text-center">
+            <h6 class="fw-bold text-dark mb-1" style="font-size: 15px;"><?= __('home.app_promo_title') ?></h6>
+            <p class="text-muted small mb-3"><?= __('home.app_promo_desc') ?></p>
+            <div class="qr-container bg-light p-2 rounded-3 d-inline-block border mb-2">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=DownloadSkylineApp" alt="QR Code" class="img-fluid" style="width: 100px; height: 100px;">
+            </div>
+            <a href="javascript:void(0);" class="d-block text-primary fw-bold small text-decoration-none mt-1 info-link"><?= __('home.view_all') ?> <i class="fas fa-chevron-right ms-1" style="font-size:10px;"></i></a>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer border-top pt-5 pb-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3"><?= __('home.help') ?></h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.help_center') ?></a></li>
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.faq') ?></a></li>
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.privacy') ?></a></li>
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.terms') ?></a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3"><?= __('home.company') ?></h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.about_us') ?></a></li>
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.careers') ?></a></li>
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.press') ?></a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3"><?= __('home.destinations_footer') ?></h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.countries') ?></a></li>
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.cities') ?></a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-6 mb-4">
+                    <h6 class="fw-bold text-dark mb-3"><?= __('home.partners') ?></h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="footer-link info-link">Partner Hub</a></li>
+                        <li class="mb-2"><a class="footer-link info-link"><?= __('home.advertise') ?></a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-12 mb-4">
+                    <h6 class="fw-bold text-dark mb-3"><?= __('home.download_app') ?></h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><a class="footer-link info-link"><i class="fab fa-apple me-2 fs-5 align-middle text-dark"></i> iOS App</a></li>
+                        <li class="mb-3"><a class="footer-link info-link"><i class="fab fa-android me-2 fs-5 align-middle text-success"></i> Android App</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-2 mb-4" style="border-color: #ddd;">
+            <div class="text-center text-muted" style="font-size: 13px;">
+                <p class="mb-0"><?= __('home.copyright_1') ?></p>
+                <p class="mt-1"><?= __('home.copyright_2') ?></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= MODAL HIỂN THỊ DỮ LIỆU ĐỘNG (POPUP) ================= -->
+    <div class="modal fade" id="infoDataModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" style="color: #005e6a;"><i class="fas fa-info-circle me-2"></i><?= __('home.details') ?></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <h4 class="fw-bold mb-3" id="modalDataTitle" style="color: #333;">Tiêu đề</h4>
+                    <p class="text-muted" style="line-height: 1.6;"><?= __('home.welcome_to') ?> <strong><span id="modalDataKeyword"></span></strong></p>
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <p class="mb-2"><i class="fas fa-building text-primary me-2"></i> <strong><?= __('home.company_unit') ?>:</strong> Công ty TNHH TH</p>
+                        <p class="mb-2"><i class="fas fa-database text-success me-2"></i> <strong><?= __('home.data_status') ?>:</strong> <?= __('home.updating') ?></p>
+                        <p class="mb-0"><i class="fas fa-headset text-warning me-2"></i> <strong><?= __('home.partner_support') ?>:</strong> contact@th-company.vn</p>
+                    </div>
+                    <p class="text-muted mb-0" style="font-size: 14px;"><?= __('home.coming_soon') ?></p>
+                </div>
+                <div class="modal-footer border-0 pt-0 justify-content-center">
+                    <button type="button" class="btn btn-secondary px-5 rounded-pill" data-bs-dismiss="modal"><?= __('home.close') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ================= LOGIC HIỂN THỊ MODAL KHI CLICK VÀO LINK FOOTER =================
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoModal = new bootstrap.Modal(document.getElementById('infoDataModal'));
+            const titleEl = document.getElementById('modalDataTitle');
+            const keywordEl = document.getElementById('modalDataKeyword');
+
+            document.querySelectorAll('.info-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const linkText = this.innerText.trim();
+                    titleEl.innerText = linkText;
+                    keywordEl.innerText = linkText;
+                    infoModal.show();
+                });
+            });
+        });
+
+        // ================= LOGIC CHUYỂN TAB =================
+        const mainTabs = document.querySelectorAll('.main-tab');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+        mainTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                mainTabs.forEach(t => t.classList.remove('active'));
+                tabPanes.forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                const targetId = this.getAttribute('data-tab');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // ================= LOGIC MEGA DROPDOWN (CHỌN SÂN BAY) =================
+        let currentTarget = null;
+        const megaDropdown = document.getElementById('megaAirportDropdown');
+
+        window.openAirportDropdown = function(target, event) {
+            event.stopPropagation();
+            currentTarget = target;
+            megaDropdown.style.display = 'block';
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!megaDropdown.contains(e.target) && !e.target.closest('.airport-trigger')) {
+                megaDropdown.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('.region-tab').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.airport-group').forEach(g => g.classList.remove('active'));
+                this.classList.add('active');
+                const targetId = 'region-' + this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.airport-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if(!currentTarget) return;
+
+                const code = this.getAttribute('data-code');
+                const name = this.getAttribute('data-name');
+                const val = this.getAttribute('data-val');
+
+                document.getElementById(currentTarget + 'Code').innerText = code;
+                document.getElementById(currentTarget + 'Name').innerText = name;
+                document.getElementById(currentTarget + 'Input').value = val;
+
+                megaDropdown.style.display = 'none';
+
+                if (currentTarget === 'dept') {
+                    setTimeout(() => { document.getElementById('destTrigger').click(); }, 100);
+                }
+            });
+        });
+
+        document.getElementById('btnSwap').addEventListener('click', function() {
+            const deptCode = document.getElementById('deptCode').innerText;
+            const deptName = document.getElementById('deptName').innerText;
+            const deptInput = document.getElementById('deptInput').value;
+
+            const destCode = document.getElementById('destCode').innerText;
+            const destName = document.getElementById('destName').innerText;
+            const destInput = document.getElementById('destInput').value;
+
+            document.getElementById('deptCode').innerText = destCode;
+            document.getElementById('deptName').innerText = destName;
+            document.getElementById('deptInput').value = destInput;
+
+            document.getElementById('destCode').innerText = deptCode;
+            document.getElementById('destName').innerText = deptName;
+            document.getElementById('destInput').value = deptInput;
+        });
+
+        // LOGIC Ô TÍCH KHỨ HỒI / MỘT CHIỀU
+        const roundTripRadio = document.getElementById('roundTrip');
+        const oneWayRadio = document.getElementById('oneWay');
+        const returnDateInput = document.getElementById('returnDateInput');
+
+        function updateDateInputs() {
+            if (roundTripRadio.checked) {
+                returnDateInput.disabled = false;
+                returnDateInput.required = true;
+            } else {
+                returnDateInput.disabled = true;
+                returnDateInput.required = false;
+                returnDateInput.value = '';
+            }
+        }
+        roundTripRadio.addEventListener('change', updateDateInputs);
+        oneWayRadio.addEventListener('change', updateDateInputs);
+
+        // LOGIC MÃ KHUYẾN MẠI
+        const btnTogglePromo = document.getElementById('btnTogglePromo');
+        const promoInputWrapper = document.getElementById('promoInputWrapper');
+        const promoInput = document.querySelector('input[name="promo_code"]');
+
+        btnTogglePromo.addEventListener('click', function() {
+            if (promoInputWrapper.style.display === 'none') {
+                promoInputWrapper.style.display = 'block';
+                promoInput.focus();
+                this.innerHTML = '<i class="fas fa-times me-2"></i>Hủy mã khuyến mại';
+                this.style.color = '#dc3545';
+            } else {
+                promoInputWrapper.style.display = 'none';
+                promoInput.value = '';
+                this.innerHTML = '<i class="fas fa-ticket-alt me-2"></i><?= __('home.promo_code') ?>';
+                this.style.color = '#f39c12';
+            }
+        });
+
+        // LOGIC BẢNG CHỌN HÀNH KHÁCH
+        const passengerTrigger = document.getElementById('passengerTrigger');
+        const passengerPanel = document.getElementById('passengerPanel');
+        const passengerDisplayText = document.getElementById('passengerDisplayText');
+
+        passengerTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            passengerPanel.style.display = passengerPanel.style.display === 'block' ? 'none' : 'block';
+        });
+
+        passengerPanel.addEventListener('click', function(e) { e.stopPropagation(); });
+        document.addEventListener('click', function() { passengerPanel.style.display = 'none'; });
+
+        let adults = 2;
+        let children = 0;
+
+        function updatePassengerDisplay() {
+            document.getElementById('adultCountText').innerText = adults;
+            document.getElementById('childCountText').innerText = children;
+            document.getElementById('inputAdults').value = adults;
+            document.getElementById('inputChildren').value = children;
+            passengerDisplayText.innerText = `${adults} <?= __('home.adult') ?>, ${children} <?= __('home.child') ?>`;
+        }
+
+        document.getElementById('btnMinusAdult').addEventListener('click', () => { if (adults > 1) { adults--; updatePassengerDisplay(); }});
+        document.getElementById('btnPlusAdult').addEventListener('click', () => { adults++; updatePassengerDisplay(); });
+        document.getElementById('btnMinusChild').addEventListener('click', () => { if (children > 0) { children--; updatePassengerDisplay(); }});
+        document.getElementById('btnPlusChild').addEventListener('click', () => { children++; updatePassengerDisplay(); });
+
+        // LOGIC TOGGLE BAGGAGE SUBMENU
+        const baggageServiceItem = document.getElementById('baggageServiceItem');
+        const baggageSubmenu = document.getElementById('baggageSubmenu');
+        const upgradeServiceItem = document.getElementById('upgradeServiceItem');
+        const upgradeSubmenu = document.getElementById('upgradeSubmenu');
+
+        function hideAllSubmenus() {
+            if (baggageServiceItem) baggageServiceItem.classList.remove('active');
+            if (baggageSubmenu) baggageSubmenu.style.display = 'none';
+            if (upgradeServiceItem) upgradeServiceItem.classList.remove('active');
+            if (upgradeSubmenu) upgradeSubmenu.style.display = 'none';
+        }
+
+        if (baggageServiceItem && baggageSubmenu) {
+            baggageServiceItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                const isActive = this.classList.contains('active');
+                hideAllSubmenus();
+                if (!isActive) {
+                    this.classList.add('active');
+                    baggageSubmenu.style.display = 'flex';
+                }
+            });
+        }
+
+        if (upgradeServiceItem && upgradeSubmenu) {
+            upgradeServiceItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                const isActive = this.classList.contains('active');
+                hideAllSubmenus();
+                if (!isActive) {
+                    this.classList.add('active');
+                    upgradeSubmenu.style.display = 'flex';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,4 +1,271 @@
-<?php require_once '../app/Views/layouts/header.php'; ?>
+<?php
+function renderVnaFlightCard($flightId, $basePrice, $dept, $dest, $adults, $children, $promo, $deptTimeStr, $arrTimeStr, $duration, $stopsText, $airlineLogo, $airlineName, $airlineSub) {
+    $ecoSaving = $basePrice;
+    $ecoStandard = $basePrice + ($basePrice * 0.20);
+    $ecoFlex = $basePrice + ($basePrice * 0.40);
+    $premiumEco = $basePrice + ($basePrice * 0.80);
+    $premiumEcoFlex = $basePrice + ($basePrice * 1.0);
+    $bizStandard = $basePrice * 2.5;
+    $bizFlex = $basePrice * 3.0;
+
+    $buildUrl = function($price, $className) use ($flightId, $dept, $dest, $adults, $children, $promo) {
+        $url = BASEURL . "/booking/checkout?flight_id=" . $flightId;
+        $url .= "&price=" . $price;
+        $url .= "&class_name=" . urlencode($className);
+        $url .= "&dept=" . urlencode($dept) . "&dest=" . urlencode($dest);
+        $url .= "&adults=" . $adults . "&children=" . $children;
+        if (!empty($promo)) $url .= "&promo=" . $promo;
+        return $url;
+    };
+    ?>
+    <div class="vna-card-container mb-4 flight-card" style="border:none; padding:0; background:transparent; box-shadow:none;" data-price="<?= $basePrice ?>" data-stops="<?php
+    if (strpos($stopsText, '2+') !== false) echo 2;
+    elseif (strpos($stopsText, '1') !== false) echo 1;
+    else echo 0;
+?>" data-arr-time="<?= (float)str_replace(':','.',$arrTimeStr) ?>" data-duration="<?= (int)$duration ?>" data-airline="<?php
+    $airlineCodeMap = [
+        'Vietnam Airlines' => 'VN',
+        'Vietjet Air' => 'VJ',
+        'Bamboo Airways' => 'QH',
+        'Singapore Airlines' => 'SQ',
+    ];
+    echo $airlineCodeMap[$airlineName] ?? substr($airlineName, 0, 2);
+?>">
+        <!-- Main row -->
+        <div class="vna-flight-row d-flex shadow-sm rounded overflow-hidden bg-white border">
+            <!-- Left: Flight Info -->
+            <div class="vna-flight-info p-4 d-flex align-items-center flex-grow-1" style="width: 45%;">
+                <div class="w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="time-block text-start">
+                            <h3 class="fw-bold mb-0 text-primary"><?= $deptTimeStr ?></h3>
+                            <small class="text-muted fw-bold">HAN</small>
+                        </div>
+                        <div class="duration-block text-center flex-grow-1 px-4">
+                            <small class="text-muted d-block mb-1">Thời gian bay <?= $duration ?></small>
+                            <div class="position-relative">
+                                <hr class="my-1 border-primary" style="opacity: 0.3;">
+                                <i class="fas fa-plane text-warning position-absolute top-50 start-50 translate-middle bg-white px-1"></i>
+                            </div>
+                            <small class="text-success fw-bold"><?= $stopsText ?></small>
+                        </div>
+                        <div class="time-block text-end">
+                            <h3 class="fw-bold mb-0 text-primary"><?= $arrTimeStr ?></h3>
+                            <small class="text-muted fw-bold">MEL</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mt-3 border-top pt-2">
+                        
+                        <small class="text-muted">Khai thác bởi <strong><?= $airlineName ?></strong> <?= $airlineSub ? '- ' . $airlineSub : '' ?></small>
+                        <a href="#" class="ms-auto small text-primary text-decoration-none">Chi tiết hành trình <i class="fas fa-chevron-right ms-1" style="font-size:10px;"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Class Tabs -->
+            <div class="vna-class-tabs d-flex" style="width: 55%;" id="accordion_<?= $flightId ?>">
+                <!-- Phổ thông -->
+                <div class="vna-tab vna-eco d-flex flex-column justify-content-center align-items-center p-3 text-center" role="button" data-bs-toggle="collapse" data-bs-target="#fare_eco_<?= $flightId ?>" style="flex:1; background-color: #005f6e; color: white; transition: 0.3s; border-left: 1px solid rgba(255,255,255,0.2);">
+                    <div class="fw-bold text-uppercase mb-1">Phổ thông</div>
+                    <div class="small opacity-75">từ</div>
+                    <div class="fs-5 fw-bold mb-1"><?= number_format($ecoSaving, 0, ',', '.') ?></div>
+                    <div class="small opacity-75">VND</div>
+                    <i class="fas fa-chevron-down mt-2 opacity-50"></i>
+                </div>
+                <!-- Phổ thông đặc biệt -->
+                <div class="vna-tab vna-premium d-flex flex-column justify-content-center align-items-center p-3 text-center" role="button" data-bs-toggle="collapse" data-bs-target="#fare_prem_<?= $flightId ?>" style="flex:1; background-color: #b2c8c4; color: #1e3a5f; transition: 0.3s; border-left: 1px solid rgba(0,0,0,0.1);">
+                    <div class="fw-bold text-uppercase mb-1">Phổ thông đặc biệt</div>
+                    <div class="small opacity-75">từ</div>
+                    <div class="fs-5 fw-bold mb-1"><?= number_format($premiumEco, 0, ',', '.') ?></div>
+                    <div class="small opacity-75">VND</div>
+                    <i class="fas fa-chevron-down mt-2 opacity-50"></i>
+                </div>
+                <!-- Thương gia -->
+                <div class="vna-tab vna-biz d-flex flex-column justify-content-center align-items-center p-3 text-center" role="button" data-bs-toggle="collapse" data-bs-target="#fare_biz_<?= $flightId ?>" style="flex:1; background-color: #d8a23a; color: #1e3a5f; transition: 0.3s; border-left: 1px solid rgba(0,0,0,0.1);">
+                    <div class="fw-bold text-uppercase mb-1">Thương gia</div>
+                    <div class="small opacity-75">từ</div>
+                    <div class="fs-5 fw-bold mb-1"><?= number_format($bizStandard, 0, ',', '.') ?></div>
+                    <div class="small opacity-75">VND</div>
+                    <i class="fas fa-chevron-down mt-2 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collapsible Fare Families -->
+        <div class="collapse-group shadow-sm bg-white rounded-bottom border border-top-0 overflow-hidden" id="accordionContent_<?= $flightId ?>">
+            <!-- ECO -->
+            <div class="collapse" id="fare_eco_<?= $flightId ?>" data-bs-parent="#accordionContent_<?= $flightId ?>">
+                <div class="p-4" style="border-top: 4px solid #005f6e;">
+                    <div class="text-center mb-4"><h6 class="text-primary fw-bold">Chọn giá vé <a href="#" class="text-decoration-none ms-2"><i class="fas fa-external-link-alt"></i> Điều kiện giá vé</a></h6></div>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-4">
+                            <div class="card h-100 vna-fare-card border rounded-4">
+                                <div class="card-header bg-transparent text-center border-bottom-0 pt-4 pb-0">
+                                    <h4 class="fw-bold mb-1"><?= number_format($ecoSaving, 0, ',', '.') ?> <small class="fs-6 text-muted">VND</small></h4>
+                                    <div class="text-muted small">Phổ Thông Tiết Kiệm</div>
+                                </div>
+                                <div class="card-body px-4">
+                                    <ul class="list-unstyled small vna-benefits mb-0 text-start">
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-exchange-alt text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Thay đổi vé</strong><br><span class="text-muted">Phí đổi vé 1.600.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-undo text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Hoàn vé</strong><br><span class="text-muted">Phí hoàn 1.800.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-suitcase text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý ký gửi</strong><br><span class="text-primary">1 x 23 kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-shopping-bag text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý xách tay</strong><br><span class="text-primary">Không quá 10kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-star text-warning mt-1 me-3" style="width: 15px;"></i> <div><strong>Số dặm tích được</strong><br><span class="text-warning">Tích lũy 60%</span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0 pb-4 px-4 text-center">
+                                    <a href="<?= $buildUrl($ecoSaving, 'Phổ Thông Tiết Kiệm') ?>" class="text-primary fw-bold text-decoration-none">Chọn vé</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100 vna-fare-card border-primary rounded-4 shadow-sm" style="border-width: 2px !important;">
+                                <div class="card-header bg-transparent text-center border-bottom-0 pt-4 pb-0">
+                                    <h4 class="fw-bold mb-1"><?= number_format($ecoStandard, 0, ',', '.') ?> <small class="fs-6 text-muted">VND</small></h4>
+                                    <div class="text-muted small">Phổ Thông Tiêu Chuẩn</div>
+                                </div>
+                                <div class="card-body px-4">
+                                    <ul class="list-unstyled small vna-benefits mb-0 text-start">
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-exchange-alt text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Thay đổi vé</strong><br><span class="text-muted">Phí đổi vé 1.010.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-undo text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Hoàn vé</strong><br><span class="text-muted">Phí hoàn 1.150.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-suitcase text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý ký gửi</strong><br><span class="text-primary">1 x 23 kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-shopping-bag text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý xách tay</strong><br><span class="text-primary">Không quá 10kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-star text-warning mt-1 me-3" style="width: 15px;"></i> <div><strong>Số dặm tích được</strong><br><span class="text-warning">Tích lũy 80%</span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0 pb-4 px-4 text-center">
+                                    <a href="<?= $buildUrl($ecoStandard, 'Phổ Thông Tiêu Chuẩn') ?>" class="text-primary fw-bold text-decoration-none">Chọn vé</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100 vna-fare-card border rounded-4">
+                                <div class="card-header bg-transparent text-center border-bottom-0 pt-4 pb-0">
+                                    <h4 class="fw-bold mb-1"><?= number_format($ecoFlex, 0, ',', '.') ?> <small class="fs-6 text-muted">VND</small></h4>
+                                    <div class="text-muted small">Phổ Thông Linh Hoạt</div>
+                                </div>
+                                <div class="card-body px-4">
+                                    <ul class="list-unstyled small vna-benefits mb-0 text-start">
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-exchange-alt text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Thay đổi vé</strong><br><span class="text-primary">Được phép</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-undo text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Hoàn vé</strong><br><span class="text-muted">Phí hoàn 500.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-suitcase text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý ký gửi</strong><br><span class="text-primary">1 x 23 kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-shopping-bag text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý xách tay</strong><br><span class="text-primary">Không quá 10kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-star text-warning mt-1 me-3" style="width: 15px;"></i> <div><strong>Số dặm tích được</strong><br><span class="text-warning">Tích lũy 110%</span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0 pb-4 px-4 text-center">
+                                    <a href="<?= $buildUrl($ecoFlex, 'Phổ Thông Linh Hoạt') ?>" class="text-primary fw-bold text-decoration-none">Chọn vé</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PREMIUM ECO -->
+            <div class="collapse" id="fare_prem_<?= $flightId ?>" data-bs-parent="#accordionContent_<?= $flightId ?>">
+                <div class="p-4" style="border-top: 4px solid #b2c8c4;">
+                    <div class="text-center mb-4"><h6 class="text-primary fw-bold">Chọn giá vé <a href="#" class="text-decoration-none ms-2"><i class="fas fa-external-link-alt"></i> Điều kiện giá vé</a></h6></div>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-5">
+                            <div class="card h-100 vna-fare-card border rounded-4 border-primary shadow-sm" style="border-width: 2px !important;">
+                                <div class="card-header bg-transparent text-center border-bottom-0 pt-4 pb-0">
+                                    <h4 class="fw-bold mb-1"><?= number_format($premiumEco, 0, ',', '.') ?> <small class="fs-6 text-muted">VND</small></h4>
+                                    <div class="text-muted small">Phổ Thông Đặc Biệt Tiêu Chuẩn</div>
+                                </div>
+                                <div class="card-body px-4">
+                                    <ul class="list-unstyled small vna-benefits mb-0 text-start">
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-exchange-alt text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Thay đổi vé</strong><br><span class="text-primary">Được phép</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-undo text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Hoàn vé</strong><br><span class="text-muted">Phí hoàn 650.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-suitcase text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý ký gửi</strong><br><span class="text-primary">1 x 32 kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-shopping-bag text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý xách tay</strong><br><span class="text-primary">2 x 10kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-star text-warning mt-1 me-3" style="width: 15px;"></i> <div><strong>Số dặm tích được</strong><br><span class="text-warning">Tích lũy 120%</span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0 pb-4 px-4 text-center">
+                                    <a href="<?= $buildUrl($premiumEco, 'Phổ Thông Đặc Biệt Tiêu Chuẩn') ?>" class="text-primary fw-bold text-decoration-none">Chọn vé</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card h-100 vna-fare-card border rounded-4">
+                                <div class="card-header bg-transparent text-center border-bottom-0 pt-4 pb-0">
+                                    <h4 class="fw-bold mb-1"><?= number_format($premiumEcoFlex, 0, ',', '.') ?> <small class="fs-6 text-muted">VND</small></h4>
+                                    <div class="text-muted small">Phổ Thông Đặc Biệt Linh Hoạt</div>
+                                </div>
+                                <div class="card-body px-4">
+                                    <ul class="list-unstyled small vna-benefits mb-0 text-start">
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-exchange-alt text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Thay đổi vé</strong><br><span class="text-primary">Được phép</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-undo text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Hoàn vé</strong><br><span class="text-muted">Phí hoàn 500.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-suitcase text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý ký gửi</strong><br><span class="text-primary">1 x 32 kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-shopping-bag text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý xách tay</strong><br><span class="text-primary">2 x 10kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-star text-warning mt-1 me-3" style="width: 15px;"></i> <div><strong>Số dặm tích được</strong><br><span class="text-warning">Tích lũy 130%</span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0 pb-4 px-4 text-center">
+                                    <a href="<?= $buildUrl($premiumEcoFlex, 'Phổ Thông Đặc Biệt Linh Hoạt') ?>" class="text-primary fw-bold text-decoration-none">Chọn vé</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIZ -->
+            <div class="collapse" id="fare_biz_<?= $flightId ?>" data-bs-parent="#accordionContent_<?= $flightId ?>">
+                <div class="p-4" style="border-top: 4px solid #d8a23a;">
+                    <div class="text-center mb-4"><h6 class="text-primary fw-bold">Chọn giá vé <a href="#" class="text-decoration-none ms-2"><i class="fas fa-external-link-alt"></i> Điều kiện giá vé</a></h6></div>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-5">
+                            <div class="card h-100 vna-fare-card border rounded-4 border-warning shadow-sm" style="border-width: 2px !important;">
+                                <div class="card-header bg-transparent text-center border-bottom-0 pt-4 pb-0">
+                                    <h4 class="fw-bold mb-1"><?= number_format($bizStandard, 0, ',', '.') ?> <small class="fs-6 text-muted">VND</small></h4>
+                                    <div class="text-muted small">Thương Gia Tiêu Chuẩn</div>
+                                </div>
+                                <div class="card-body px-4">
+                                    <ul class="list-unstyled small vna-benefits mb-0 text-start">
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-exchange-alt text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Thay đổi vé</strong><br><span class="text-muted">Phí đổi vé 1.010.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-undo text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Hoàn vé</strong><br><span class="text-muted">Phí hoàn 1.300.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-suitcase text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý ký gửi</strong><br><span class="text-primary">1 x 32 kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-shopping-bag text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý xách tay</strong><br><span class="text-primary">2 x 10kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-star text-warning mt-1 me-3" style="width: 15px;"></i> <div><strong>Số dặm tích được</strong><br><span class="text-warning">Tích lũy 150%</span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0 pb-4 px-4 text-center">
+                                    <a href="<?= $buildUrl($bizStandard, 'Thương Gia Tiêu Chuẩn') ?>" class="text-warning fw-bold text-decoration-none" style="color: #d8a23a !important;">Chọn vé</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card h-100 vna-fare-card border rounded-4">
+                                <div class="card-header bg-transparent text-center border-bottom-0 pt-4 pb-0">
+                                    <h4 class="fw-bold mb-1"><?= number_format($bizFlex, 0, ',', '.') ?> <small class="fs-6 text-muted">VND</small></h4>
+                                    <div class="text-muted small">Thương Gia Linh Hoạt</div>
+                                </div>
+                                <div class="card-body px-4">
+                                    <ul class="list-unstyled small vna-benefits mb-0 text-start">
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-exchange-alt text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Thay đổi vé</strong><br><span class="text-primary">Được phép</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-undo text-muted mt-1 me-3" style="width: 15px;"></i> <div><strong>Hoàn vé</strong><br><span class="text-muted">Phí hoàn 650.000 VND</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-suitcase text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý ký gửi</strong><br><span class="text-primary">1 x 32 kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-shopping-bag text-primary mt-1 me-3" style="width: 15px;"></i> <div><strong>Hành lý xách tay</strong><br><span class="text-primary">2 x 10kg</span></div></li>
+                                        <li class="d-flex align-items-start mb-3"><i class="fas fa-star text-warning mt-1 me-3" style="width: 15px;"></i> <div><strong>Số dặm tích được</strong><br><span class="text-warning">Tích lũy 200%</span></div></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0 pb-4 px-4 text-center">
+                                    <a href="<?= $buildUrl($bizFlex, 'Thương Gia Linh Hoạt') ?>" class="text-warning fw-bold text-decoration-none" style="color: #d8a23a !important;">Chọn vé</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>
+<?php
+ require_once '../app/Views/layouts/header.php'; ?>
 
 <!-- Nạp FontAwesome nếu chưa có -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -238,6 +505,26 @@
         transition: 0.3s;
     }
     .btn-book:hover { background: #005f9e; color: #fff; }
+
+    /* ================= VNA STYLES ================= */
+    .vna-tab:hover { opacity: 0.9; cursor:pointer; }
+    .vna-fare-card {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    .vna-fare-card.border {
+        border-color: #dee2e6 !important;
+        border-width: 2px !important;
+    }
+    .vna-fare-card:hover {
+        box-shadow: 0 8px 25px rgba(0, 113, 194, 0.2) !important;
+        transform: scale(1.03) !important;
+        border-color: #0071c2 !important;
+        cursor: pointer;
+    }
+    .vna-benefits li { font-size: 13px; }
+    .vna-flight-row { cursor: pointer; }
+
 </style>
 
 <?php 
@@ -246,6 +533,8 @@
     $dest = $_GET['destination'] ?? 'Melbourne (MEL)';
     $date = $_GET['departure_date'] ?? date('Y-m-d', strtotime('+1 day'));
     $adults = $_GET['adults'] ?? 1;
+    $children = $_GET['children'] ?? 0;
+    $promo = $_GET['promo'] ?? '';
     $children = $_GET['children'] ?? 0;
 ?>
 
@@ -302,13 +591,13 @@
                         Times <a class="btn-clear" data-target="times">Clear</a>
                     </div>
                     
-                    <div class="range-label" id="deptTimeLabel">Departure 00:00 - 23:59</div>
+                    <div class="range-label" id="deptTimeLabel">Cất cánh 00:00 - 23:59</div>
                     <input type="range" class="form-range custom-range filter-time" min="0" max="24" value="24" id="deptTime">
                     <div class="d-flex justify-content-between text-muted" style="font-size: 12px; margin-top: -5px; margin-bottom: 20px;">
                         <span>00:00</span><span>23:59</span>
                     </div>
 
-                    <div class="range-label" id="arrTimeLabel">Arrival 00:00 - 23:59</div>
+                    <div class="range-label" id="arrTimeLabel">Hạ cánh 00:00 - 23:59</div>
                     <input type="range" class="form-range custom-range filter-time" min="0" max="24" value="24" id="arrTime">
                     <div class="d-flex justify-content-between text-muted" style="font-size: 12px; margin-top: -5px;">
                         <span>00:00</span><span>23:59</span>
@@ -357,241 +646,46 @@
         <!-- ================= KẾT QUẢ TÌM KIẾM (CỘT PHẢI) ================= -->
         <div class="col-lg-9">
             
-            <p class="text-muted mb-3"><i class="fas fa-info-circle me-1 text-primary"></i> Average price per person. The price includes taxes and fees.</p>
+            
 
-            <!-- Agoda Style Sort Tabs -->
-            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                <div class="sort-tabs-container flex-grow-1 mb-0">
-                    <div class="sort-tab" data-sort="cheapest">
-                        <div class="sort-title">Cheapest</div>
-                        <div class="sort-desc">đ 12,500,000 • 14h 15m</div>
-                    </div>
-                    <div class="sort-tab active" data-sort="best">
-                        <div class="sort-title">Best overall</div>
-                        <div class="sort-desc">đ 13,200,000 • 12h 25m</div>
-                    </div>
-                    <div class="sort-tab" data-sort="fastest">
-                        <div class="sort-title">Fastest</div>
-                        <div class="sort-desc">đ 15,800,000 • 10h 0m</div>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <button class="sort-dropdown-btn dropdown-toggle" type="button" id="sortMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort by <i class="fas fa-chevron-down ms-2 text-muted"></i>
-                    </button>
-                    <!-- Agoda Style Dropdown -->
-                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 sort-menu" aria-labelledby="sortMenuButton">
-                        <li>
-                            <a class="dropdown-item sort-option" href="#" data-sort="cheapest" data-text="Price per person">
-                                <div class="fw-bold">Price per person</div>
-                                <div class="text-muted small">Cheapest first</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item sort-option active-sort" href="#" data-sort="best" data-text="Best">
-                                <div class="fw-bold">Best</div>
-                                <div class="text-muted small">Cheap short flights</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item sort-option" href="#" data-sort="fastest" data-text="Total journey time">
-                                <div class="fw-bold">Total journey time</div>
-                                <div class="text-muted small">Fastest first</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item sort-option" href="#" data-sort="departure" data-text="Departure time">
-                                <div class="fw-bold">Departure time</div>
-                                <div class="text-muted small">Earliest first</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item sort-option" href="#" data-sort="arrival" data-text="Arrival time">
-                                <div class="fw-bold">Arrival time</div>
-                                <div class="text-muted small">Earliest first</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item sort-option" href="#" data-sort="stops" data-text="Stops">
-                                <div class="fw-bold">Stops</div>
-                                <div class="text-muted small">Fewest stops first</div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- ================= DANH SÁCH CHUYẾN BAY ================= -->
-            <div id="flightsListContainer">
                 
-                <!-- Card 1: Nhanh & Tốt nhất -->
-                <div class="flight-card position-relative overflow-hidden" 
-                     data-price="13200000" data-stops="1" data-dept-time="16" data-arr-time="4.4" data-duration="745" data-airline="VN">
-                    
-                    <div class="row align-items-center">
-                        <div class="col-md-3 mb-3 mb-md-0 d-flex align-items-start">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Vietnam_Airlines_logo.svg/200px-Vietnam_Airlines_logo.svg.png" alt="VN Airlines" class="airline-logo">
-                            <div>
-                                <div class="airline-name">Vietnam Airlines</div>
-                                <div class="flight-amenities text-success"><i class="fas fa-suitcase-rolling me-1"></i> Cabin bag</div>
-                                <div class="flight-amenities text-success"><i class="fas fa-suitcase me-1"></i> Checked baggage</div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-center">
-                                    <div class="flight-time">16:00</div>
-                                    <div class="flight-airport">HAN</div>
-                                </div>
-                                
-                                <div class="flight-duration flex-grow-1 mx-3">
-                                    <div class="text-muted small fw-bold">12h 25m</div>
-                                    <div class="duration-line"><div class="stop-dot"></div></div>
-                                    <div class="text-muted small">1 Stop</div>
-                                </div>
 
-                                <div class="text-center">
-                                    <div class="flight-time">04:25<sup class="text-danger small">+1</sup></div>
-                                    <div class="flight-airport">MEL</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3 border-start text-end">
-                            <div class="flight-price mb-2">đ 13,200,000</div>
-                            <a href="<?= BASEURL ?>/booking/checkout?flight_id=991&class=eco&fare_index=0&dept=<?= urlencode($dept) ?>&dest=<?= urlencode($dest) ?>&adults=<?= $adults ?>&children=<?= $children ?>" class="btn btn-book">Select</a>
-                        </div>
-                    </div>
-                </div>
+            
+<!-- ================= DANH SÁCH CHUYẾN BAY ================= -->
 
-                <!-- Card 2: Rẻ nhất -->
-                <div class="flight-card position-relative overflow-hidden"
-                     data-price="12500000" data-stops="2" data-dept-time="5.5" data-arr-time="19.75" data-duration="855" data-airline="VJ">
-                    
-                    <div class="row align-items-center">
-                        <div class="col-md-3 mb-3 mb-md-0 d-flex align-items-start">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/VietJet_Air_logo.svg/200px-VietJet_Air_logo.svg.png" alt="Vietjet" class="airline-logo">
-                            <div>
-                                <div class="airline-name">Vietjet Air</div>
-                                <div class="text-muted small mt-1">Partially operated by Thai Vietjet</div>
-                                <div class="flight-amenities text-success"><i class="fas fa-shopping-bag me-1"></i> Cabin bag</div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-center">
-                                    <div class="flight-time">05:30</div>
-                                    <div class="flight-airport">HAN</div>
-                                </div>
-                                
-                                <div class="flight-duration flex-grow-1 mx-3">
-                                    <div class="text-muted small fw-bold">14h 15m</div>
-                                    <div class="duration-line">
-                                        <div class="stop-dot" style="left: 30%;"></div>
-                                        <div class="stop-dot" style="left: 70%;"></div>
-                                    </div>
-                                    <div class="text-muted small">2 Stops</div>
-                                </div>
-
-                                <div class="text-center">
-                                    <div class="flight-time">19:45</div>
-                                    <div class="flight-airport">MEL</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3 border-start text-end">
-                            <div class="flight-price mb-2 text-danger">đ 12,500,000</div>
-                            <a href="<?= BASEURL ?>/booking/checkout?flight_id=994&class=eco&fare_index=0&dept=<?= urlencode($dept) ?>&dest=<?= urlencode($dest) ?>&adults=<?= $adults ?>&children=<?= $children ?>" class="btn btn-book">Select</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3: Bay Thẳng -->
-                <div class="flight-card position-relative overflow-hidden"
-                     data-price="15800000" data-stops="0" data-dept-time="10" data-arr-time="20" data-duration="600" data-airline="QH">
-                    <div class="row align-items-center">
-                        <div class="col-md-3 mb-3 mb-md-0 d-flex align-items-start">
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9d/Bamboo_Airways_logo.svg/200px-Bamboo_Airways_logo.svg.png" alt="Bamboo" class="airline-logo" style="width: 50px;">
-                            <div>
-                                <div class="airline-name">Bamboo Airways</div>
-                                <div class="flight-amenities text-success"><i class="fas fa-suitcase-rolling me-1"></i> Cabin bag</div>
-                                <div class="flight-amenities text-success"><i class="fas fa-suitcase me-1"></i> Checked baggage</div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-center">
-                                    <div class="flight-time">10:00</div>
-                                    <div class="flight-airport">HAN</div>
-                                </div>
-                                
-                                <div class="flight-duration flex-grow-1 mx-3">
-                                    <div class="text-muted small fw-bold">10h 00m</div>
-                                    <div class="duration-line"><div class="stop-dot d-none"></div></div>
-                                    <div class="text-muted small">Direct</div>
-                                </div>
-
-                                <div class="text-center">
-                                    <div class="flight-time">20:00</div>
-                                    <div class="flight-airport">MEL</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3 border-start text-end">
-                            <div class="flight-price mb-2">đ 15,800,000</div>
-                            <a href="<?= BASEURL ?>/booking/checkout?flight_id=993&class=eco&fare_index=0&dept=<?= urlencode($dept) ?>&dest=<?= urlencode($dest) ?>&adults=<?= $adults ?>&children=<?= $children ?>" class="btn btn-book">Select</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4: Singapore Airlines -->
-                <div class="flight-card position-relative overflow-hidden"
-                     data-price="18573548" data-stops="1" data-dept-time="20" data-arr-time="11" data-duration="720" data-airline="SQ">
-                    <div class="row align-items-center">
-                        <div class="col-md-3 mb-3 mb-md-0 d-flex align-items-start">
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Singapore_Airlines_Logo_2.svg/200px-Singapore_Airlines_Logo_2.svg.png" alt="Singapore Airlines" class="airline-logo" style="width: 50px;">
-                            <div>
-                                <div class="airline-name">Singapore Airlines</div>
-                                <div class="text-muted small mt-1">Partially operated by Scoot</div>
-                                <div class="flight-amenities text-success"><i class="fas fa-suitcase-rolling me-1"></i> Cabin bag</div>
-                                <div class="flight-amenities text-success"><i class="fas fa-suitcase me-1"></i> Checked baggage</div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-center">
-                                    <div class="flight-time">20:00</div>
-                                    <div class="flight-airport">HAN</div>
-                                </div>
-                                
-                                <div class="flight-duration flex-grow-1 mx-3">
-                                    <div class="text-muted small fw-bold">12h 00m</div>
-                                    <div class="duration-line"><div class="stop-dot"></div></div>
-                                    <div class="text-muted small">1 Stop</div>
-                                </div>
-
-                                <div class="text-center">
-                                    <div class="flight-time">11:00<sup class="text-danger small">+1</sup></div>
-                                    <div class="flight-airport">MEL T2</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3 border-start text-end">
-                            <div class="flight-price mb-2">đ 18,573,548</div>
-                            <a href="<?= BASEURL ?>/booking/checkout?flight_id=995&class=eco&fare_index=0&dept=<?= urlencode($dept) ?>&dest=<?= urlencode($dest) ?>&adults=<?= $adults ?>&children=<?= $children ?>" class="btn btn-book">Select</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!-- End flightsListContainer -->
+<!-- ================= DANH SÁCH CHUYẾN BAY ================= -->
+<div id="flightsListContainer">
+<?php
+renderVnaFlightCard(
+    991, 13200000, 
+    $dept, $dest, $adults, $children, $promo, 
+    '16:00', '04:25<sup class="text-danger">+1</sup>', '12h 25m', '1 điểm dừng',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Vietnam_Airlines_logo.svg/200px-Vietnam_Airlines_logo.svg.png',
+    'Vietnam Airlines', ''
+);
+renderVnaFlightCard(
+    994, 12500000, 
+    $dept, $dest, $adults, $children, $promo, 
+    '05:30', '19:45', '14h 15m', '2+ điểm dừng',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/VietJet_Air_logo.svg/200px-VietJet_Air_logo.svg.png',
+    'Vietjet Air', 'Được khai thác một phần bởi Thai Vietjet'
+);
+renderVnaFlightCard(
+    993, 15800000, 
+    $dept, $dest, $adults, $children, $promo, 
+    '10:00', '20:00', '10h 00m', 'Bay thẳng',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Bamboo_Airways_logo.svg/200px-Bamboo_Airways_logo.svg.png',
+    'Bamboo Airways', ''
+);
+renderVnaFlightCard(
+    995, 18573548, 
+    $dept, $dest, $adults, $children, $promo, 
+    '20:00', '11:00<sup class="text-danger">+1</sup>', '17h 00m', '1 điểm dừng',
+    'https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Singapore_Airlines_Logo_2.svg/200px-Singapore_Airlines_Logo_2.svg.png',
+    'Singapore Airlines', 'Được khai thác một phần bởi Scoot'
+);
+?>
+</div>
 
         </div> <!-- Hết Cột Phải -->
     </div>
@@ -618,13 +712,13 @@
 
         // Cập nhật nhãn khi kéo thanh trượt
         priceRange.addEventListener("input", function() {
-            priceLabelText.innerHTML = "Up to đ " + formatter.format(this.value);
+            priceLabelText.innerHTML = "Lên đến " + formatter.format(this.value) + " đ";
         });
         deptTime.addEventListener("input", function() {
-            deptTimeLabel.innerHTML = "Departure 00:00 - " + formatTime(this.value);
+            deptTimeLabel.innerHTML = "Cất cánh 00:00 - " + formatTime(this.value);
         });
         arrTime.addEventListener("input", function() {
-            arrTimeLabel.innerHTML = "Arrival 00:00 - " + formatTime(this.value);
+            arrTimeLabel.innerHTML = "Hạ cánh 00:00 - " + formatTime(this.value);
         });
 
         // 1. THUẬT TOÁN LỌC (FILTERING)
@@ -644,6 +738,7 @@
             });
 
             const cards = document.querySelectorAll('.flight-card');
+            if (cards.length === 0) return;
             let visibleCount = 0;
 
             cards.forEach(card => {
@@ -677,7 +772,7 @@
                     noFlightMsg = document.createElement('div');
                     noFlightMsg.id = 'noFlightMsg';
                     noFlightMsg.className = 'alert alert-warning text-center py-5 mt-3 shadow-sm rounded-3 border-0';
-                    noFlightMsg.innerHTML = '<i class="fas fa-search-minus fa-3x mb-3 text-muted"></i><h5 class="fw-bold text-dark">No flights found</h5><p class="mb-0 text-muted">Try adjusting your filters.</p>';
+                    noFlightMsg.innerHTML = '<i class="fas fa-search-minus fa-3x mb-3 text-muted"></i><h5 class="fw-bold text-dark">Không tìm thấy chuyến bay</h5><p class="mb-0 text-muted">Hãy thử điều chỉnh bộ lọc của bạn.</p>';
                     document.getElementById('flightsListContainer').appendChild(noFlightMsg);
                 }
                 noFlightMsg.style.display = 'block';
@@ -728,6 +823,7 @@
         // 2. THUẬT TOÁN SẮP XẾP (SORTING)
         function sortFlights(sortType, dropdownText) {
             const container = document.getElementById('flightsListContainer');
+            if (!container) return;
             const cards = Array.from(container.querySelectorAll('.flight-card'));
 
             cards.sort((a, b) => {
@@ -762,7 +858,7 @@
             cards.forEach(card => container.appendChild(card));
 
             // Cập nhật text cho Nút Dropdown
-            document.getElementById('sortMenuButton').innerHTML = 'Sort by: ' + dropdownText + ' <i class="fas fa-chevron-down ms-2 text-muted"></i>';
+            if(document.getElementById('sortMenuButton')) document.getElementById('sortMenuButton').innerHTML = 'Sort by: ' + dropdownText + ' <i class="fas fa-chevron-down ms-2 text-muted"></i>';
         }
 
         // Gắn sự kiện click cho Tab Sắp xếp bên ngoài

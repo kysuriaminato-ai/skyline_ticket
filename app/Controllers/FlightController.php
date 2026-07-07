@@ -10,6 +10,11 @@ class FlightController extends Controller {
         $this->flightModel = $this->model('Flight');
     }
 
+    public function index() {
+        header("Location: " . BASEURL . "/flight/search");
+        exit();
+    }
+
     // Xử lý khi người dùng ấn nút Tìm kiếm từ trang chủ (URL: /flight/search)
     public function search() {
         // Nhận dữ liệu tìm kiếm từ form ở Trang chủ
@@ -26,6 +31,7 @@ class FlightController extends Controller {
         // Tham số bộ lọc (nếu có)
         $airlines = $_GET['airlines'] ?? [];
         $maxPrice = $_GET['max_price'] ?? 100000000;
+        $promo = $_GET['promo'] ?? '';
 
         $hasSearch = (!empty($departure) || !empty($destination) || !empty($departureDate));
 
@@ -49,7 +55,8 @@ class FlightController extends Controller {
                 'children' => $children,
                 'round_trip' => $roundTrip,
                 'airlines' => $airlines,
-                'max_price' => $maxPrice
+                'max_price' => $maxPrice,
+                'promo' => $promo
             ],
             'has_search' => $hasSearch
         ];

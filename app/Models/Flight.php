@@ -78,6 +78,62 @@ class Flight {
         $this->db->bind(':id', $flightId);
         return $this->db->execute();
     }
+
+    // Lấy Top điểm đến phổ biến dựa trên số lượng đặt vé
+    public function getTopDestinations($isDomestic = true, $limit = 6) {
+        $countryCondition = $isDomestic ? "AND f.destination LIKE '%Việt Nam%'" : "AND f.destination NOT LIKE '%Việt Nam%'";
+        
+        $sql = "
+            SELECT f.destination, COUNT(b.id) as bookings_count 
+            FROM flights f 
+            LEFT JOIN bookings b ON f.id = b.flight_id 
+            WHERE f.status = 1 $countryCondition
+            GROUP BY f.destination 
+            ORDER BY bookings_count DESC, f.id ASC 
+            LIMIT :limit
+        ";
+        $this->db->query($sql);
+        $this->db->bind(':limit', $limit);
+        return $this->db->resultSet();
+    }
+
+    // Gợi ý cá nhân hóa dựa trên điểm xuất phát thường xuyên của người dùng
+    public function getRecommendedDestinations($userId, $limit = 6) {
+        // Tìm điểm xuất phát đặt nhiều nhất của người dùng
+        $sql1 = "
+            SELECT f.departure, COUNT(b.id) as count 
+            FROM bookings b 
+            JOIN flights f ON b.flight_id = f.id 
+            WHERE b.user_id = :userId 
+            GROUP BY f.departure 
+            ORDER BY count DESC 
+            LIMIT 1
+        ";
+        $this->db->query($sql1);
+        $this->db->bind(':userId', $userId);
+        $favDeparture = $this->db->single();
+
+        if ($favDeparture) {
+            // Lấy điểm đến từ điểm xuất phát yêu thích
+            $sql2 = "
+                SELECT f.destination, COUNT(b.id) as bookings_count 
+                FROM flights f 
+                LEFT JOIN bookings b ON f.id = b.flight_id 
+                WHERE f.status = 1 AND f.departure = :departure
+                GROUP BY f.destination 
+                ORDER BY bookings_count DESC 
+                LIMIT :limit
+            ";
+            $this->db->query($sql2);
+            $this->db->bind(':departure', $favDeparture['departure']);
+            $this->db->bind(':limit', $limit);
+            return [
+                'departure' => $favDeparture['departure'],
+                'destinations' => $this->db->resultSet()
+            ];
+        }
+        return null;
+    }
 }
 ?>
 

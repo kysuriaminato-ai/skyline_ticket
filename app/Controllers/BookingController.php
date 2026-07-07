@@ -34,7 +34,8 @@ class BookingController extends Controller {
 
     public function checkout() {
         $flightId = $_GET['flight_id'] ?? null;
-        $class = $_GET['class'] ?? 'eco';
+        $class_name = $_GET['class_name'] ?? 'Phổ Thông Tiết Kiệm';
+        $price = isset($_GET['price']) ? (int)$_GET['price'] : 13200000;
         $adults = (int)($_GET['adults'] ?? 1);
         $children = (int)($_GET['children'] ?? 0);
 
@@ -43,8 +44,22 @@ class BookingController extends Controller {
             exit();
         }
 
-        $price_per_pax = ($class === 'biz') ? 60156000 : 13200000;
+        $price_per_pax = $price;
         $total_price = $price_per_pax * ($adults + $children);
+
+        $promo = $_GET['promo'] ?? '';
+        $promoName = '';
+        $discountAmount = 0;
+
+        if ($promo === 'summer2026') {
+            $promoName = 'Chào hè 2026 (-10%)';
+            $discountAmount = $total_price * 0.10;
+        } else if ($promo === 'family15' && ($adults + $children) >= 3) {
+            $promoName = 'Ưu đãi gia đình (-15%)';
+            $discountAmount = $total_price * 0.15;
+        }
+
+        $final_price = $total_price - $discountAmount;
 
         $data = [
             'title' => 'Thanh toán & Đặt vé - Skyline Ticket',
@@ -57,11 +72,14 @@ class BookingController extends Controller {
                 'arrival_time' => '2026-05-06 04:25:00'
             ],
             'info' => [
-                'class' => $class,
+                'class' => $class_name,
                 'adults' => $adults,
                 'children' => $children,
                 'price_per_pax' => $price_per_pax,
-                'total_price' => $total_price
+                'total_price' => $total_price,
+                'promo_name' => $promoName,
+                'discount_amount' => $discountAmount,
+                'final_price' => $final_price
             ]
         ];
 
@@ -81,10 +99,11 @@ class BookingController extends Controller {
             $contactPhone = $_POST['contact_phone'] ?? '';
             $contactEmail = $_POST['contact_email'] ?? '';
             
-            // Đóng gói thông tin Tiện ích (Gói hỗ trợ + Bảo hiểm)
+            // Đóng gói thông tin Tiện ích (Gói hỗ trợ + Bảo hiểm + Nâng hạng ghế)
             $addons = [
                 'support_tier' => $_POST['support_tier'] ?? 0,
-                'baggage_protection' => isset($_POST['baggage_protection']) ? 150000 : 0
+                'baggage_protection' => isset($_POST['baggage_protection']) ? 150000 : 0,
+                'seat_upgrade' => $_POST['seat_upgrade'] ?? 0
             ];
             $addonsJson = json_encode($addons);
             

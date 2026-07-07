@@ -1,0 +1,45 @@
+<?php
+// app/Controllers/AdminController.php
+
+require_once '../app/Core/Controller.php';
+
+class AdminController extends Controller {
+
+    public function __construct() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // BẢO MẬT: Phân quyền admin
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/index.php");
+            exit();
+        }
+    }
+
+    public function dashboard() {
+        // Load models
+        require_once '../app/Models/User.php';
+        require_once '../app/Models/Flight.php';
+        require_once '../app/Models/Booking.php';
+
+        $userModel = new User();
+        $flightModel = new Flight();
+        $bookingModel = new Booking();
+
+        $totalUsers = $userModel->getTotalUsers();
+        $totalFlights = $flightModel->getTotalFlights();
+        $totalBookings = $bookingModel->getTotalBookings();
+        $totalRevenue = 0;
+
+        $data = [
+            'title' => 'Dashboard - Quản trị hệ thống Skyline',
+            'totalUsers' => $totalUsers,
+            'totalFlights' => $totalFlights,
+            'totalBookings' => $totalBookings,
+            'totalRevenue' => $totalRevenue
+        ];
+
+        $this->view('admin/dashboard', $data);
+    }
+}

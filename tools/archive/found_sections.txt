@@ -1,0 +1,109 @@
+Created At: 2026-07-07T06:51:07Z
+Completed At: 2026-07-07T06:51:07Z
+File Path: `file:///c:/xampp/htdocs/skyline_ticket/app/Views/home/index.php`
+Total Lines: 1447
+Total Bytes: 109178
+Showing lines 150 to 250
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+150:             .mega-dropdown { flex-direction: column; width: 100vw; position: fixed; top: auto; bottom: 0; height: 70vh; border-radius: 20px 20px 0 0; z-index: 1050; }
+151:             .region-tabs { width: 100%; display: flex; overflow-x: auto; border-right: none; border-bottom: 1px solid #e0e0e0; }
+152:             .region-tab { white-space: nowrap; border-bottom: none; border-right: 1px solid #eee; }
+153:             .btn-swap { transform: translate(-50%, -50%) rotate(90deg); }
+154:             .btn-swap:hover { transform: translate(-50%, -50%) rotate(270deg); }
+155:             .quick-links { justify-content: flex-start; }
+156:             .quick-link-item { width: calc(50% - 15px); margin-bottom: 10px;}
+157:             .promo-popup { display: none; }
+158:         }
+159: 
+160:         /* EXTRA SERVICES ICONS */
+161:         .extra-services { margin: 30px -30px 0 -30px; border-top: 1px solid #e0e0e0; padding-top: 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0; background: transparent; position: relative; z-index: 1; }
+162:         .service-item { text-align: center; padding: 15px 10px; cursor: pointer; transition: all 0.3s; border-radius: 12px 12px 0 0; position: relative; overflow: hidden; flex: 1; background: transparent; border-bottom: 2px solid transparent; }
+163:         .service-item i { font-size: 26px; color: #0c3547; margin-bottom: 8px; transition: all 0.3s; }
+164:         .service-item span { display: block; font-size: 13px; font-weight: 800; color: #555; text-transform: uppercase; }
+165:         
+166:         .service-item:hover { background: #ffe0b2; transform: translateY(-2px); border-bottom-color: transparent; }
+167:         .service-item:hover i, .service-item:hover span { color: #0c3547; }
+168:         
+169:         .service-item.active { background: transparent; border-bottom: 3px solid #f39c12; text-decoration: none; }
+170:         .service-item.active i, .service-item.active span { color: #f39c12; }
+171:         .service-item.active:hover { background: #fff8eb; border-bottom-color: transparent; }
+172:         .service-item.active:hover i, .service-item.active:hover span { color: #f39c12; }
+173:         
+174:         .service-submenu { display: flex; background: rgba(255, 255, 255, 0.9); border-top: 1px solid #e0e0e0; padding: 15px 20px; border-radius: 0 0 16px 16px; margin-top: 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); }
+175:         .submenu-link { color: #555; text-decoration: none; font-size: 14px; font-weight: 700; margin-right: 25px; transition: all 0.3s; padding: 5px 0; border-bottom: 2px solid transparent; }
+176:         .submenu-link:hover, .submenu-link.active { color: #0c3547; border-bottom-color: #0c3547; }
+177:         
+178:         /* CATEGORIES SECTION */
+179:         .category-pill { text-align: center; text-decoration: none; color: #333; display: block; transition: transform 0.3s ease; }
+180:         .category-pill:hover { transform: translateY(-10px); }
+181:         .category-img-container { width: 120px; height: 180px; border-radius: 60px; overflow: hidden; margin: 0 auto 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+182:         .category-img-container img { width: 100%; height: 100%; object-fit: cover; }
+183:         .category-title { font-weight: 700; font-size: 15px; }
+184: 
+185:         /* CLIENT REVIEW SECTION */
+186:         .client-review-img { width: 320px; height: 320px; border-radius: 50%; object-fit: cover; border: 12px solid #fff; box-shadow: 0 15px 40px rgba(0,0,0,0.1); position: relative; z-index: 2; }
+187:         .review-quote-icon { font-size: 60px; background: -webkit-linear-gradient(135deg, #00e5ff, #0c3547); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+188:         .review-bg-circle { position: absolute; width: 380px; height: 380px; border-radius: 50%; background: #f0f6ff; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
+189: 
+190:         /* ================= SEARCH TOP AIRLINES ================= */
+191:         .top-airlines-section { background: #f8fbff; padding: 60px 0 70px; position: relative; overflow: hidden; }
+192:         .top-airlines-section::before { content: ''; position: absolute; top: -60px; left: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(161,196,253,0.15) 0%, transparent 70%); border-radius: 50%; }
+193:         .top-airlines-section::after { content: ''; position: absolute; bottom: -80px; right: -100px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(243,156,18,0.1) 0%, transparent 70%); border-radius: 50%; }
+194:         .section-badge { display: inline-block; background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%); color: #e67e22; font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+195:         .top-airlines-title { font-size: 32px; font-weight: 800; color: #0c3547; margin-bottom: 40px; }
+196: 
+197:         .airlines-carousel-wrapper { position: relative; padding: 0 50px; }
+198:         .airlines-carousel { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; padding: 10px 5px; }
+199:         .airlines-carousel::-webkit-scrollbar { display: none; }
+200: 
+201:         .airline-pill { display: flex; align-items: center; gap: 14px; background: white; border: 2px solid #e8eef5; border-radius: 50px; padding: 14px 28px 14px 16px; cursor: pointer; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; min-width: 220px; text-decoration: none; position: relative; overflow: hidden; }
+202:         .airline-pill::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: left 0.5s; }
+203:         .airline-pill:hover::before { left: 100%; }
+204:         .airline-pill:hover { border-color: #a1c4fd; background: linear-gradient(135deg, #f0f6ff 0%, #ffffff 100%); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(12,53,71,0.12); }
+205:         .airline-pill:active { transform: translateY(-2px); }
+206: 
+207:         .airline-logo-wrap { width: 48px; height: 48px; border-radius: 50%; background: #f0f4f8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; border: 2px solid #e8eef5; transition: all 0.3s; }
+208:         .airline-pill:hover .airline-logo-wrap { border-color: #a1c4fd; background: #e8f0fe; }
+209:         .airline-logo-wrap img { width: 32px; height: 32px; object-fit: contain; }
+210: 
+211:         .airline-name { font-weight: 700; font-size: 15px; color: #333; transition: color 0.3s; }
+212:         .airline-pill:hover .airline-name { color: #0c3547; }
+213: 
+214:         .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; background: white; border: 2px solid #e0e0e0; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: all 0.3s; color: #555; font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+215:         .carousel-arrow:hover { background: #0c3547; color: white; border-color: #0c3547; box-shadow: 0 6px 20px rgba(12,53,71,0.25); }
+216:         .carousel-arrow.left { left: 0; }
+217:         .carousel-arrow.right { right: 0; }
+218: 
+219:         @media (max-width: 768px) {
+220:             .airlines-carousel-wrapper { padding: 0 10px; }
+221:             .carousel-arrow { display: none; }
+222:             .airline-pill { min-width: 190px; padding: 12px 20px 12px 14px; }
+223:             .top-airlines-title { font-size: 24px; }
+224:         }
+225:     </style>
+226: </head>
+227: <body>
+228: 
+229:     <nav class="navbar navbar-expand-lg py-4">
+230:         <div class="container">
+231:             <a class="brand-logo" href="<?= BASEURL ?>/home">SKYLINE<span>TICKET</span></a>
+232:             <div class="d-flex align-items-center ms-auto">
+233:                 <div class="dropdown me-3">
+234:                     <button class="btn btn-outline-light dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" style="border:none;">
+235:                         <i class="fas fa-globe"></i> <?= ($_SESSION['lang'] ?? 'vi') === 'vi' ? 'VN' : 'EN' ?>
+236:                     </button>
+237:                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="min-width: 100px;">
+238:                         <li><a class="dropdown-item py-2 fw-bold" href="<?= BASEURL ?>/lang/change/vi"><img src="https://flagcdn.com/w20/vn.png" class="me-2"> VN</a></li>
+239:                         <li><a class="dropdown-item py-2 fw-bold" href="<?= BASEURL ?>/lang/change/en"><img src="https://flagcdn.com/w20/us.png" class="me-2"> EN</a></li>
+240:                     </ul>
+241:                 </div>
+242: 
+243:                 <div class="d-flex align-items-center ms-3">
+244:                     <?php if (isset($_SESSION['user_name'])): ?>
+245:                         <span class="me-3 fw-bold text-white fs-5" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.7);"><i class="fas fa-user-circle"></i> <?= __('header.welcome') ?> <?= htmlspecialchars($_SESSION['user_name']) ?></span>
+246:                         
+247:                         <!-- NÚT TRANG QUẢN TRỊ HIỂN THỊ NẾU LÀ ADMIN HOẶC STAFF -->
+248:                         <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
+249:                             <a href="<?= BASEURL ?>/admin/dashboard" class="btn btn-sm btn-primary-custom me-3 py-1 px-2" style="font-size: 12px;">
+250:                                 <i class="fas fa-cogs"></i> Trang Quản trị
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

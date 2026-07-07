@@ -12,6 +12,7 @@ require_once ROOT_DIR . '/app/config/config.php';
 require_once ROOT_DIR . '/app/Core/Database.php';
 require_once ROOT_DIR . '/app/Core/Controller.php';
 require_once ROOT_DIR . '/app/Core/App.php';
+require_once ROOT_DIR . '/app/Helpers/language_helper.php';
 
 // Khởi chạy ứng dụng
 $app = new App();
