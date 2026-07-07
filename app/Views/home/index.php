@@ -984,10 +984,7 @@
                     <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=200&q=80" alt="Núi rừng">
                     <span>Núi rừng</span>
                 </a>
-                <a href="javascript:void(0)" onclick="selectCategoryDest('Delhi (DEL)')" class="cat-item">
-                    <img src="https://images.unsplash.com/photo-1564507592227-0b115ff664c1?auto=format&fit=crop&w=200&q=80" alt="Đền đài">
-                    <span>Đền đài</span>
-                </a>
+
                 <a href="javascript:void(0)" onclick="selectCategoryDest('Dubai (DXB)')" class="cat-item">
                     <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=200&q=80" alt="Sa mạc">
                     <span>Sa mạc</span>
@@ -1051,10 +1048,7 @@
                     <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=400&q=80" alt="Phú Quốc">
                     <div class="info"><h6>Phú Quốc</h6><small>8.124 chuyến bay</small></div>
                 </a>
-                <a href="<?= BASEURL ?>/flight/search?departure=&destination=Hà Nội (HAN)<?= $defaultParams ?>" class="dest-card-glass" data-tags="all family">
-                    <img src="https://images.unsplash.com/photo-1555921015-c262060f78bd?auto=format&fit=crop&w=400&q=80" alt="Hà Nội">
-                    <div class="info"><h6>Hà Nội</h6><small>10.744 chuyến bay</small></div>
-                </a>
+
                 <a href="<?= BASEURL ?>/flight/search?departure=&destination=TP Hồ Chí Minh (SGN)<?= $defaultParams ?>" class="dest-card-glass" data-tags="all cheap family">
                     <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=400&q=80" alt="Hồ Chí Minh">
                     <div class="info"><h6>Hồ Chí Minh</h6><small>15.546 chuyến bay</small></div>
