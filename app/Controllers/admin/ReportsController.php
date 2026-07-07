@@ -8,6 +8,11 @@ class ReportsController extends Controller {
     private $paymentModel;
 
     public function __construct() {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/auth/login");
+            exit();
+        }
+
         // CHẶN STAFF: Nếu không phải admin thì đẩy về trang bán vé
         if ($_SESSION['role'] !== 'admin') {
             header("Location: " . BASEURL . "/admin/bookingmanager");

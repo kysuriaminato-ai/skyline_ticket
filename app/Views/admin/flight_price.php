@@ -17,7 +17,7 @@ require_once '../app/Views/layouts/header.php';
                     <input type="number" class="form-control" id="price" name="price" value="<?php echo $data['flight']['price']; ?>" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
-                <a href="/admin/flightmanager" class="btn btn-secondary">Hủy</a>
+                <a href="<?= BASEURL ?>/admin/flightmanager" class="btn btn-secondary">Hủy</a>
             </form>
         </div>
     </div>

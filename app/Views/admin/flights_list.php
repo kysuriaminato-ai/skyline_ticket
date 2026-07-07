@@ -4,7 +4,14 @@ require_once '../app/Views/layouts/admin_header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="h3 mb-0 text-gray-800 fw-bold"><i class="fas fa-plane me-2 text-primary"></i> Danh sách Chuyến bay</h2>
+    <div class="d-flex align-items-center">
+        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="<?= BASEURL ?>/admin/dashboard" class="btn btn-outline-secondary btn-sm me-3 shadow-sm rounded-pill">
+                <i class="fas fa-arrow-left"></i> Quay lại Dashboard
+            </a>
+        <?php endif; ?>
+        <h2 class="h3 mb-0 text-gray-800 fw-bold"><i class="fas fa-plane me-2 text-primary"></i> Danh sách Chuyến bay</h2>
+    </div>
     
     <!-- CHỈ ADMIN MỚI THẤY NÚT THÊM CHUYẾN BAY -->
     <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>

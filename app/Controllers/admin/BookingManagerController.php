@@ -6,6 +6,11 @@ class BookingManagerController extends Controller {
     private $paymentModel;
 
     public function __construct() {
+        if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'staff')) {
+            header("Location: " . BASEURL . "/auth/login");
+            exit();
+        }
+
         // Cả Admin và Staff đều được vào đây để bán vé (Không có lệnh if chặn)
         $this->bookingModel = $this->model('Booking');
         $this->paymentModel = $this->model('Payment');

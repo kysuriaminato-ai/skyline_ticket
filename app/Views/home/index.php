@@ -1052,7 +1052,7 @@
                     <div class="info"><h6>Phú Quốc</h6><small>8.124 chuyến bay</small></div>
                 </a>
                 <a href="<?= BASEURL ?>/flight/search?departure=&destination=Hà Nội (HAN)<?= $defaultParams ?>" class="dest-card-glass" data-tags="all family">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/ThapRua.jpg/640px-ThapRua.jpg" alt="Hà Nội">
+                    <img src="https://images.unsplash.com/photo-1555921015-c262060f78bd?auto=format&fit=crop&w=400&q=80" alt="Hà Nội">
                     <div class="info"><h6>Hà Nội</h6><small>10.744 chuyến bay</small></div>
                 </a>
                 <a href="<?= BASEURL ?>/flight/search?departure=&destination=TP Hồ Chí Minh (SGN)<?= $defaultParams ?>" class="dest-card-glass" data-tags="all cheap family">

@@ -94,7 +94,7 @@ require_once '../app/Views/layouts/admin_header.php';
 </div>
 
 <div class="mt-4">
-    <a href="/admin/reports/detailed" class="btn btn-primary"><i class="fas fa-bars"></i> Xem Báo cáo Chi tiết</a>
+    <a href="<?= BASEURL ?>/admin/reports/detailed" class="btn btn-primary"><i class="fas fa-bars"></i> Xem Báo cáo Chi tiết</a>
 </div>
 
 <?php

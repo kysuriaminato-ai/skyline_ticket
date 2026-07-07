@@ -30,14 +30,18 @@ class AdminController extends Controller {
         $totalUsers = $userModel->getTotalUsers();
         $totalFlights = $flightModel->getTotalFlights();
         $totalBookings = $bookingModel->getTotalBookings();
-        $totalRevenue = 0;
+        $totalRevenue = $bookingModel->getTotalRevenue();
+        $recentBookings = $bookingModel->getRecentBookings(4);
+        $monthlyReport = $bookingModel->getMonthlyBookingsReport();
 
         $data = [
             'title' => 'Dashboard - Quản trị hệ thống Skyline',
             'totalUsers' => $totalUsers,
             'totalFlights' => $totalFlights,
             'totalBookings' => $totalBookings,
-            'totalRevenue' => $totalRevenue
+            'totalRevenue' => $totalRevenue,
+            'recentBookings' => $recentBookings,
+            'monthlyReport' => $monthlyReport
         ];
 
         $this->view('admin/dashboard', $data);

@@ -29,9 +29,9 @@ require_once '../app/Views/layouts/admin_header.php';
                         <td><span class="badge bg-success"><?php echo number_format($booking['total_price']); ?> VND</span></td>
                         <td><span class="badge bg-info"><?php echo $booking['status'] ?? 'pending'; ?></span></td>
                         <td>
-                            <a href="/admin/bookingmanager/viewDetail/<?php echo $booking['id']; ?>" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
-                            <a href="/admin/bookingmanager/edit/<?php echo $booking['id']; ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                            <a href="/admin/bookingmanager/delete/<?php echo $booking['id']; ?>" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                            <a href="<?= BASEURL ?>/admin/bookingmanager/viewDetail/<?php echo $booking['id']; ?>" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                            <a href="<?= BASEURL ?>/admin/bookingmanager/edit/<?php echo $booking['id']; ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="<?= BASEURL ?>/admin/bookingmanager/delete/<?php echo $booking['id']; ?>" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -21,14 +21,12 @@
 
                     <!-- Khung chứa ảnh QR -->
                     <div class="p-3 border rounded-4 d-inline-block bg-light mb-4 shadow-sm">
-                        <?php 
-                        // API tự động tạo mã VietQR theo số tiền
-                        $qrAmount = $data['booking']['total_price'];
-                        $qrInfo = "THANH TOAN VE " . $data['booking']['booking_code'];
-                        // Dùng 1 ngân hàng giả lập, ở đây ví dụ MBBank, STK: 0123456789
-                        $qrUrl = "https://img.vietqr.io/image/mbbank-0123456789-compact2.png?amount={$qrAmount}&addInfo=" . urlencode($qrInfo) . "&accountName=SKYLINE%20TICKET";
-                        ?>
-                        <img src="<?= $qrUrl ?>" alt="QR Code" class="img-fluid" style="max-width: 250px;">
+                        <img src="<?= BASEURL ?>/assets/images/qr-payment.jpg" alt="QR Code Thanh Toán" class="img-fluid" style="max-width: 300px; border-radius: 12px;">
+                        <div class="mt-3 small text-muted">
+                            <p class="mb-1"><strong>Ngân hàng:</strong> Techcombank</p>
+                            <p class="mb-1"><strong>Chủ tài khoản:</strong> MAI THANH THU</p>
+                            <p class="mb-0"><strong>Số tài khoản:</strong> 1907 2314 1040 15</p>
+                        </div>
                     </div>
 
                     <!-- Nút xác nhận giả lập thanh toán -->

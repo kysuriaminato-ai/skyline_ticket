@@ -20,7 +20,7 @@ require_once '../app/Views/layouts/header.php';
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
-                <a href="/admin/usermanager" class="btn btn-secondary">Hủy</a>
+                <a href="<?= BASEURL ?>/admin/usermanager" class="btn btn-secondary">Hủy</a>
             </form>
         </div>
     </div>

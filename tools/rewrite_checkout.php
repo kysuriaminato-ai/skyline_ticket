@@ -1,3 +1,5 @@
+<?php
+$content = <<<HTML
 <?php require_once '../app/Views/layouts/header.php'; ?>
 
 <style>
@@ -108,21 +110,21 @@
             <div class="checkout-section" style="border-left: 5px solid #0071c2;">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="fw-bold mb-1"><?= $data['flight']['departure'] ?> <i class="fas fa-arrow-right mx-2 text-muted fs-5"></i> <?= $data['flight']['destination'] ?></h4>
-                        <p class="text-muted mb-0"><i class="far fa-calendar-alt me-2"></i><?= date('d/m/Y', strtotime($data['flight']['departure_time'])) ?> | Hạng vé: <strong class="text-primary"><?= htmlspecialchars($data['info']['class']) ?></strong></p>
+                        <h4 class="fw-bold mb-1"><?= \$data['flight']['departure'] ?> <i class="fas fa-arrow-right mx-2 text-muted fs-5"></i> <?= \$data['flight']['destination'] ?></h4>
+                        <p class="text-muted mb-0"><i class="far fa-calendar-alt me-2"></i><?= date('d/m/Y', strtotime(\$data['flight']['departure_time'])) ?> | Hạng vé: <strong class="text-primary"><?= htmlspecialchars(\$data['info']['class']) ?></strong></p>
                     </div>
                     <div class="text-end">
-                        <span class="badge bg-light text-primary border p-2 fs-6"><?= $data['flight']['flight_code'] ?? 'VN 273' ?></span>
+                        <span class="badge bg-light text-primary border p-2 fs-6"><?= \$data['flight']['flight_code'] ?? 'VN 273' ?></span>
                     </div>
                 </div>
             </div>
 
             <form id="checkoutForm" action="<?= BASEURL ?>/booking/process" method="POST" onsubmit="return handleFormSubmit(event)">
-                <input type="hidden" name="flight_id" value="<?= $data['flight']['id'] ?>">
-                <input type="hidden" name="base_price" id="basePriceInput" value="<?= $data['info']['final_price'] ?? $data['info']['total_price'] ?>">
-                <input type="hidden" name="total_price" id="finalPriceInput" value="<?= $data['info']['final_price'] ?? $data['info']['total_price'] ?>">
-                <input type="hidden" name="adults" value="<?= $data['info']['adults'] ?>">
-                <input type="hidden" name="children" value="<?= $data['info']['children'] ?>">
+                <input type="hidden" name="flight_id" value="<?= \$data['flight']['id'] ?>">
+                <input type="hidden" name="base_price" id="basePriceInput" value="<?= \$data['info']['final_price'] ?? \$data['info']['total_price'] ?>">
+                <input type="hidden" name="total_price" id="finalPriceInput" value="<?= \$data['info']['final_price'] ?? \$data['info']['total_price'] ?>">
+                <input type="hidden" name="adults" value="<?= \$data['info']['adults'] ?>">
+                <input type="hidden" name="children" value="<?= \$data['info']['children'] ?>">
 
                 <!-- ================= BƯỚC 1: THÔNG TIN ================= -->
                 <div id="step-1-content">
@@ -133,7 +135,7 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Họ và Tên *</label>
-                                <input type="text" class="form-control" name="contact_name" id="contact_name" value="<?= $_SESSION['user_name'] ?? '' ?>" autocomplete="name" required>
+                                <input type="text" class="form-control" name="contact_name" id="contact_name" value="<?= \$_SESSION['user_name'] ?? '' ?>" autocomplete="name" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Điện thoại di động *</label>
@@ -142,7 +144,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label fw-bold">Email ID *</label>
-                                <input type="email" class="form-control" name="contact_email" id="contact_email" placeholder="VD: email@example.com" value="<?= $_SESSION['user_email'] ?? '' ?>" autocomplete="email" required>
+                                <input type="email" class="form-control" name="contact_email" id="contact_email" placeholder="VD: email@example.com" value="<?= \$_SESSION['user_email'] ?? '' ?>" autocomplete="email" required>
                             </div>
                         </div>
                         
@@ -159,40 +161,21 @@
                         <div class="section-title"><i class="fas fa-user-friends"></i> Hành khách (Người lớn, từ 18 tuổi trở lên)</div>
                         <p class="text-muted small mb-3 text-danger"><i class="fas fa-exclamation-triangle"></i> Thông tin hành khách phải trùng khớp với hộ chiếu hoặc giấy tờ tùy thân.</p>
                         
-                        <?php for($i = 1; $i <= $data['info']['adults']; $i++): ?>
+                        <?php for(\$i = 1; \$i <= \$data['info']['adults']; \$i++): ?>
                             <div class="p-3 bg-light rounded-3 mb-3 border passenger-card">
-                                <h6 class="fw-bold mb-3 text-primary">Hành khách <?= $i ?></h6>
+                                <h6 class="fw-bold mb-3 text-primary">Hành khách <?= \$i ?></h6>
                                 <div class="row g-2">
                                     <div class="col-md-4">
                                         <label class="form-label small fw-bold">Họ (vd: Nguyễn) *</label>
-                                        <input type="text" class="form-control pax-last-name" id="pax_last_<?= $i ?>" name="passengers[<?= $i ?>][last_name]" required>
+                                        <input type="text" class="form-control pax-last-name" id="pax_last_<?= \$i ?>" name="passengers[<?= \$i ?>][last_name]" required>
                                     </div>
                                     <div class="col-md-8">
                                         <label class="form-label small fw-bold">Tên & Tên đệm *</label>
-                                        <input type="text" class="form-control pax-first-name" id="pax_first_<?= $i ?>" name="passengers[<?= $i ?>][first_name]" required>
+                                        <input type="text" class="form-control pax-first-name" id="pax_first_<?= \$i ?>" name="passengers[<?= \$i ?>][first_name]" required>
                                     </div>
                                 </div>
                             </div>
                         <?php endfor; ?>
-
-                        <?php if (isset($data['info']['children']) && $data['info']['children'] > 0): ?>
-                            <div class="section-title mt-4"><i class="fas fa-child"></i> Hành khách (Trẻ em, dưới 18 tuổi)</div>
-                            <?php for($j = 1; $j <= $data['info']['children']; $j++): ?>
-                                <div class="p-3 bg-light rounded-3 mb-3 border passenger-card">
-                                    <h6 class="fw-bold mb-3 text-info">Trẻ em <?= $j ?></h6>
-                                    <div class="row g-2">
-                                        <div class="col-md-4">
-                                            <label class="form-label small fw-bold">Họ (vd: Nguyễn) *</label>
-                                            <input type="text" class="form-control pax-last-name" name="children[<?= $j ?>][last_name]" required>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <label class="form-label small fw-bold">Tên & Tên đệm *</label>
-                                            <input type="text" class="form-control pax-first-name" name="children[<?= $j ?>][first_name]" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endfor; ?>
-                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -267,18 +250,18 @@
                     <h5 class="fw-bold mb-4 d-none d-lg-block" style="color: #0071c2;">Chi tiết giá</h5>
                     
                     <div class="summary-row">
-                        <span>Hành khách (<?= $data['info']['adults'] ?> Người lớn<?= (isset($data['info']['children']) && $data['info']['children'] > 0) ? ', ' . $data['info']['children'] . ' Trẻ em' : '' ?>)</span>
-                        <span class="fw-bold"><?= number_format($data['info']['total_price'], 0, ',', '.') ?> đ</span>
+                        <span>Hành khách (<?= \$data['info']['adults'] ?> Người lớn)</span>
+                        <span class="fw-bold"><?= number_format(\$data['info']['total_price']) ?> đ</span>
                     </div>
                     
-                    <?php if (isset($data['info']['discount_amount']) && $data['info']['discount_amount'] > 0): ?>
+                    <?php if (isset(\$data['info']['discount_amount']) && \$data['info']['discount_amount'] > 0): ?>
                     <div class="summary-row text-success border-bottom pb-2 mb-3">
-                        <span><i class="fas fa-tag me-1"></i> <?= $data['info']['promo_name'] ?></span>
-                        <span class="fw-bold">-<?= number_format($data['info']['discount_amount'], 0, ',', '.') ?> đ</span>
+                        <span><i class="fas fa-tag me-1"></i> <?= \$data['info']['promo_name'] ?></span>
+                        <span class="fw-bold">-<?= number_format(\$data['info']['discount_amount']) ?> đ</span>
                     </div>
                     <div class="summary-row">
                         <span>Thành tiền sau giảm</span>
-                        <span class="fw-bold" id="displayBasePrice"><?= number_format($data['info']['final_price'], 0, ',', '.') ?> đ</span>
+                        <span class="fw-bold" id="displayBasePrice"><?= number_format(\$data['info']['final_price']) ?> đ</span>
                     </div>
                     <?php endif; ?>
                     
@@ -300,7 +283,7 @@
                 
                 <div class="total-row">
                     <h5 class="fw-bold mb-0 text-dark">Tổng cộng</h5>
-                    <h3 class="fw-bold text-danger mb-0" id="displayTotalPrice"><?= number_format($data['info']['final_price'] ?? $data['info']['total_price'], 0, ',', '.') ?> đ</h3>
+                    <h3 class="fw-bold text-danger mb-0" id="displayTotalPrice"><?= number_format(\$data['info']['final_price'] ?? \$data['info']['total_price']) ?> đ</h3>
                 </div>
                 
                 <div class="mt-3">
@@ -385,7 +368,7 @@
     }
 
     // ================= TÍNH TOÁN TIỆN ÍCH =================
-    const basePrice = <?= $data['info']['final_price'] ?? $data['info']['total_price'] ?>;
+    const basePrice = <?= \$data['info']['final_price'] ?? \$data['info']['total_price'] ?>;
     
     function updateTier(radioElement) {
         document.querySelectorAll('.upgrade-card').forEach(card => {
@@ -440,3 +423,7 @@
 </script>
 
 <?php require_once '../app/Views/layouts/footer.php'; ?>
+HTML;
+
+file_put_contents('app/Views/booking/checkout.php', $content);
+echo "checkout.php rewritten successfully.\n";

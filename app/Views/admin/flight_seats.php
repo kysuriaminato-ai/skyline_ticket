@@ -22,7 +22,7 @@ require_once '../app/Views/layouts/header.php';
                     <input type="number" class="form-control" id="available_seats" name="available_seats" value="<?php echo $data['flight']['available_seats']; ?>" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
-                <a href="/admin/flightmanager" class="btn btn-secondary">Hủy</a>
+                <a href="<?= BASEURL ?>/admin/flightmanager" class="btn btn-secondary">Hủy</a>
             </form>
         </div>
     </div>
