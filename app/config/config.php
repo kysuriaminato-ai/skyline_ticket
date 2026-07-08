@@ -9,7 +9,13 @@ define('DB_NAME', 'skyline_ticket');
 
 // 2. Cấu hình URL gốc
 // Đảm bảo đường dẫn này khớp với thư mục của bạn trên XAMPP
-define('BASEURL', 'http://localhost/skyline_ticket/public');
+$protocol = 'http';
+if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || 
+    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+    $protocol = 'https';
+}
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+define('BASEURL', $protocol . '://' . $host . '/skyline_ticket/public');
 
 // Các cấu hình khác có thể thêm ở đây sau
 ?>

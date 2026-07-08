@@ -432,6 +432,11 @@
                         </a>
                     <?php endif; ?>
 
+                    <!-- NÚT LỊCH SỬ THANH TOÁN CHO NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP -->
+                    <a href="<?= BASEURL ?>/booking/history" class="btn fw-bold me-2" style="background-color: #28a745; border: none; color: #fff;">
+                        <i class="fas fa-history"></i> Lịch sử thanh toán
+                    </a>
+
                     <a href="<?= BASEURL ?>/auth/logout" class="btn btn-outline-light">Đăng xuất</a>
                 <?php else: ?>
                     <a href="<?= BASEURL ?>/auth/login" class="btn btn-outline-light me-2 fw-bold px-4">Đăng nhập</a>

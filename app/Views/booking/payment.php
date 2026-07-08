@@ -21,7 +21,15 @@
 
                     <!-- Khung chứa ảnh QR -->
                     <div class="p-3 border rounded-4 d-inline-block bg-light mb-4 shadow-sm">
-                        <img src="<?= BASEURL ?>/assets/images/qr-payment.jpg" alt="QR Code Thanh Toán" class="img-fluid" style="max-width: 300px; border-radius: 12px;">
+                        <?php 
+                            $bankBin = "TCB"; // Techcombank
+                            $accNo = "19072314104015";
+                            $accName = "MAI THANH THU";
+                            $amount = $data['booking']['total_price'];
+                            $desc = "Thanh toan Skyline " . $data['booking']['booking_code'];
+                            $qrUrl = "https://img.vietqr.io/image/{$bankBin}-{$accNo}-compact2.jpg?amount={$amount}&addInfo=" . urlencode($desc) . "&accountName=" . urlencode($accName);
+                        ?>
+                        <img src="<?= $qrUrl ?>" alt="QR Code Thanh Toán" class="img-fluid" style="max-width: 300px; border-radius: 12px;">
                         <div class="mt-3 small text-muted">
                             <p class="mb-1"><strong>Ngân hàng:</strong> Techcombank</p>
                             <p class="mb-1"><strong>Chủ tài khoản:</strong> MAI THANH THU</p>

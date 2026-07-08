@@ -56,7 +56,7 @@ require_once '../app/Views/layouts/header.php';
                     <td><?php echo $payment['amount']; ?></td>
                     <td><?php echo $payment['payment_method']; ?></td>
                     <td><?php echo $payment['status']; ?></td>
-                    <td><?php echo $payment['created_at']; ?></td>
+                    <td><?php echo $payment['payment_date']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

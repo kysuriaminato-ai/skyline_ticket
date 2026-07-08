@@ -251,6 +251,87 @@
                             </div>
                             <i class="fas fa-shield-alt fa-3x text-success opacity-25"></i>
                         </label>
+
+                        <!-- Chọn trước chỗ ngồi (Seat Upgrade) -->
+                        <div class="bg-white p-4 rounded-3 border mt-4 shadow-sm">
+                            <h5 class="fw-bold mb-1">Nâng hạng ghế (Tận hưởng chuyến bay theo cách riêng)</h5>
+                            <p class="text-muted small mb-4">Lựa chọn vị trí ngồi thoải mái nhất cho chuyến hành trình của bạn.</p>
+                            
+                            <div class="upgrade-container">
+                                <!-- Ghế tiêu chuẩn -->
+                                <label class="upgrade-card selected" id="card-seat-basic">
+                                    <input type="radio" style="display: none;" name="seat_upgrade" value="0" data-name="Ghế tiêu chuẩn" checked onchange="updateSeat(this)">
+                                    <div class="upgrade-title">Tiêu chuẩn</div>
+                                    <div class="upgrade-price">0 đ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Khoảng cách ghế 79cm</div>
+                                    <div class="upgrade-feature text-muted"><i class="fas fa-check text-success"></i> Tự động khi check-in</div>
+                                    <div class="btn-select-tier mt-4 btn-select-seat">Đã chọn</div>
+                                </label>
+                                <!-- Ghế ưu tiên -->
+                                <label class="upgrade-card" id="card-seat-priority">
+                                    <input type="radio" style="display: none;" name="seat_upgrade" value="150000" data-name="Ghế ưu tiên" onchange="updateSeat(this)">
+                                    <div class="upgrade-title">Ưu tiên</div>
+                                    <div class="upgrade-price">150.000 đ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Vị trí gần phía trước cabin</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Ra máy bay nhanh hơn</div>
+                                    <div class="btn-select-tier mt-4 btn-select-seat">Chọn</div>
+                                </label>
+                                <!-- Ghế hàng đầu -->
+                                <label class="upgrade-card" id="card-seat-front" style="border-color: #c3e6cb;">
+                                    <div class="badge-popular"><i class="fas fa-star me-1"></i> Vip</div>
+                                    <input type="radio" style="display: none;" name="seat_upgrade" value="350000" data-name="Ghế hàng đầu" onchange="updateSeat(this)">
+                                    <div class="upgrade-title">Hàng đầu</div>
+                                    <div class="upgrade-price">350.000 đ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Không gian để chân tăng 50%</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Ưu tiên phục vụ đồ uống</div>
+                                    <div class="btn-select-tier mt-4 btn-select-seat">Chọn</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Bảo hiểm Du lịch -->
+                        <div class="bg-white p-4 rounded-3 border mt-4 shadow-sm">
+                            <h5 class="fw-bold mb-1">Các Gói Bảo Hiểm Du Lịch</h5>
+                            <p class="text-muted small mb-4">Lựa chọn gói bảo vệ phù hợp với nhu cầu của chuyến đi.</p>
+                            
+                            <div class="upgrade-container">
+                                <!-- Không bảo hiểm -->
+                                <label class="upgrade-card selected" id="card-ins-none">
+                                    <input type="radio" style="display: none;" name="insurance" value="0" data-name="Không bảo hiểm" onchange="updateInsurance(this)" checked>
+                                    <div class="upgrade-title">Không bảo hiểm</div>
+                                    <div class="upgrade-price">0 đ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-times text-secondary"></i> Tự chịu rủi ro chuyến đi</div>
+                                    <div class="btn-select-tier mt-4 btn-select-ins">Đã chọn</div>
+                                </label>
+                                <!-- Trễ chuyến bay -->
+                                <label class="upgrade-card" id="card-ins-delay">
+                                    <input type="radio" style="display: none;" name="insurance" value="49000" data-name="Trễ chuyến bay" onchange="updateInsurance(this)">
+                                    <div class="upgrade-title">Trễ chuyến bay</div>
+                                    <div class="upgrade-price">49.000 đ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Bồi thường 1tr5</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Hỗ trợ ăn ở</div>
+                                    <div class="btn-select-tier mt-4 btn-select-ins">Chọn</div>
+                                </label>
+                                <!-- An tâm hành lý -->
+                                <label class="upgrade-card" id="card-ins-baggage" style="border-color: #c3e6cb;">
+                                    <div class="badge-popular"><i class="fas fa-thumbs-up me-1"></i> Phổ biến</div>
+                                    <input type="radio" style="display: none;" name="insurance" value="89000" data-name="An Tâm Hành Lý" onchange="updateInsurance(this)">
+                                    <div class="upgrade-title">An Tâm Hành Lý</div>
+                                    <div class="upgrade-price">89.000 đ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Bồi thường đến 15tr</div>
+                                    <div class="btn-select-tier mt-4 btn-select-ins">Chọn</div>
+                                </label>
+                                <!-- Y tế toàn diện -->
+                                <label class="upgrade-card" id="card-ins-medical">
+                                    <input type="radio" style="display: none;" name="insurance" value="199000" data-name="Y Tế Toàn Diện" onchange="updateInsurance(this)">
+                                    <div class="upgrade-title">Y Tế Toàn Diện</div>
+                                    <div class="upgrade-price">199.000 đ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Y tế đến 2 Tỷ</div>
+                                    <div class="upgrade-feature"><i class="fas fa-check text-success"></i> Bao gồm tất cả</div>
+                                    <div class="btn-select-tier mt-4 btn-select-ins">Chọn</div>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -285,6 +366,16 @@
                     <div class="summary-row text-primary" id="rowSupportTier" style="display: none;">
                         <span id="nameSupportTier">Gói hỗ trợ</span>
                         <span class="fw-bold" id="priceSupportTier">0 đ</span>
+                    </div>
+
+                    <div class="summary-row text-primary" id="rowSeatUpgrade" style="display: none;">
+                        <span id="nameSeatUpgrade">Nâng hạng ghế</span>
+                        <span class="fw-bold" id="priceSeatUpgrade">0 đ</span>
+                    </div>
+
+                    <div class="summary-row text-primary" id="rowInsurance" style="display: none;">
+                        <span id="nameInsurance">Bảo hiểm</span>
+                        <span class="fw-bold" id="priceInsurance">0 đ</span>
                     </div>
                     
                     <div class="summary-row text-primary" id="rowBaggage" style="display: none;">
@@ -400,15 +491,51 @@
         calculateTotal();
     }
 
+    function updateSeat(radioElement) {
+        document.querySelectorAll('input[name="seat_upgrade"]').forEach(el => {
+            const card = el.closest('.upgrade-card');
+            card.classList.remove('selected');
+            card.querySelector('.btn-select-seat').innerText = 'Chọn';
+        });
+        
+        const parentCard = radioElement.closest('.upgrade-card');
+        parentCard.classList.add('selected');
+        parentCard.querySelector('.btn-select-seat').innerText = 'Đã chọn';
+        
+        calculateTotal();
+    }
+
+    function updateInsurance(radioElement) {
+        document.querySelectorAll('input[name="insurance"]').forEach(el => {
+            const card = el.closest('.upgrade-card');
+            card.classList.remove('selected');
+            card.querySelector('.btn-select-ins').innerText = 'Chọn';
+        });
+        
+        const parentCard = radioElement.closest('.upgrade-card');
+        parentCard.classList.add('selected');
+        parentCard.querySelector('.btn-select-ins').innerText = 'Đã chọn';
+        
+        calculateTotal();
+    }
+
     function calculateTotal() {
         const selectedTier = document.querySelector('input[name="support_tier"]:checked');
         const tierPrice = parseInt(selectedTier.value);
         const tierName = selectedTier.getAttribute('data-name');
         
+        const selectedSeat = document.querySelector('input[name="seat_upgrade"]:checked');
+        const seatPrice = parseInt(selectedSeat.value);
+        const seatName = selectedSeat.getAttribute('data-name');
+        
+        const selectedIns = document.querySelector('input[name="insurance"]:checked');
+        const insPrice = parseInt(selectedIns.value);
+        const insName = selectedIns.getAttribute('data-name');
+
         const isBaggageChecked = document.getElementById('baggageCheck').checked;
         const baggagePrice = isBaggageChecked ? 150000 : 0;
         
-        const finalPrice = basePrice + tierPrice + baggagePrice;
+        const finalPrice = basePrice + tierPrice + seatPrice + insPrice + baggagePrice;
         const formatter = new Intl.NumberFormat('vi-VN');
         
         document.getElementById('finalPriceInput').value = finalPrice;
@@ -417,10 +544,28 @@
         const rowTier = document.getElementById('rowSupportTier');
         if (tierPrice > 0) {
             rowTier.style.display = 'flex';
-            document.getElementById('nameSupportTier').innerText = 'Tiện ích: ' + tierName;
+            document.getElementById('nameSupportTier').innerText = 'Hỗ trợ: ' + tierName;
             document.getElementById('priceSupportTier').innerText = '+' + formatter.format(tierPrice) + ' đ';
         } else {
             rowTier.style.display = 'none';
+        }
+
+        const rowSeat = document.getElementById('rowSeatUpgrade');
+        if (seatPrice > 0) {
+            rowSeat.style.display = 'flex';
+            document.getElementById('nameSeatUpgrade').innerText = 'Ghế: ' + seatName;
+            document.getElementById('priceSeatUpgrade').innerText = '+' + formatter.format(seatPrice) + ' đ';
+        } else {
+            rowSeat.style.display = 'none';
+        }
+
+        const rowIns = document.getElementById('rowInsurance');
+        if (insPrice > 0) {
+            rowIns.style.display = 'flex';
+            document.getElementById('nameInsurance').innerText = 'Bảo hiểm: ' + insName;
+            document.getElementById('priceInsurance').innerText = '+' + formatter.format(insPrice) + ' đ';
+        } else {
+            rowIns.style.display = 'none';
         }
         
         document.getElementById('rowBaggage').style.display = isBaggageChecked ? 'flex' : 'none';

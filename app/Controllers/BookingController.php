@@ -99,11 +99,12 @@ class BookingController extends Controller {
             $contactPhone = $_POST['contact_phone'] ?? '';
             $contactEmail = $_POST['contact_email'] ?? '';
             
-            // Đóng gói thông tin Tiện ích (Gói hỗ trợ + Bảo hiểm + Nâng hạng ghế)
+            // Đóng gói thông tin Tiện ích (Gói hỗ trợ + Bảo hiểm + Nâng hạng ghế + Bảo hiểm Du lịch)
             $addons = [
                 'support_tier' => $_POST['support_tier'] ?? 0,
                 'baggage_protection' => isset($_POST['baggage_protection']) ? 150000 : 0,
-                'seat_upgrade' => $_POST['seat_upgrade'] ?? 0
+                'seat_upgrade' => $_POST['seat_upgrade'] ?? 0,
+                'insurance' => $_POST['insurance'] ?? 0
             ];
             $addonsJson = json_encode($addons);
             
@@ -184,19 +185,57 @@ class BookingController extends Controller {
             $bookingModel = $this->model('Booking');
             if ($bookingModel->updateBookingStatus($code, 'confirmed')) {
                 echo "<script>
-                    alert('Thanh toán thành công! Vé điện tử đã được gửi về email của bạn.');
-                    window.location.href = '" . BASEURL . "/profile';
+                    window.location.href = '" . BASEURL . "/booking/ticket?code=" . $code . "';
                 </script>";
             }
         }
+    }
+
+    public function ticket() {
+        $bookingCode = $_GET['code'] ?? null;
+        if (!$bookingCode) {
+            header("Location: " . BASEURL . "/home");
+            exit();
+        }
+
+        $bookingModel = $this->model('Booking');
+        $booking = $bookingModel->getBookingByCode($bookingCode);
+
+        if (!$booking) {
+            die("Đơn hàng không tồn tại.");
+        }
+
+        // Đảm bảo chỉ người mua hoặc admin mới xem được vé
+        if ($_SESSION['user_id'] != $booking['user_id'] && $_SESSION['role'] !== 'admin') {
+            header("Location: " . BASEURL . "/home");
+            exit();
+        }
+
+        $data = [
+            'title' => 'Vé Máy Bay Điện Tử - Skyline Ticket',
+            'booking' => $booking
+        ];
+
+        $this->view('booking/ticket', $data);
     }
 
     public function cancelBooking() {
         $code = $_GET['code'] ?? '';
         $bookingModel = $this->model('Booking');
         $bookingModel->updateBookingStatus($code, 'cancelled');
-        header("Location: " . BASEURL . "/home");
     }
+
+    public function history() {
+        $bookingModel = $this->model('Booking');
+        $bookings = $bookingModel->getBookingsByUser($_SESSION['user_id']);
+        
+        $data = [
+            'title' => 'Lịch sử thanh toán & Đặt vé - Skyline Ticket',
+            'bookings' => $bookings
+        ];
+        $this->view('booking/history', $data);
+    }
+
     public function getMonthlyBookingsReport() {
         $this->db->query("SELECT MONTH(created_at) as month, COUNT(*) as count FROM bookings WHERE YEAR(created_at) = YEAR(CURDATE()) GROUP BY MONTH(created_at)");
         return $this->db->resultSet();

@@ -145,16 +145,47 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15);
+            border-color: rgba(79, 70, 229, 0.3);
         }
         .top-card h3 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
-        .top-card .value { font-size: 28px; font-weight: 800; color: var(--primary); }
-        .top-card .deco-img { position: absolute; right: -20px; bottom: -20px; width: 150px; opacity: 0.8; }
+        .top-card .value { 
+            font-size: 32px; 
+            font-weight: 900; 
+            background: linear-gradient(45deg, #4f46e5, #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s;
+        }
+        .top-card:hover .value {
+            transform: scale(1.1) translateX(10px) translateZ(0);
+        }
+        .top-card .deco-img { 
+            position: absolute; right: -20px; bottom: -20px; width: 150px; opacity: 0.8; 
+            transition: all 0.5s ease;
+        }
+        .top-card:hover .deco-img {
+            transform: scale(1.2) rotate(-10deg) translateY(-10px);
+            opacity: 1;
+            filter: drop-shadow(4px 8px 10px rgba(79, 70, 229, 0.4)) !important;
+        }
         
         .bg-pattern { position: absolute; top: 0; right: 0; width: 100%; height: 100%; background: radial-gradient(circle at 100% 0%, rgba(0,0,0,0.03) 0%, transparent 50%); z-index: 0; }
         .card-content { position: relative; z-index: 1; }
+        
+        @keyframes floatAnim {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .top-card:nth-child(2) .deco-img { animation: floatAnim 4s ease-in-out infinite; }
 
         /* Middle Row */
-        .middle-row { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .middle-row { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; }
         
         /* Cutout Table */
         .table-card { position: relative; }
@@ -205,10 +236,11 @@
     <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="profile-section">
-            <div class="profile-img-wrap">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" alt="Admin" class="profile-img">
+            <div class="profile-img-wrap" style="cursor: pointer;" onclick="document.getElementById('avatarUpload').click()" title="Click để thay đổi ảnh đại diện">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" alt="Admin" class="profile-img" id="profileImagePreview">
                 <div class="online-dot"></div>
             </div>
+            <input type="file" id="avatarUpload" accept="image/*" capture="camera" style="display: none;">
             <h5 class="mb-0 fw-bold"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?></h5>
             <small style="color: rgba(255,255,255,0.7);"><?= $_SESSION['email'] ?? 'admin@skylineticket.com' ?></small>
         </div>
@@ -275,55 +307,6 @@
 
         <!-- Middle Row -->
         <div class="middle-row">
-            <!-- Last Trips Table -->
-            <div class="glass-card table-card">
-                <div class="table-header">
-                    <h4>Last Bookings</h4>
-                    <span>Overview of latest orders</span>
-                </div>
-                <table class="trip-table">
-                    <thead>
-                        <tr>
-                            <th class="text-start">Members</th>
-                            <th>Flight</th>
-                            <th class="text-center">Tickets</th>
-                            <th class="text-end">Ticket Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                        $recent = $data['recentBookings'] ?? [];
-                        if(!empty($recent)): 
-                            foreach($recent as $idx => $bk): 
-                                // Mock some avatars
-                                $avatar = 'https://i.pravatar.cc/100?img=' . ($idx + 10);
-                                $route = ($bk['departure'] ?? 'Unknown') . ' - ' . ($bk['destination'] ?? 'Unknown');
-                                // Rút gọn tên thành phố
-                                $routeShort = explode(',', $bk['departure'] ?? 'N/A')[0] . ' ✈ ' . explode(',', $bk['destination'] ?? 'N/A')[0];
-                        ?>
-                        <tr>
-                            <td>
-                                <div class="member-info">
-                                    <img src="<?= $avatar ?>" alt="Avatar">
-                                    <div>
-                                        <span class="name"><?= htmlspecialchars($bk['fullname'] ?? 'Guest') ?></span>
-                                        <span class="email"><?= htmlspecialchars($bk['email'] ?? $bk['contact_email'] ?? '') ?></span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center route"><?= $routeShort ?></td>
-                            <td class="text-center text-muted"><?= $bk['passengers_count'] ?? 1 ?></td>
-                            <td class="text-end price">$<?= number_format(($bk['total_price'] ?? 0)/25000, 1) ?>k</td>
-                        </tr>
-                        <?php 
-                            endforeach; 
-                        else: 
-                        ?>
-                        <tr><td colspan="4" class="text-center py-4">No recent bookings found.</td></tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
 
             <!-- Statistics Bar Chart -->
             <div class="glass-card">
@@ -381,9 +364,9 @@ foreach($monthlyData as $row) {
         }
     }
 }
-// Chỉ lấy 6 tháng đầu để hiển thị đẹp như ảnh
-$months6 = array_slice($months, 0, 6);
-$values6 = array_slice($chartValues, 0, 6);
+// Sử dụng trọn vẹn 12 tháng
+$months12 = $months;
+$values12 = $chartValues;
 ?>
 
 <script>
@@ -391,8 +374,8 @@ $values6 = array_slice($chartValues, 0, 6);
 Chart.defaults.color = '#94a3b8';
 Chart.defaults.font.family = "'Inter', sans-serif";
 
-const monthsLabels = <?= json_encode($months6) ?>;
-const dataValues = <?= json_encode($values6) ?>;
+const monthsLabels = <?= json_encode($months12) ?>;
+const dataValues = <?= json_encode($values12) ?>;
 
 // 1. Bar Chart (Statistics)
 const ctxBar = document.getElementById('statChart').getContext('2d');
@@ -402,7 +385,7 @@ new Chart(ctxBar, {
         labels: monthsLabels,
         datasets: [{
             label: 'Bookings',
-            data: dataValues.map(v => v === 0 ? Math.floor(Math.random() * 6)+1 : v), // Mock if 0
+            data: dataValues,
             backgroundColor: '#4f46e5',
             borderRadius: 50,
             barThickness: 6,
@@ -447,7 +430,7 @@ new Chart(ctxLine, {
         datasets: [
             {
                 label: 'Arrivals',
-                data: [1, 2, 5, 3, 4, 1],
+                data: dataValues,
                 borderColor: '#4f46e5',
                 borderWidth: 2,
                 pointBackgroundColor: '#fff',
@@ -457,7 +440,7 @@ new Chart(ctxLine, {
             },
             {
                 label: 'Departures',
-                data: [0, 0.5, 1.5, 0.5, 2.5, 0],
+                data: dataValues.map(v => Math.max(0, Math.floor(v * 0.8))),
                 borderColor: '#00ffcc',
                 borderWidth: 2,
                 pointBackgroundColor: '#fff',
@@ -474,6 +457,21 @@ new Chart(ctxLine, {
             y: { display: false, beginAtZero: true },
             x: { grid: { display: false, drawBorder: false } }
         }
+    }
+});
+</script>
+</script>
+
+<script>
+// Xử lý upload/chụp ảnh avatar
+document.getElementById('avatarUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profileImagePreview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
     }
 });
 </script>
